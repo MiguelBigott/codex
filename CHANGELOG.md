@@ -3,6 +3,11 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.1.9] - 2026-10-18
+
+### Cambiado
+- Las apps de ArtCraft muestran solo su nombre, su lema y su autor, como en su propio launcher.
+
 ## [0.1.8] - 2026-10-18
 
 ### Cambiado
@@ -75,6 +80,7 @@ Primera versión de **Codex**, el launcher de mis apps de Windows.
 - Ventana nativa de Windows (WebView2) con icono nítido en la barra de tareas.
 - En el catálogo: [Clipvault](https://github.com/MiguelBigott/clipvault) y, de ArtCraft, [PhotoCraft](https://github.com/storytold/photocraft), [FilmCraft](https://github.com/storytold/filmcraft), [WordCraft](https://github.com/storytold/wordcraft) y [GridCraft](https://github.com/storytold/gridcraft).
 
+[0.1.9]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.9
 [0.1.8]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.8
 [0.1.7]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.7
 [0.1.6]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.6
