@@ -42,6 +42,10 @@ type AppCatalogo struct {
 	Autor string `json:"autor"`
 	// Icono: URL https de una imagen; si falta, se dibuja la inicial.
 	Icono string `json:"icono"`
+	// Número de la app en su colección: ArtCraft numera las suyas (PhotoCraft 01... GridCraft 13).
+	Numero int `json:"numero,omitempty"`
+	// Color del sufijo («Craft», «vault») sobre fondo oscuro; si falta, se usa Color.
+	ColorSufijo string `json:"colorSufijo,omitempty"`
 }
 
 func (a AppCatalogo) EsMSI() bool { return strings.EqualFold(a.Formato, "msi") }

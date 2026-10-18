@@ -469,15 +469,15 @@ body.modo-tabla .solo-cuadricula { display: none; }
 .seccion span:first-child::after { content: "/"; color: var(--texto-3); }
 .seccion span:last-child { color: var(--texto-3); }
 
-/* Tarjetas: número en el color de cada app, rejilla tenue */
+/* Tarjetas: número de ArtCraft en un recuadro del color de la app, rejilla tenue */
 .rejilla { border-radius: 12px; overflow: hidden; border-right: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
 .tarjeta::before { background: var(--ambar); }
 .tarjeta-cabecera { border-bottom-style: dashed; height: 40px; }
-.numero { background: none !important; color: var(--color-app) !important; padding: 0; font-family: var(--mono); font-weight: 400; font-size: 13.5px; letter-spacing: .04em; }
+.numero { padding: 2px 7px; border-radius: 3px; font-family: var(--mono); font-weight: 700; font-size: 12.5px; letter-spacing: .06em; }
+.tarjeta-enlaces { margin-left: auto; }
 .tarjeta-enlaces button { font-size: 12.5px; color: var(--texto-3); }
 .icono-app { border-radius: 10px; }
 .nombre { font-family: var(--mono); font-weight: 700; font-size: 22px; letter-spacing: -.02em; color: #fff; }
-.nombre span { color: var(--texto-3) !important; }
 .descripcion { font-size: 15px; }
 .autor { margin: 2px 0 0; font-size: 13.5px; color: var(--texto-3); }
 .estado { border: 0; padding: 0; font-weight: 400; font-size: 13px; }
@@ -500,7 +500,8 @@ body.modo-tabla .solo-cuadricula { display: none; }
 /* Tabla, menú, ajustes y pie */
 .tabla-caja { border-radius: 12px; overflow: hidden; }
 .tabla .nombre { font-size: 17px; }
-.numero-fila { flex: none; width: 24px; font-family: var(--mono); font-size: 13.5px; color: var(--color-app); }
+.hueco-numero { flex: none; width: 34px; }
+.tabla .numero { font-size: 11.5px; padding: 2px 5px; }
 .tabla .boton { height: 38px; }
 .tabla .boton-cuadro { height: 38px; }
 .menu { border-radius: 10px; }

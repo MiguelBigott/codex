@@ -146,7 +146,7 @@ function iconoApp(a) {
 const credito = (a) => a.autor ? el("p", { class: "autor", text: `de ${a.autor}` }) : null;
 
 function nombreApp(a, etiqueta = "h3") {
-  return el(etiqueta, { class: "nombre" }, a.nombre, el("span", { text: a.sufijo, style: { color: tintaOscura(a.color) } }));
+  return el(etiqueta, { class: "nombre" }, a.nombre, el("span", { text: a.sufijo, style: { color: a.colorSufijo || a.color } }));
 }
 
 function pastillaEstado(a) {
@@ -192,13 +192,19 @@ function botonMenu(a) {
 
 /* ---------------- Vistas ---------------- */
 
-function tarjeta(a, numero) {
+// numeroApp: el número de la app en su colección (ArtCraft numera las suyas: 01, 02...).
+function numeroApp(a, clase) {
+  if (!a.numero) return null;
+  return el("span", { class: clase, text: String(a.numero).padStart(2, "0"), style: { background: a.color, color: textoSobre(a.color) } });
+}
+
+function tarjeta(a) {
   const enlaces = el("div", { class: "tarjeta-enlaces" },
     a.web && el("button", { type: "button", text: "Sitio web ↗", onclick: () => abrirEnlace(a.web) }),
     a.urlRepo && el("button", { type: "button", text: "GitHub ↗", onclick: () => abrirEnlace(a.urlRepo) }));
   return el("article", { class: "tarjeta", style: { "--color-app": a.color } },
     el("div", { class: "tarjeta-cabecera" },
-      el("span", { class: "numero", text: String(numero).padStart(2, "0"), style: { background: a.color, color: textoSobre(a.color) } }),
+      numeroApp(a, "numero"),
       enlaces),
     el("div", { class: "tarjeta-cuerpo" },
       el("div", { class: "identidad" }, iconoApp(a),
@@ -208,12 +214,12 @@ function tarjeta(a, numero) {
       el("div", { class: "acciones" }, botonPrincipal(a), botonMenu(a))));
 }
 
-function filaTabla(a, numero) {
+function filaTabla(a) {
   const instalada = a.instalada ? a.versionInstalada || "—" : "—";
   const ultima = a.ultima ? a.ultima.version : "—";
   const fecha = a.ultima?.fecha ? formatoFecha(a.ultima.fecha) : "—";
   return el("tr", { style: { "--color-app": a.color } },
-    el("td", {}, el("div", { class: "celda-app" }, el("span", { class: "numero-fila", text: String(numero).padStart(2, "0") }), iconoApp(a),
+    el("td", {}, el("div", { class: "celda-app" }, el("span", { class: "hueco-numero" }, numeroApp(a, "numero")), iconoApp(a),
       el("div", {}, nombreApp(a, "div"), el("div", { class: "similar", text: a.autor ? `${a.descripcion} · de ${a.autor}` : a.descripcion })))),
     el("td", {}, pastillaEstado(a)),
     el("td", { class: a.instalada ? "ver" : null, text: instalada }),
@@ -224,7 +230,6 @@ function filaTabla(a, numero) {
 
 function pintarContenido() {
   const e = ui.estado;
-  const numeros = new Map(e.apps.map((a, i) => [a.id, i + 1]));
   const lista = grupos(e.apps);
   const contenido = $("#contenido");
   contenido.replaceChildren();
@@ -235,14 +240,14 @@ function pintarContenido() {
   if (ui.modo === "tabla") {
     contenido.append(el("div", { class: "tabla-caja" }, el("table", { class: "tabla" },
       el("thead", {}, el("tr", {}, ...["Aplicación", "Estado", "Instalada", "Última", "Publicada", ""].map((t) => el("th", { text: t })))),
-      el("tbody", {}, lista.flatMap((g) => g.apps).map((a) => filaTabla(a, numeros.get(a.id)))))));
+      el("tbody", {}, lista.flatMap((g) => g.apps).map(filaTabla)))));
     return;
   }
   lista.forEach((g, i) => {
     contenido.append(el("div", { class: "seccion" },
       el("span", {}, el("b", { text: `${String(i + 1).padStart(2, "0")} / ` }), g.nombre),
       el("span", { text: g.apps.length === 1 ? "1 app" : `${g.apps.length} apps` })));
-    contenido.append(el("div", { class: "rejilla" }, g.apps.map((a) => tarjeta(a, numeros.get(a.id)))));
+    contenido.append(el("div", { class: "rejilla" }, g.apps.map(tarjeta)));
   });
 }
 
