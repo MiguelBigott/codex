@@ -7,6 +7,7 @@ etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
 ### Cambiado
 - Las apps de ArtCraft muestran solo su nombre, su lema y su autor, como en su propio launcher.
+- PNGWebp se muestra como «PngWebp», para que su nombre se vea parejo con el resto en la letra del launcher.
 
 ## [0.1.8] - 2026-10-18
 

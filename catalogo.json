@@ -25,7 +25,7 @@
     },
     {
       "id": "pngwebp",
-      "nombre": "PNG",
+      "nombre": "Png",
       "sufijo": "Webp",
       "descripcion": "Conversión de imágenes a WebP",
       "similar": "PNG o JPG con la máxima calidad y el menor peso",
@@ -34,7 +34,9 @@
       "repo": "MiguelBigott/pngwebp",
       "web": "",
       "icono": "https://raw.githubusercontent.com/MiguelBigott/pngwebp/main/build/logo.png",
-      "colorSufijo": "#ffb454"
+      "colorSufijo": "#ffb454",
+      "nombreRegistro": "PNGWebp",
+      "ejecutable": "PNGWebp.exe"
     },
     {
       "id": "photocraft",
