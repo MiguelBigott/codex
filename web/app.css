@@ -5,14 +5,15 @@
 @font-face { font-family: "Space Mono"; src: url("fonts/space-mono-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
 
 :root {
-  --fondo: #0d0f12;
-  --fondo-alto: #151920;
-  --banner: #0d0f12;
-  --linea: #1a1e25;
-  --linea-fuerte: #2b313b;
-  --texto: #d9dfe6;
-  --texto-2: #9aa3ad;
-  --texto-3: #5f6873;
+  --fondo: #131418;
+  --fondo-alto: #22252b;
+  --panel: #17191d;
+  --banner: #131418;
+  --linea: rgba(242, 240, 234, .13);
+  --linea-fuerte: rgba(242, 240, 234, .30);
+  --texto: #f2f0ea;
+  --texto-2: rgba(242, 240, 234, .66);
+  --texto-3: rgba(242, 240, 234, .45);
   --azul: #2f7bf5;
   --azul-claro: #7fb0ff;
   --verde: #3fd38c;
@@ -440,27 +441,27 @@ body.modo-tabla .solo-cuadricula { display: none; }
 }
 .aviso.error { border-left-color: var(--rojo); }
 
-/* ================= Skin «Terminal» =================
-   Mono en minúsculas sin espaciado amplio, rejilla tenue con esquinas suaves y un solo
-   acento ámbar. Va al final para sobrescribir la base. */
+/* ================= Skin «Terminal», versión «Nítido» =================
+   Mono en minúsculas para etiquetas, nombres en Inter, líneas continuas y visibles, esquinas
+   finas y un solo acento ámbar. Va al final para sobrescribir la base. */
 
 .segmento-vista button, .segmentos button, .etiqueta-mono, .enlace-mono, .boton, .banner-etiqueta,
 .estado, .seccion, .pie, .tarjeta-enlaces button, .tabla th, .menu button, .ajustes h2, .datos dt {
   text-transform: lowercase;
   letter-spacing: 0;
 }
-.segmento-vista button { font-weight: 400; font-size: 13.5px; border-radius: 6px; }
+.segmento-vista button { font-weight: 400; font-size: 13.5px; border-radius: 4px; }
 .segmento-vista button.activo { background: var(--fondo-alto); color: var(--ambar); }
 
 /* Banner y filtros */
-.banner { border: 1px dashed rgba(255, 180, 84, .5); background: none; border-radius: 10px; }
+.banner { border: 1px solid rgba(255, 180, 84, .5); background: rgba(255, 180, 84, .06); border-radius: 8px; }
 .banner-etiqueta { background: none; color: var(--ambar); padding: 0; font-weight: 400; font-size: 13.5px; }
 .banner-etiqueta::before { content: "› "; }
 .banner-texto { font-family: var(--mono); font-size: 14.5px; font-weight: 400; }
-.segmentos { border-radius: 10px; overflow: hidden; }
+.segmentos { border-radius: 6px; overflow: hidden; }
 .segmentos button { font-weight: 400; font-size: 13.5px; }
 .segmentos button.activo { background: var(--fondo-alto); color: var(--ambar); }
-.selector select, .buscador { border-radius: 10px; font-family: var(--mono); font-size: 13.5px; }
+.selector select, .buscador { border-radius: 6px; font-family: var(--mono); font-size: 13.5px; }
 .selector::after { border-top-color: var(--texto-3); }
 
 /* Secciones como rutas */
@@ -469,45 +470,45 @@ body.modo-tabla .solo-cuadricula { display: none; }
 .seccion span:first-child::after { content: "/"; color: var(--texto-3); }
 .seccion span:last-child { color: var(--texto-3); }
 
-/* Tarjetas: número de ArtCraft en un recuadro del color de la app, rejilla tenue */
-.rejilla { border-radius: 12px; overflow: hidden; border-right: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
+/* Tarjetas: número de ArtCraft en un recuadro del color de la app, rejilla con líneas visibles */
+.rejilla { background: var(--panel); border-radius: 8px; overflow: hidden; border-right: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
 .tarjeta::before { background: var(--ambar); }
-.tarjeta-cabecera { border-bottom-style: dashed; height: 40px; }
-.numero { padding: 2px 7px; border-radius: 3px; font-family: var(--mono); font-weight: 700; font-size: 12.5px; letter-spacing: .06em; }
+.tarjeta-cabecera { height: 40px; }
+.numero { padding: 2px 7px; border-radius: 4px; font-family: var(--mono); font-weight: 700; font-size: 12.5px; letter-spacing: .06em; }
 .tarjeta-enlaces { margin-left: auto; }
 .tarjeta-enlaces button { font-size: 12.5px; color: var(--texto-3); }
-.icono-app { border-radius: 10px; }
-.nombre { font-family: var(--mono); font-weight: 700; font-size: 22px; letter-spacing: -.02em; color: #fff; }
-.descripcion { font-size: 15px; }
+.icono-app { border-radius: 12px; }
+.nombre { font-family: var(--sans); font-weight: 600; font-size: 24px; letter-spacing: -.02em; color: #fff; }
+.descripcion { font-size: 15px; color: var(--texto); }
 .autor { margin: 2px 0 0; font-size: 13.5px; color: var(--texto-3); }
-.estado { border: 0; padding: 0; font-weight: 400; font-size: 13px; }
-.estado::before { content: "["; color: var(--texto-3); }
-.estado::after { content: "]"; color: var(--texto-3); }
-.estado-instalada { color: #7ee2a8; }
-.estado-actualizacion { color: var(--ambar); }
+.estado { border: 1px solid var(--linea-fuerte); border-radius: 4px; padding: 3px 9px; font-weight: 400; font-size: 13px; }
+.estado-instalada { color: #5fe0a8; border-color: rgba(95, 224, 168, .45); background: rgba(95, 224, 168, .08); }
+.estado-actualizacion { color: var(--ambar); border-color: rgba(255, 180, 84, .5); background: rgba(255, 180, 84, .08); }
 .estado-disponible, .estado-tarea { color: var(--texto); }
+.estado-proximamente, .estado-sin-version { color: var(--texto-3); border-color: var(--linea); }
 .version { font-family: var(--mono); font-size: 13.5px; color: var(--texto-3); }
 
 /* Botones con un solo acento */
-.boton { height: 40px; border-radius: 8px; font-weight: 400; font-size: 13.5px; }
-.boton-claro { background: var(--ambar); border-color: var(--ambar); color: #14100a; }
+.boton { height: 40px; border-radius: 6px; font-weight: 400; font-size: 13.5px; }
+.boton-claro { background: var(--ambar); border-color: var(--ambar); color: #14100a; font-weight: 700; }
 .boton-claro:hover { background: #ffc477; }
 .boton-contorno { border-color: var(--linea-fuerte); }
 .boton:disabled { border-color: var(--linea); }
-.boton-cuadro { width: 40px; height: 40px; border-radius: 8px; }
+.boton-cuadro { width: 40px; height: 40px; border-radius: 6px; }
 .boton .relleno { background: rgba(255, 180, 84, .22); }
 
 /* Tabla, menú, ajustes y pie */
-.tabla-caja { border-radius: 12px; overflow: hidden; }
+.tabla-caja { background: var(--panel); border-radius: 8px; overflow: hidden; }
 .tabla .nombre { font-size: 17px; }
 .hueco-numero { flex: none; width: 34px; }
 .tabla .numero { font-size: 11.5px; padding: 2px 5px; }
 .tabla .boton { height: 38px; }
 .tabla .boton-cuadro { height: 38px; }
-.menu { border-radius: 10px; }
+.menu { border-radius: 8px; }
 .interruptor input:checked + .interruptor-pista { border-color: var(--ambar); background: var(--ambar); }
-.aviso { border-radius: 10px; }
+.aviso { border-radius: 8px; }
 .pie { font-size: 12px; }
+.marca-texto { color: #fff; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }

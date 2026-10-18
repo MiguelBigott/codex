@@ -3,6 +3,11 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.2.0] - 2026-10-18
+
+### Cambiado
+- Skin «Nítido»: Codex se ve más limpio y claro. El fondo es gris neutro, las líneas son continuas y bien visibles (antes eran casi invisibles y algunas punteadas), los textos son más blancos, los nombres de las apps van en Inter, los estados llevan borde y las esquinas son más finas. El ámbar sigue en los botones y en el cursor.
+
 ## [0.1.9] - 2026-10-18
 
 ### Cambiado
@@ -81,6 +86,7 @@ Primera versión de **Codex**, el launcher de mis apps de Windows.
 - Ventana nativa de Windows (WebView2) con icono nítido en la barra de tareas.
 - En el catálogo: [Clipvault](https://github.com/MiguelBigott/clipvault) y, de ArtCraft, [PhotoCraft](https://github.com/storytold/photocraft), [FilmCraft](https://github.com/storytold/filmcraft), [WordCraft](https://github.com/storytold/wordcraft) y [GridCraft](https://github.com/storytold/gridcraft).
 
+[0.2.0]: https://github.com/MiguelBigott/codex/releases/tag/v0.2.0
 [0.1.9]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.9
 [0.1.8]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.8
 [0.1.7]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.7
