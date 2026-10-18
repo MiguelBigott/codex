@@ -5,10 +5,6 @@
       "nombre": "Multimedia"
     },
     {
-      "id": "productividad",
-      "nombre": "Productividad"
-    },
-    {
       "id": "artcraft",
       "nombre": "ArtCraft"
     }
@@ -25,54 +21,6 @@
       "repo": "MiguelBigott/clipvault",
       "web": "",
       "icono": "https://raw.githubusercontent.com/MiguelBigott/clipvault/main/build/logo.png"
-    },
-    {
-      "id": "pantallaangel",
-      "nombre": "Pantalla",
-      "sufijo": "Angel",
-      "descripcion": "Capturas y grabación de pantalla",
-      "similar": "Imagen o video de una ventana o región",
-      "color": "#f5a524",
-      "categoria": "multimedia",
-      "repo": "",
-      "web": "",
-      "ejemplo": true
-    },
-    {
-      "id": "pdfangel",
-      "nombre": "Pdf",
-      "sufijo": "Angel",
-      "descripcion": "Lectura y organización de PDF",
-      "similar": "Une, separa y protege documentos",
-      "color": "#1fb889",
-      "categoria": "productividad",
-      "repo": "",
-      "web": "",
-      "ejemplo": true
-    },
-    {
-      "id": "notaangel",
-      "nombre": "Nota",
-      "sufijo": "Angel",
-      "descripcion": "Notas y documentos",
-      "similar": "Apuntes rápidos con búsqueda",
-      "color": "#e0457b",
-      "categoria": "productividad",
-      "repo": "",
-      "web": "",
-      "ejemplo": true
-    },
-    {
-      "id": "archivoangel",
-      "nombre": "Archivo",
-      "sufijo": "Angel",
-      "descripcion": "Orden y limpieza de archivos",
-      "similar": "Encuentra duplicados y archivos pesados",
-      "color": "#8ac926",
-      "categoria": "productividad",
-      "repo": "",
-      "web": "",
-      "ejemplo": true
     },
     {
       "id": "photocraft",

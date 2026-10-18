@@ -21,7 +21,7 @@ type Categoria struct {
 type AppCatalogo struct {
 	ID          string `json:"id"`
 	Nombre      string `json:"nombre"` // "Video"
-	Sufijo      string `json:"sufijo"` // "Angel": se muestra con el color de la app
+	Sufijo      string `json:"sufijo"` // "vault", "Craft": se muestra con el color de la app
 	Descripcion string `json:"descripcion"`
 	Similar     string `json:"similar"`
 	Color       string `json:"color"`
