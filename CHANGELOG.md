@@ -3,6 +3,11 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.2.1] - 2026-10-18
+
+### Corregido
+- Codex ya no agota las 60 consultas por hora que GitHub permite sin cuenta. Sin cuenta, la API gasta una consulta incluso cuando responde «sin cambios», así que cada revisión costaba 16. Ahora Codex mira primero la página pública de releases de cada app, que no cuenta para el límite, y usa la API solo cuando hay una versión nueva. Una revisión normal no gasta ninguna consulta.
+
 ## [0.2.0] - 2026-10-18
 
 ### Cambiado
@@ -86,6 +91,7 @@ Primera versión de **Codex**, el launcher de mis apps de Windows.
 - Ventana nativa de Windows (WebView2) con icono nítido en la barra de tareas.
 - En el catálogo: [Clipvault](https://github.com/MiguelBigott/clipvault) y, de ArtCraft, [PhotoCraft](https://github.com/storytold/photocraft), [FilmCraft](https://github.com/storytold/filmcraft), [WordCraft](https://github.com/storytold/wordcraft) y [GridCraft](https://github.com/storytold/gridcraft).
 
+[0.2.1]: https://github.com/MiguelBigott/codex/releases/tag/v0.2.1
 [0.2.0]: https://github.com/MiguelBigott/codex/releases/tag/v0.2.0
 [0.1.9]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.9
 [0.1.8]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.8

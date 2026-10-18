@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strconv"
+	"strings"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -14,6 +15,11 @@ func TestLimiteDeGitHubUsaLoConocido(t *testing.T) {
 	var pedidos, pausado atomic.Int32
 	reinicio := time.Now().Add(30 * time.Minute).Truncate(time.Second)
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Esta prueba simula que la página pública no responde, para probar la pausa de la API.
+		if !strings.HasPrefix(r.URL.Path, "/repos/") {
+			w.WriteHeader(http.StatusServiceUnavailable)
+			return
+		}
 		pedidos.Add(1)
 		if pausado.Load() == 1 {
 			w.Header().Set("X-RateLimit-Remaining", "0")
@@ -28,13 +34,13 @@ func TestLimiteDeGitHubUsaLoConocido(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	antes := apiGitHub
-	apiGitHub = srv.URL
+	antes, antesWeb := apiGitHub, webGitHub
+	apiGitHub, webGitHub = srv.URL, srv.URL
 	cacheRel.mu.Lock()
 	cacheRel.datos, cacheRel.limiteHasta = map[string]entradaCache{}, time.Time{}
 	cacheRel.mu.Unlock()
 	defer func() {
-		apiGitHub = antes
+		apiGitHub, webGitHub = antes, antesWeb
 		cacheRel.mu.Lock()
 		cacheRel.datos, cacheRel.limiteHasta, cacheRel.ruta = map[string]entradaCache{}, time.Time{}, ""
 		cacheRel.mu.Unlock()

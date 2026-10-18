@@ -6,7 +6,7 @@
 
 > Un solo lugar para **instalar, actualizar y abrir** mis apps de Windows: eliges una app, Codex baja su instalador oficial, verifica su firma SHA-256 y la deja lista.
 
-[![Versión](https://img.shields.io/badge/versión-v0.2.0-ffb454)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versión-v0.2.1-ffb454)](CHANGELOG.md)
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)
@@ -38,7 +38,7 @@
 
 - **La biblioteca**: las apps del catálogo en cuadrícula o en tabla, con filtros (todas, instaladas, con actualización, sin instalar), orden y búsqueda.
 - **Sabe qué tienes**: detecta qué apps están instaladas y en qué versión leyendo el registro de Windows, aunque no las hayas instalado desde Codex.
-- **Siempre al día**: consulta la última versión de cada app en sus releases de GitHub y marca las que tienen actualización. Recuerda lo último que consultó aunque lo cierres, así que casi no gasta el límite de consultas de GitHub; si GitHub pausa las consultas, sigue mostrando las últimas versiones conocidas.
+- **Siempre al día**: consulta la última versión de cada app en sus releases de GitHub y marca las que tienen actualización. Mira primero la página pública de releases, que no cuenta para el límite de consultas de GitHub, y usa la API solo cuando hay una versión nueva; si GitHub pausa las consultas, sigue mostrando las últimas versiones conocidas.
 - **Instala con un clic**: baja el instalador, **verifica su SHA-256** y lo ejecuta como administrador (Windows muestra el aviso de UAC). Acepta setups `.exe` (NSIS) y paquetes `.msi`, y también desinstala.
 - **Se actualiza solo**: avisa cuando hay una versión nueva del propio launcher y se pone al día con un clic.
 - **Skin «Terminal», versión «Nítido»**: fondo gris neutro con líneas continuas y bien visibles, nombres de las apps en Inter, etiquetas en minúsculas monoespaciadas, estados con borde y un solo acento ámbar, con el cursor de `~/codex_`.

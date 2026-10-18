@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -34,8 +35,52 @@ type Archivo struct {
 
 var cliente = &http.Client{Timeout: 30 * time.Second}
 
-// apiGitHub es la dirección de la API (las pruebas la reemplazan por un servidor falso).
-var apiGitHub = "https://api.github.com"
+// apiGitHub y webGitHub son las direcciones de GitHub (las pruebas las reemplazan por un
+// servidor falso).
+var (
+	apiGitHub = "https://api.github.com"
+	webGitHub = "https://github.com"
+)
+
+// clienteWeb no sigue redirecciones: la página …/releases/latest redirige a
+// …/releases/tag/<etiqueta>, y esa dirección es justo lo que se necesita.
+var clienteWeb = &http.Client{Timeout: 20 * time.Second, CheckRedirect: func(*http.Request, []*http.Request) error {
+	return http.ErrUseLastResponse
+}}
+
+var errSinVersiones = errors.New("todavía no tiene versiones publicadas")
+
+// etiquetaPublica lee la etiqueta de la última versión desde la página pública de GitHub, que
+// no cuenta para el límite de la API. Sin cuenta, la API gasta una consulta incluso cuando
+// responde «sin cambios» (304), así que se usa solo cuando la etiqueta cambió.
+func etiquetaPublica(repo string) (string, error) {
+	req, err := http.NewRequest(http.MethodHead, webGitHub+"/"+repo+"/releases/latest", nil)
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("User-Agent", "Codex/"+Version)
+	resp, err := clienteWeb.Do(req)
+	if err != nil {
+		return "", err
+	}
+	resp.Body.Close()
+	switch resp.StatusCode {
+	case http.StatusMovedPermanently, http.StatusFound, http.StatusSeeOther, http.StatusTemporaryRedirect, http.StatusPermanentRedirect:
+		destino := resp.Header.Get("Location")
+		i := strings.Index(destino, "/releases/tag/")
+		if i < 0 {
+			return "", errSinVersiones // redirige a …/releases: no hay ninguna versión
+		}
+		etiqueta, err := url.PathUnescape(destino[i+len("/releases/tag/"):])
+		if err != nil || etiqueta == "" {
+			return "", fmt.Errorf("etiqueta ilegible en %q", destino)
+		}
+		return etiqueta, nil
+	case http.StatusNotFound:
+		return "", errors.New("el repositorio no existe en GitHub")
+	}
+	return "", fmt.Errorf("GitHub respondió %d", resp.StatusCode)
+}
 
 // cacheGitHub guarda la última respuesta por repositorio y su ETag: las consultas sin
 // cambios (304) no gastan el límite de la API de GitHub (60 por hora sin cuenta, por
@@ -139,6 +184,15 @@ func ultimaRelease(repo string, msi bool) (*Release, error) {
 	pausa := cacheRel.limiteHasta
 	cacheRel.mu.Unlock()
 
+	// Primero la página pública (gratis): si la etiqueta es la misma, no hace falta la API.
+	if etiqueta, err := etiquetaPublica(repo); err == nil {
+		if previa.Release != nil && previa.Release.Tag == etiqueta {
+			return previa.Release, nil
+		}
+	} else if errors.Is(err, errSinVersiones) {
+		return nil, err
+	}
+
 	// Durante la pausa no se consulta: se usa lo último conocido.
 	if time.Now().Before(pausa) {
 		if previa.Release != nil {
@@ -156,7 +210,7 @@ func ultimaRelease(repo string, msi bool) (*Release, error) {
 	case resp.StatusCode == http.StatusNotModified && previa.Release != nil:
 		return previa.Release, nil
 	case resp.StatusCode == http.StatusNotFound:
-		return nil, errors.New("todavía no tiene versiones publicadas")
+		return nil, errSinVersiones
 	case esLimite(resp):
 		hasta := finDelLimite(resp)
 		cacheRel.mu.Lock()
