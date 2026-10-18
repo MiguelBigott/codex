@@ -10,7 +10,7 @@
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)
-[![Apps](https://img.shields.io/badge/apps-Clipvault%20·%20PhotoCraft-c9a45c)](#-catálogo)
+[![Apps](https://img.shields.io/badge/apps-5-c9a45c)](#-catálogo)
 [![Licencia de fuentes](https://img.shields.io/badge/fuentes-OFL-8b949e)](web/fonts)
 
 [Historial de versiones](CHANGELOG.md) · [Releases](../../releases) · [Descargar el instalador](../../releases/latest)
@@ -49,7 +49,10 @@
 | App | Qué hace | Autor | Repositorio |
 |---|---|---|---|
 | <img src="https://raw.githubusercontent.com/MiguelBigott/clipvault/main/build/logo.png" width="20" alt=""> **Clipvault** | Descarga de video y audio: MP4 o MP3 con portada y metadatos, y **Clip** para bajar solo un tramo | Miguel Bigott | [MiguelBigott/clipvault](https://github.com/MiguelBigott/clipvault) |
-| **PhotoCraft** | Edición de imágenes: capas, ajustes y archivos PSD | [ArtCraft](https://getartcraft.com) | [storytold/photocraft](https://github.com/storytold/photocraft) |
+| <img src="https://raw.githubusercontent.com/storytold/photocraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.photocraft.png" width="20" alt=""> **PhotoCraft** | Edición de imágenes: capas, ajustes y archivos PSD | [ArtCraft](https://getartcraft.com) | [storytold/photocraft](https://github.com/storytold/photocraft) |
+| <img src="https://raw.githubusercontent.com/storytold/filmcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.filmcraft.png" width="20" alt=""> **FilmCraft** | Edición de video: montaje no lineal en línea de tiempo | [ArtCraft](https://getartcraft.com) | [storytold/filmcraft](https://github.com/storytold/filmcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/wordcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.wordcraft.png" width="20" alt=""> **WordCraft** | Procesador de textos al estilo de Microsoft Word | [ArtCraft](https://getartcraft.com) | [storytold/wordcraft](https://github.com/storytold/wordcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/gridcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.gridcraft.png" width="20" alt=""> **GridCraft** | Hojas de cálculo: celdas y fórmulas al estilo de Excel | [ArtCraft](https://getartcraft.com) | [storytold/gridcraft](https://github.com/storytold/gridcraft) |
 
 Las demás apps del catálogo aparecen como «Próximamente» hasta que tengan su primera versión publicada.
 
@@ -141,7 +144,7 @@ Cada release debe incluir el instalador para Windows x64 (un `.exe` con `setup` 
 
 ## 🖋️ Créditos
 
-- [PhotoCraft](https://github.com/storytold/photocraft) es de [ArtCraft](https://getartcraft.com), con licencia Apache 2.0. Codex lo muestra con su nombre, su icono oficial y su crédito, y lo descarga de sus releases oficiales sin modificarlo.
+- [PhotoCraft](https://github.com/storytold/photocraft), [FilmCraft](https://github.com/storytold/filmcraft), [WordCraft](https://github.com/storytold/wordcraft) y [GridCraft](https://github.com/storytold/gridcraft) son de [ArtCraft](https://getartcraft.com), con licencia Apache 2.0. Codex las muestra con su nombre, su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas.
 - Tipografías [Inter](https://rsms.me/inter/) y [Space Mono](https://fonts.google.com/specimen/Space+Mono), con licencia SIL Open Font License.
 - Ventana con [go-webview2](https://github.com/jchv/go-webview2) (MIT).
 

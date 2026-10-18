@@ -14,6 +14,6 @@ Primera versión de **Codex**, el launcher de mis apps de Windows.
 - Aviso y actualización del propio launcher.
 - Skin «Terminal» y logo «Códice cerrado».
 - Ventana nativa de Windows (WebView2) con icono nítido en la barra de tareas.
-- En el catálogo: [Clipvault](https://github.com/MiguelBigott/clipvault) y [PhotoCraft](https://github.com/storytold/photocraft) (de ArtCraft).
+- En el catálogo: [Clipvault](https://github.com/MiguelBigott/clipvault) y, de ArtCraft, [PhotoCraft](https://github.com/storytold/photocraft), [FilmCraft](https://github.com/storytold/filmcraft), [WordCraft](https://github.com/storytold/wordcraft) y [GridCraft](https://github.com/storytold/gridcraft).
 
 [0.1.0]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.0

@@ -113,6 +113,54 @@
       "propiedadCarpeta": "INSTALLFOLDER",
       "ejecutable": "photocraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/photocraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.photocraft.png"
+    },
+    {
+      "id": "filmcraft",
+      "nombre": "Film",
+      "sufijo": "Craft",
+      "descripcion": "Edición de video",
+      "similar": "Montaje no lineal en línea de tiempo",
+      "autor": "ArtCraft",
+      "color": "#8050e0",
+      "categoria": "artcraft",
+      "repo": "storytold/filmcraft",
+      "web": "https://getartcraft.com/apps/filmcraft",
+      "formato": "msi",
+      "propiedadCarpeta": "INSTALLFOLDER",
+      "ejecutable": "filmcraft.exe",
+      "icono": "https://raw.githubusercontent.com/storytold/filmcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.filmcraft.png"
+    },
+    {
+      "id": "wordcraft",
+      "nombre": "Word",
+      "sufijo": "Craft",
+      "descripcion": "Procesador de textos",
+      "similar": "Documentos al estilo de Microsoft Word",
+      "autor": "ArtCraft",
+      "color": "#3050d0",
+      "categoria": "artcraft",
+      "repo": "storytold/wordcraft",
+      "web": "https://getartcraft.com/apps/wordcraft",
+      "formato": "msi",
+      "propiedadCarpeta": "INSTALLFOLDER",
+      "ejecutable": "wordcraft.exe",
+      "icono": "https://raw.githubusercontent.com/storytold/wordcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.wordcraft.png"
+    },
+    {
+      "id": "gridcraft",
+      "nombre": "Grid",
+      "sufijo": "Craft",
+      "descripcion": "Hojas de cálculo",
+      "similar": "Celdas y fórmulas al estilo de Excel",
+      "autor": "ArtCraft",
+      "color": "#10a050",
+      "categoria": "artcraft",
+      "repo": "storytold/gridcraft",
+      "web": "https://getartcraft.com/apps/gridcraft",
+      "formato": "msi",
+      "propiedadCarpeta": "INSTALLFOLDER",
+      "ejecutable": "gridcraft.exe",
+      "icono": "https://raw.githubusercontent.com/storytold/gridcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.gridcraft.png"
     }
   ]
 }
