@@ -6,7 +6,7 @@
 
 > Un solo lugar para **instalar, actualizar y abrir** mis apps de Windows: eliges una app, Codex baja su instalador oficial, verifica su firma SHA-256 y la deja lista.
 
-[![Versión](https://img.shields.io/badge/versión-v0.1.6-ffb454)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versión-v0.1.7-ffb454)](CHANGELOG.md)
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)

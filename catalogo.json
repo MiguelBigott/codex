@@ -21,7 +21,7 @@
       "repo": "MiguelBigott/clipvault",
       "web": "",
       "icono": "https://raw.githubusercontent.com/MiguelBigott/clipvault/main/build/logo.png",
-      "colorSufijo": "#db5a4a"
+      "colorSufijo": "#ffb454"
     },
     {
       "id": "pngwebp",
@@ -34,7 +34,7 @@
       "repo": "MiguelBigott/pngwebp",
       "web": "",
       "icono": "https://raw.githubusercontent.com/MiguelBigott/pngwebp/main/build/logo.png",
-      "colorSufijo": "#6f93df"
+      "colorSufijo": "#ffb454"
     },
     {
       "id": "photocraft",
