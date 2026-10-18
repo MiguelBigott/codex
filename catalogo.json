@@ -15,16 +15,16 @@
   ],
   "apps": [
     {
-      "id": "videoangel",
-      "nombre": "Video",
-      "sufijo": "Angel",
+      "id": "clipvault",
+      "nombre": "Clip",
+      "sufijo": "vault",
       "descripcion": "Descarga de video y audio",
-      "similar": "Video MP4 o audio MP3 en máxima calidad",
-      "color": "#2f7bf5",
+      "similar": "MP4 o MP3 con portada y metadatos",
+      "color": "#c8483a",
       "categoria": "multimedia",
-      "repo": "",
+      "repo": "MiguelBigott/clipvault",
       "web": "",
-      "ejemplo": true
+      "icono": "https://raw.githubusercontent.com/MiguelBigott/clipvault/main/build/logo.png"
     },
     {
       "id": "fotoangel",

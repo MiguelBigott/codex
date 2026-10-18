@@ -1,4 +1,4 @@
-"""Logo de Codex: «Códice abierto» (un libro abierto con < y > en sus páginas).
+"""Logo de Codex: «Códice cerrado», en el estilo del Copista (pergamino sobre tinta, oro y rojo de rúbrica).
 
     python build/generar_logo.py
 
@@ -19,26 +19,30 @@ BUILD = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.dirname(BUILD)
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 
-FONDO, BORDE, AMBAR, AMBAR_OSC = "#11151b", "#262d37", "#ffb454", "#d98a2b"
+TINTA, BORDE, PERGAMINO, ORO, RUBRICA = "#16120e", "#3a3128", "#ece2cf", "#c9a45c", "#c8483a"
 
 
 def svg(chico=False):
-    """Logo en viewBox 512. `chico`: libro más grande y trazos más gruesos para 16-32 px."""
+    """Logo en viewBox 512: el códice cerrado (tapa pergamino, lomo recortado, banda y broche
+    de oro, marcapáginas rojo). `chico`: libro más grande y detalles más gruesos para 16-32 px."""
     if chico:
-        izq = "M250 160 C210 132 150 124 76 136 L76 384 C150 372 210 380 250 410 Z"
-        der = "M262 160 C302 132 362 124 436 136 L436 384 C362 372 302 380 262 410 Z"
-        signos = '<path d="M196 214 L136 270 L196 326"/><path d="M316 214 L376 270 L316 326"/>'
-        trazo, borde = 40, 0
+        tapa = '<rect x="118" y="70" width="252" height="342" rx="18" fill="{p}"/>'
+        lomo = '<path d="M164 70 V412" stroke="{t}" stroke-width="16"/>'
+        banda = '<path d="M164 138 H370" stroke="{o}" stroke-width="24"/>'
+        broche = '<rect x="330" y="200" width="82" height="76" rx="12" fill="{o}"/><circle cx="371" cy="238" r="13" fill="{t}"/>'
+        marca = '<path d="M290 412 V472 L304 458 L318 472 V412 Z" fill="{r}"/>'
+        borde = 0
     else:
-        izq = "M248 176 C212 150 160 142 100 152 L100 370 C160 360 212 368 248 394 Z"
-        der = "M264 176 C300 150 352 142 412 152 L412 370 C352 360 300 368 264 394 Z"
-        signos = '<path d="M200 222 L152 266 L200 310"/><path d="M312 222 L360 266 L312 310"/>'
-        trazo, borde = 24, 10
+        tapa = '<rect x="146" y="92" width="220" height="300" rx="16" fill="{p}"/>'
+        lomo = '<path d="M184 92 V392" stroke="{t}" stroke-width="10"/>'
+        banda = '<path d="M184 150 H366" stroke="{o}" stroke-width="14"/>'
+        broche = '<rect x="330" y="214" width="62" height="56" rx="10" fill="{o}"/><circle cx="361" cy="242" r="9" fill="{t}"/>'
+        marca = '<path d="M296 392 V448 L306 438 L316 448 V392 Z" fill="{r}"/>'
+        borde = 10
+    partes = "\n  ".join(x.format(p=PERGAMINO, t=TINTA, o=ORO, r=RUBRICA) for x in (tapa, lomo, banda, broche, marca))
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect x="8" y="8" width="496" height="496" rx="112" fill="{FONDO}" stroke="{BORDE}" stroke-width="{borde}"/>
-  <path d="{izq}" fill="{AMBAR}"/>
-  <path d="{der}" fill="{AMBAR_OSC}"/>
-  <g fill="none" stroke="{FONDO}" stroke-width="{trazo}" stroke-linecap="round" stroke-linejoin="round">{signos}</g>
+  <rect x="8" y="8" width="496" height="496" rx="112" fill="{TINTA}" stroke="{BORDE}" stroke-width="{borde}"/>
+  {partes}
 </svg>
 '''
 
