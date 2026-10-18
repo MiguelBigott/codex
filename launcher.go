@@ -62,6 +62,14 @@ func NuevoLauncher(cat Catalogo, datos string) *Launcher {
 	if l.ajustes.IntervaloHoras <= 0 {
 		l.ajustes.IntervaloHoras = 6
 	}
+	// Lo último que se supo de cada app se muestra al instante, aun sin conexión.
+	conocidas := cargarCache(datos)
+	for _, app := range cat.Apps {
+		if rel := conocidas[app.Repo]; rel != nil {
+			l.releases[app.ID] = rel
+		}
+	}
+	l.propia = conocidas[repoLauncher]
 	return l
 }
 
@@ -135,6 +143,7 @@ func (l *Launcher) Revisar() {
 			l.mu.Unlock()
 		}
 	}
+	guardarCache()
 }
 
 // ---------- Estado para la interfaz ----------
@@ -163,6 +172,8 @@ type EstadoLauncher struct {
 	Ajustes     Ajustes     `json:"ajustes"`
 	Aviso       Aviso       `json:"aviso"`
 	Carpeta     string      `json:"carpeta"`
+	// LimiteHasta: GitHub pausó las consultas hasta esta hora (se muestran las últimas conocidas).
+	LimiteHasta *time.Time `json:"limiteHasta,omitempty"`
 }
 
 func (l *Launcher) Estado() EstadoLauncher {
@@ -181,6 +192,9 @@ func (l *Launcher) Estado() EstadoLauncher {
 	if !l.revisado.IsZero() {
 		t := l.revisado
 		e.Revisado = &t
+	}
+	if t := limiteGitHub(); !t.IsZero() {
+		e.LimiteHasta = &t
 	}
 	e.HayNueva = l.propia != nil && compararVersiones(l.propia.Version, Version) > 0
 	for _, app := range l.cat.Apps {

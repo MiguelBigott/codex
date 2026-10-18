@@ -288,7 +288,10 @@ function pintar() {
 
   // Pie
   $("#btn-revisar").classList.toggle("girando", e.revisando);
+  const pausa = e.limiteHasta && new Date(e.limiteHasta) > new Date()
+    ? new Date(e.limiteHasta).toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" }) : "";
   $("#pie-revisado").textContent = e.revisando ? "Buscando actualizaciones…"
+    : pausa ? `GitHub pausó las consultas hasta las ${pausa} · se muestran las últimas versiones conocidas`
     : e.revisado ? `Revisado ${haceCuanto(e.revisado)} · usando la API de GitHub` : "Sin revisar todavía";
   $("#pie-plataforma").textContent = `Instalando para ${e.plataforma}`;
 

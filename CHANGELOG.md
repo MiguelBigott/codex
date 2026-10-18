@@ -3,6 +3,12 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.1.8] - 2026-10-18
+
+### Cambiado
+- Codex recuerda lo último que supo de cada app aunque lo cierres (en `%LOCALAPPDATA%\Codexeleases.json`): al abrirlo muestra las versiones al instante, y al revisar, GitHub solo responde «sin cambios», que no gasta su límite de 60 consultas por hora.
+- Si GitHub pausa las consultas, Codex deja de preguntar hasta la hora que indica, sigue mostrando las últimas versiones conocidas y lo avisa en el pie, en lugar de un error rojo en cada app.
+
 ## [0.1.7] - 2026-10-18
 
 ### Cambiado
@@ -69,6 +75,7 @@ Primera versión de **Codex**, el launcher de mis apps de Windows.
 - Ventana nativa de Windows (WebView2) con icono nítido en la barra de tareas.
 - En el catálogo: [Clipvault](https://github.com/MiguelBigott/clipvault) y, de ArtCraft, [PhotoCraft](https://github.com/storytold/photocraft), [FilmCraft](https://github.com/storytold/filmcraft), [WordCraft](https://github.com/storytold/wordcraft) y [GridCraft](https://github.com/storytold/gridcraft).
 
+[0.1.8]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.8
 [0.1.7]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.7
 [0.1.6]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.6
 [0.1.5]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.5

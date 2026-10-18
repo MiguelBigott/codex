@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -32,11 +34,18 @@ type Archivo struct {
 
 var cliente = &http.Client{Timeout: 30 * time.Second}
 
+// apiGitHub es la dirección de la API (las pruebas la reemplazan por un servidor falso).
+var apiGitHub = "https://api.github.com"
+
 // cacheGitHub guarda la última respuesta por repositorio y su ETag: las consultas sin
-// cambios (304) no gastan el límite de la API de GitHub.
+// cambios (304) no gastan el límite de la API de GitHub (60 por hora sin cuenta, por
+// conexión). Se guarda en disco para que al reabrir Codex tampoco se gaste, y recuerda
+// hasta cuándo GitHub pausó las consultas para no insistir antes de tiempo.
 type cacheGitHub struct {
-	mu    sync.Mutex
-	datos map[string]entradaCache
+	mu          sync.Mutex
+	datos       map[string]entradaCache
+	ruta        string
+	limiteHasta time.Time
 }
 
 type entradaCache struct {
@@ -45,6 +54,64 @@ type entradaCache struct {
 }
 
 var cacheRel = &cacheGitHub{datos: map[string]entradaCache{}}
+
+// cargarCache lee releases.json de la carpeta de datos y devuelve lo que se conocía.
+func cargarCache(datos string) map[string]*Release {
+	cacheRel.mu.Lock()
+	defer cacheRel.mu.Unlock()
+	cacheRel.ruta = filepath.Join(datos, "releases.json")
+	if b, err := os.ReadFile(cacheRel.ruta); err == nil {
+		_ = json.Unmarshal(b, &cacheRel.datos)
+	}
+	conocidas := map[string]*Release{}
+	for repo, e := range cacheRel.datos {
+		if e.Release != nil {
+			conocidas[repo] = e.Release
+		}
+	}
+	return conocidas
+}
+
+func guardarCache() {
+	cacheRel.mu.Lock()
+	defer cacheRel.mu.Unlock()
+	if cacheRel.ruta == "" {
+		return
+	}
+	if b, err := json.MarshalIndent(cacheRel.datos, "", "  "); err == nil {
+		_ = os.WriteFile(cacheRel.ruta, b, 0o644)
+	}
+}
+
+// limiteGitHub devuelve hasta cuándo GitHub pausó las consultas (cero si no hay pausa).
+func limiteGitHub() time.Time {
+	cacheRel.mu.Lock()
+	defer cacheRel.mu.Unlock()
+	if time.Now().After(cacheRel.limiteHasta) {
+		return time.Time{}
+	}
+	return cacheRel.limiteHasta
+}
+
+// finDelLimite lee de la respuesta hasta cuándo dura la pausa; si no lo dice, una hora.
+func finDelLimite(resp *http.Response) time.Time {
+	if s, err := strconv.Atoi(resp.Header.Get("Retry-After")); err == nil && s > 0 {
+		return time.Now().Add(time.Duration(s) * time.Second)
+	}
+	if t, err := strconv.ParseInt(resp.Header.Get("X-RateLimit-Reset"), 10, 64); err == nil && t > 0 {
+		return time.Unix(t, 0)
+	}
+	return time.Now().Add(time.Hour)
+}
+
+func esLimite(resp *http.Response) bool {
+	return resp.StatusCode == http.StatusTooManyRequests ||
+		(resp.StatusCode == http.StatusForbidden && (resp.Header.Get("X-RateLimit-Remaining") == "0" || resp.Header.Get("Retry-After") != ""))
+}
+
+func errorLimite(hasta time.Time) error {
+	return fmt.Errorf("GitHub pausó las consultas hasta las %s", hasta.Local().Format("15:04"))
+}
 
 func pedirGitHub(url, etag string) (*http.Response, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
@@ -57,6 +124,10 @@ func pedirGitHub(url, etag string) (*http.Response, error) {
 	if etag != "" {
 		req.Header.Set("If-None-Match", etag)
 	}
+	// Solo para pruebas: con un token, GitHub permite 5.000 consultas por hora en vez de 60.
+	if t := os.Getenv("CODEX_GITHUB_TOKEN"); t != "" {
+		req.Header.Set("Authorization", "Bearer "+t)
+	}
 	return cliente.Do(req)
 }
 
@@ -65,9 +136,18 @@ func pedirGitHub(url, etag string) (*http.Response, error) {
 func ultimaRelease(repo string, msi bool) (*Release, error) {
 	cacheRel.mu.Lock()
 	previa := cacheRel.datos[repo]
+	pausa := cacheRel.limiteHasta
 	cacheRel.mu.Unlock()
 
-	resp, err := pedirGitHub("https://api.github.com/repos/"+repo+"/releases/latest", previa.ETag)
+	// Durante la pausa no se consulta: se usa lo último conocido.
+	if time.Now().Before(pausa) {
+		if previa.Release != nil {
+			return previa.Release, nil
+		}
+		return nil, errorLimite(pausa)
+	}
+
+	resp, err := pedirGitHub(apiGitHub+"/repos/"+repo+"/releases/latest", previa.ETag)
 	if err != nil {
 		return nil, errors.New("sin conexión con GitHub")
 	}
@@ -77,8 +157,15 @@ func ultimaRelease(repo string, msi bool) (*Release, error) {
 		return previa.Release, nil
 	case resp.StatusCode == http.StatusNotFound:
 		return nil, errors.New("todavía no tiene versiones publicadas")
-	case resp.StatusCode == http.StatusForbidden || resp.StatusCode == http.StatusTooManyRequests:
-		return nil, errors.New("GitHub limitó las consultas; se reintentará más tarde")
+	case esLimite(resp):
+		hasta := finDelLimite(resp)
+		cacheRel.mu.Lock()
+		cacheRel.limiteHasta = hasta
+		cacheRel.mu.Unlock()
+		if previa.Release != nil {
+			return previa.Release, nil
+		}
+		return nil, errorLimite(hasta)
 	case resp.StatusCode != http.StatusOK:
 		return nil, fmt.Errorf("GitHub respondió %d", resp.StatusCode)
 	}
