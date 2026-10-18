@@ -3,6 +3,12 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.1.3] - 2026-10-18
+
+### Cambiado
+- El título dice `~/codex app suite`.
+- En la vista de tabla, el estado de cada app se lee completo («disponible para instalar» ya no se corta).
+
 ## [0.1.2] - 2026-10-18
 
 ### Quitado
@@ -29,6 +35,7 @@ Primera versión de **Codex**, el launcher de mis apps de Windows.
 - Ventana nativa de Windows (WebView2) con icono nítido en la barra de tareas.
 - En el catálogo: [Clipvault](https://github.com/MiguelBigott/clipvault) y, de ArtCraft, [PhotoCraft](https://github.com/storytold/photocraft), [FilmCraft](https://github.com/storytold/filmcraft), [WordCraft](https://github.com/storytold/wordcraft) y [GridCraft](https://github.com/storytold/gridcraft).
 
+[0.1.3]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.3
 [0.1.2]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.2
 [0.1.1]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.1
 [0.1.0]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.0
