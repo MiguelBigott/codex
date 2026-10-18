@@ -97,7 +97,7 @@ func ultimaRelease(repo string, msi bool) (*Release, error) {
 	if err := json.NewDecoder(io.LimitReader(resp.Body, 4<<20)).Decode(&gh); err != nil {
 		return nil, errors.New("respuesta de GitHub ilegible")
 	}
-	rel := &Release{Version: strings.TrimPrefix(gh.Tag, "v"), Tag: gh.Tag, Fecha: gh.Publicada, Notas: gh.URL}
+	rel := &Release{Version: versionDeEtiqueta(gh.Tag), Tag: gh.Tag, Fecha: gh.Publicada, Notas: gh.URL}
 
 	var sumas string
 	for _, a := range gh.Assets {
@@ -174,6 +174,15 @@ func sumaDesdeArchivo(url, nombre string) (string, error) {
 		}
 	}
 	return "", errors.New("el instalador no aparece en el archivo de sumas")
+}
+
+// versionDeEtiqueta saca la versión de la etiqueta del release: «v1.2.0» → «1.2.0». Algunos
+// repos anteponen el nombre de la app (ArtCraft: «artcraft-v0.41.0» → «0.41.0»).
+func versionDeEtiqueta(tag string) string {
+	if i := strings.IndexAny(tag, "0123456789"); i >= 0 {
+		return tag[i:]
+	}
+	return tag
 }
 
 // compararVersiones devuelve -1, 0 o 1 comparando "1.2.10" con "1.3".

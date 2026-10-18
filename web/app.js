@@ -208,12 +208,12 @@ function tarjeta(a, numero) {
       el("div", { class: "acciones" }, botonPrincipal(a), botonMenu(a))));
 }
 
-function filaTabla(a) {
+function filaTabla(a, numero) {
   const instalada = a.instalada ? a.versionInstalada || "—" : "—";
   const ultima = a.ultima ? a.ultima.version : "—";
   const fecha = a.ultima?.fecha ? formatoFecha(a.ultima.fecha) : "—";
-  return el("tr", {},
-    el("td", {}, el("div", { class: "celda-app" }, iconoApp(a),
+  return el("tr", { style: { "--color-app": a.color } },
+    el("td", {}, el("div", { class: "celda-app" }, el("span", { class: "numero-fila", text: String(numero).padStart(2, "0") }), iconoApp(a),
       el("div", {}, nombreApp(a, "div"), el("div", { class: "similar", text: a.autor ? `${a.descripcion} · de ${a.autor}` : a.descripcion })))),
     el("td", {}, pastillaEstado(a)),
     el("td", { class: a.instalada ? "ver" : null, text: instalada }),
@@ -235,7 +235,7 @@ function pintarContenido() {
   if (ui.modo === "tabla") {
     contenido.append(el("div", { class: "tabla-caja" }, el("table", { class: "tabla" },
       el("thead", {}, el("tr", {}, ...["Aplicación", "Estado", "Instalada", "Última", "Publicada", ""].map((t) => el("th", { text: t })))),
-      el("tbody", {}, lista.flatMap((g) => g.apps).map(filaTabla)))));
+      el("tbody", {}, lista.flatMap((g) => g.apps).map((a) => filaTabla(a, numeros.get(a.id)))))));
     return;
   }
   lista.forEach((g, i) => {

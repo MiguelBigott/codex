@@ -326,7 +326,7 @@ body.modo-tabla .solo-cuadricula { display: none; }
 .tabla { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .tabla th:nth-child(2) { width: 260px; }
 .tabla th:nth-child(3), .tabla th:nth-child(4) { width: 115px; }
-.tabla th:nth-child(5) { width: 140px; }
+.tabla th:nth-child(5) { width: 160px; }
 .tabla th:nth-child(6) { width: 290px; }
 .tabla td { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* El estado nunca se corta: si no cabe, pasa a una segunda línea. */
@@ -469,14 +469,14 @@ body.modo-tabla .solo-cuadricula { display: none; }
 .seccion span:first-child::after { content: "/"; color: var(--texto-3); }
 .seccion span:last-child { color: var(--texto-3); }
 
-/* Tarjetas: sin números, rejilla tenue */
+/* Tarjetas: número en el color de cada app, rejilla tenue */
 .rejilla { border-radius: 12px; overflow: hidden; border-right: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
 .tarjeta::before { background: var(--ambar); }
-.tarjeta-cabecera { border-bottom-style: dashed; height: 40px; justify-content: flex-end; }
-.numero { display: none; }
+.tarjeta-cabecera { border-bottom-style: dashed; height: 40px; }
+.numero { background: none !important; color: var(--color-app) !important; padding: 0; font-family: var(--mono); font-weight: 400; font-size: 13.5px; letter-spacing: .04em; }
 .tarjeta-enlaces button { font-size: 12.5px; color: var(--texto-3); }
 .icono-app { border-radius: 10px; }
-.nombre { font-family: var(--mono); font-weight: 700; font-size: 22px; letter-spacing: -.02em; }
+.nombre { font-family: var(--mono); font-weight: 700; font-size: 22px; letter-spacing: -.02em; color: #fff; }
 .nombre span { color: var(--texto-3) !important; }
 .descripcion { font-size: 15px; }
 .autor { margin: 2px 0 0; font-size: 13.5px; color: var(--texto-3); }
@@ -500,6 +500,7 @@ body.modo-tabla .solo-cuadricula { display: none; }
 /* Tabla, menú, ajustes y pie */
 .tabla-caja { border-radius: 12px; overflow: hidden; }
 .tabla .nombre { font-size: 17px; }
+.numero-fila { flex: none; width: 24px; font-family: var(--mono); font-size: 13.5px; color: var(--color-app); }
 .tabla .boton { height: 38px; }
 .tabla .boton-cuadro { height: 38px; }
 .menu { border-radius: 10px; }

@@ -3,6 +3,21 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.1.5] - 2026-10-18
+
+### Añadido
+- Todo ArtCraft en el catálogo: [ArtCraft](https://github.com/storytold/artcraft) (la app principal), [LightCraft](https://github.com/storytold/lightcraft), [VectorCraft](https://github.com/storytold/vectorcraft), [DesignCraft](https://github.com/storytold/designcraft), [FigCraft](https://github.com/storytold/figcraft), [DeckCraft](https://github.com/storytold/deckcraft) y [CADCraft](https://github.com/storytold/cadcraft).
+- Cada app lleva su número (01, 02...) en el color de la app, en la cuadrícula y en la tabla.
+
+### Cambiado
+- La sección de mis apps se llama «codex» en lugar de «multimedia».
+- Los nombres de las apps se ven en blanco puro.
+- Leyendas nuevas para FilmCraft, PdfCraft, EffectCraft, WordCraft, GridCraft y SoundCraft.
+
+### Corregido
+- Las versiones de apps cuyas etiquetas llevan el nombre delante (ArtCraft publica «artcraft-v0.41.0») ahora se leen bien («0.41.0»), así que los avisos de actualización funcionan con ellas.
+- En la vista de tabla, las fechas largas («26 sept 2026») ya no se cortan.
+
 ## [0.1.4] - 2026-10-18
 
 ### Añadido
@@ -40,6 +55,7 @@ Primera versión de **Codex**, el launcher de mis apps de Windows.
 - Ventana nativa de Windows (WebView2) con icono nítido en la barra de tareas.
 - En el catálogo: [Clipvault](https://github.com/MiguelBigott/clipvault) y, de ArtCraft, [PhotoCraft](https://github.com/storytold/photocraft), [FilmCraft](https://github.com/storytold/filmcraft), [WordCraft](https://github.com/storytold/wordcraft) y [GridCraft](https://github.com/storytold/gridcraft).
 
+[0.1.5]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.5
 [0.1.4]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.4
 [0.1.3]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.3
 [0.1.2]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.2
