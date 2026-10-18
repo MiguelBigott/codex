@@ -1,0 +1,6 @@
+# Saltos de línea LF en todas las plataformas (gofmt exige LF)
+* text=auto eol=lf
+
+*.ico binary
+*.bmp binary
+*.woff2 binary

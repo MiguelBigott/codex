@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="redim redim-arriba" data-borde="arriba"></div>
+<div class="redim redim-arriba-izq" data-borde="arriba-izq"></div>
+<div class="redim redim-arriba-der" data-borde="arriba-der"></div>
+
+<header class="barra" id="barra">
+  <div class="segmento-vista" role="group" aria-label="Vista">
+    <button type="button" data-modo="cuadricula" class="activo">Cuadrícula</button>
+    <button type="button" data-modo="tabla">Tabla</button>
+  </div>
+  <div class="marca"><img class="marca-logo" src="logo.svg" alt=""><span class="marca-texto">codex</span></div>
+  <div class="arrastre"></div>
+  <button class="boton-icono" id="btn-revisar" type="button" title="Buscar actualizaciones" aria-label="Buscar actualizaciones">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg>
+  </button>
+  <button class="boton-icono" id="btn-ajustes" type="button" title="Ajustes" aria-label="Ajustes">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.11-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.56-1.11 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1.03-1.56V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.56 1.03H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/></svg>
+  </button>
+  <div class="controles" id="controles" hidden>
+    <button type="button" id="btn-min" aria-label="Minimizar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button>
+    <button type="button" id="btn-max" aria-label="Maximizar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11"/></svg></button>
+    <button type="button" id="btn-cerrar" class="cerrar" aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button>
+  </div>
+</header>
+
+<main class="principal" id="principal">
+  <section class="banner" id="banner" hidden aria-live="polite">
+    <span class="banner-etiqueta">Actualización</span>
+    <p class="banner-texto" id="banner-texto"></p>
+    <button class="enlace-mono" type="button" id="banner-novedades">Novedades ↗</button>
+    <button class="boton boton-claro" type="button" id="banner-actualizar">Actualizar y reiniciar</button>
+    <button class="boton-cuadro" type="button" id="banner-cerrar" aria-label="Ocultar aviso">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>
+    </button>
+  </section>
+
+  <section id="vista-lanzador">
+    <div class="filtros">
+      <div class="segmentos" id="filtros" role="group" aria-label="Filtrar apps">
+        <button type="button" data-filtro="todas">Todas <span class="cuenta"></span></button>
+        <button type="button" data-filtro="instaladas">Instaladas <span class="cuenta"></span></button>
+        <button type="button" data-filtro="actualizaciones">Actualizaciones <span class="cuenta"></span></button>
+        <button type="button" data-filtro="no-instaladas">No instaladas <span class="cuenta"></span></button>
+      </div>
+      <div class="orden">
+        <label class="etiqueta-mono solo-cuadricula" for="orden">Orden</label>
+        <div class="selector solo-cuadricula">
+          <select id="orden">
+            <option value="suite">Orden de la suite</option>
+            <option value="nombre">Nombre</option>
+            <option value="recientes">Más recientes</option>
+            <option value="estado">Estado</option>
+          </select>
+        </div>
+        <input class="buscador" id="buscar" type="search" placeholder="Buscar apps" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+    <div id="contenido"></div>
+  </section>
+</main>
+
+<footer class="pie">
+  <span id="pie-revisado">Sin revisar</span>
+  <span id="pie-plataforma"></span>
+</footer>
+
+<div class="menu" id="menu" role="menu" hidden></div>
+
+<div class="velo" id="velo" hidden></div>
+<aside class="ajustes" id="ajustes" hidden aria-labelledby="ajustes-titulo">
+  <div class="ajustes-cabecera">
+    <h2 id="ajustes-titulo">Ajustes</h2>
+    <button class="boton-cuadro" type="button" id="ajustes-cerrar" aria-label="Cerrar ajustes">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>
+    </button>
+  </div>
+  <label class="interruptor">
+    <input type="checkbox" id="aj-auto">
+    <span class="interruptor-pista" aria-hidden="true"></span>
+    <span>Buscar actualizaciones automáticamente</span>
+  </label>
+  <label class="ajuste-fila" for="aj-intervalo">
+    <span>Revisar cada</span>
+    <span class="selector selector-chico">
+      <select id="aj-intervalo">
+        <option value="1">1 hora</option>
+        <option value="6">6 horas</option>
+        <option value="12">12 horas</option>
+        <option value="24">24 horas</option>
+      </select>
+    </span>
+  </label>
+  <dl class="datos">
+    <div><dt>Versión del launcher</dt><dd id="aj-version"></dd></div>
+    <div><dt>Carpeta de instalación</dt><dd id="aj-carpeta"></dd></div>
+    <div><dt>Plataforma</dt><dd id="aj-plataforma"></dd></div>
+  </dl>
+</aside>
+
+<div class="aviso" id="aviso" role="status" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+"use strict";
+
+/* ---------------- Conexión con el launcher ---------------- */
+
+// La clave de sesión llega en el fragmento de la URL; la guardamos y la quitamos de la barra.
+const CLAVE = location.hash.slice(1);
+history.replaceState(null, "", location.pathname);
+
+async function api(ruta, cuerpo) {
+  const opciones = { headers: { "X-Codex": CLAVE } };
+  if (cuerpo !== undefined) {
+    opciones.method = "POST";
+    opciones.headers["Content-Type"] = "application/json";
+    opciones.body = JSON.stringify(cuerpo);
+  }
+  const r = await fetch(ruta, opciones);
+  const datos = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(datos.error || `Error ${r.status}`);
+  return datos;
+}
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+
+function el(etiqueta, props = {}, ...hijos) {
+  const n = document.createElement(etiqueta);
+  for (const [k, v] of Object.entries(props)) {
+    if (v === undefined || v === null || v === false) continue;
+    if (k === "class") n.className = v;
+    else if (k === "text") n.textContent = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else if (k === "style") for (const [p, val] of Object.entries(v)) n.style.setProperty(p, val);
+    else n.setAttribute(k, v === true ? "" : v);
+  }
+  for (const h of hijos.flat()) if (h !== null && h !== undefined && h !== false) n.append(h);
+  return n;
+}
+
+/* ---------------- Estado de la interfaz ---------------- */
+
+function leer(clave, porDefecto) {
+  try { return localStorage.getItem(clave) || porDefecto; } catch { return porDefecto; }
+}
+function guardar(clave, valor) {
+  try { localStorage.setItem(clave, valor); } catch { /* sin almacenamiento */ }
+}
+
+const ui = {
+  estado: null,
+  filtro: leer("ca.filtro", "todas"),
+  modo: leer("ca.modo", "cuadricula"),
+  orden: leer("ca.orden", "suite"),
+  busqueda: "",
+  bannerOculto: "",
+  ultimoAviso: 0,
+  firma: "",
+};
+
+const fechaCorta = new Intl.DateTimeFormat("es-ES", { day: "numeric", month: "short", year: "numeric" });
+const formatoFecha = (iso) => fechaCorta.format(new Date(iso)).replace(".", "");
+
+function haceCuanto(iso) {
+  const s = Math.max(0, (Date.now() - new Date(iso)) / 1000);
+  if (s < 60) return "hace unos segundos";
+  if (s < 3600) return `hace ${Math.floor(s / 60)} min`;
+  if (s < 86400) return `hace ${Math.floor(s / 3600)} h`;
+  const d = Math.floor(s / 86400);
+  return d === 1 ? "hace 1 día" : `hace ${d} días`;
+}
+
+/* ---------------- Colores por app ---------------- */
+
+function rgb(hex) {
+  const n = parseInt(hex.replace("#", ""), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+function luminancia(hex) {
+  const [r, g, b] = rgb(hex).map((c) => {
+    c /= 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+// Tinta legible sobre fondo oscuro: aclara los colores muy oscuros.
+function tintaOscura(hex) {
+  if (luminancia(hex) > 0.18) return hex;
+  const [r, g, b] = rgb(hex).map((c) => Math.round(c + (255 - c) * 0.4));
+  return `rgb(${r}, ${g}, ${b})`;
+}
+const textoSobre = (hex) => (luminancia(hex) > 0.4 ? "#0b0b0c" : "#ffffff");
+
+/* ---------------- Datos derivados ---------------- */
+
+const ETIQUETA_ESTADO = {
+  instalada: "Instalada · al día",
+  actualizacion: "Actualización disponible",
+  disponible: "Disponible para instalar",
+  proximamente: "Próximamente",
+  "sin-version": "Sin versiones publicadas",
+};
+const ORDEN_ESTADO = { actualizacion: 0, instalada: 1, disponible: 2, "sin-version": 3, proximamente: 4 };
+const TAREA = { instalar: "Instalando", actualizar: "Actualizando", desinstalar: "Desinstalando" };
+
+function pasaFiltro(a) {
+  switch (ui.filtro) {
+    case "instaladas": return a.instalada;
+    case "actualizaciones": return a.estado === "actualizacion";
+    case "no-instaladas": return !a.instalada;
+    default: return true;
+  }
+}
+
+function pasaBusqueda(a) {
+  const q = ui.busqueda.trim().toLowerCase();
+  if (!q) return true;
+  return [a.nombre + a.sufijo, a.descripcion, a.similar].join(" ").toLowerCase().includes(q);
+}
+
+function grupos(apps) {
+  const visibles = apps.filter((a) => pasaFiltro(a) && pasaBusqueda(a));
+  if (ui.orden === "suite") {
+    return ui.estado.categorias
+      .map((c) => ({ nombre: c.nombre, apps: visibles.filter((a) => a.categoria === c.id) }))
+      .concat([{ nombre: "Otras apps", apps: visibles.filter((a) => !ui.estado.categorias.some((c) => c.id === a.categoria)) }])
+      .filter((g) => g.apps.length);
+  }
+  const ordenadas = [...visibles];
+  if (ui.orden === "nombre") ordenadas.sort((a, b) => (a.nombre + a.sufijo).localeCompare(b.nombre + b.sufijo, "es"));
+  if (ui.orden === "recientes") ordenadas.sort((a, b) => new Date(b.ultima?.fecha || 0) - new Date(a.ultima?.fecha || 0));
+  if (ui.orden === "estado") ordenadas.sort((a, b) => ORDEN_ESTADO[a.estado] - ORDEN_ESTADO[b.estado]);
+  return ordenadas.length ? [{ nombre: "Todas las apps", apps: ordenadas }] : [];
+}
+
+/* ---------------- Piezas comunes ---------------- */
+
+function iconoApp(a) {
+  const caja = el("div", { class: "icono-app", style: { background: `linear-gradient(145deg, ${a.color}, ${tintaOscura(a.color)})`, color: textoSobre(a.color) } });
+  caja.textContent = a.nombre.slice(0, 1).toUpperCase();
+  if (a.icono) {
+    // Icono oficial de la app; si no carga, queda la inicial.
+    const img = el("img", { src: a.icono, alt: "", onerror: () => img.remove(), onload: () => { caja.textContent = ""; caja.append(img); caja.classList.add("con-imagen"); } });
+  }
+  return caja;
+}
+
+const credito = (a) => a.autor ? el("p", { class: "autor", text: `de ${a.autor}` }) : null;
+
+function nombreApp(a, etiqueta = "h3") {
+  return el(etiqueta, { class: "nombre" }, a.nombre, el("span", { text: a.sufijo, style: { color: tintaOscura(a.color) } }));
+}
+
+function pastillaEstado(a) {
+  if (a.tarea) {
+    const pct = a.tarea.progreso >= 0 && a.tarea.texto === "Descargando" ? ` · ${Math.round(a.tarea.progreso * 100)} %` : "";
+    return el("span", { class: "estado estado-tarea", text: `${a.tarea.texto}${pct}` });
+  }
+  return el("span", { class: `estado estado-${a.estado}`, text: ETIQUETA_ESTADO[a.estado] });
+}
+
+function lineaVersion(a) {
+  if (a.error && !a.ultima) return el("p", { class: "version" }, el("span", { class: "error", text: a.error }));
+  if (!a.ultima) return el("p", { class: "version", text: a.estado === "proximamente" ? "Aún sin versión publicada" : "Sin versión publicada" });
+  const fecha = a.ultima.fecha ? ` · ${formatoFecha(a.ultima.fecha)}` : "";
+  if (a.estado === "actualizacion") return el("p", { class: "version", text: `Versión ${a.versionInstalada} → ${a.ultima.version}${fecha}` });
+  return el("p", { class: "version", text: `Versión ${a.instalada ? a.versionInstalada : a.ultima.version}${fecha}` });
+}
+
+function botonPrincipal(a) {
+  if (a.tarea) {
+    const b = el("button", { class: "boton boton-contorno", type: "button", disabled: true });
+    const p = a.tarea.progreso >= 0 ? a.tarea.progreso : 1;
+    b.append(el("span", { class: "relleno", style: { width: `${Math.round(p * 100)}%` } }), el("span", { text: TAREA[a.tarea.tipo] || "Trabajando" }));
+    return b;
+  }
+  const accion = (ruta, texto) => async (ev) => {
+    ev.currentTarget.disabled = true;
+    try { await api(ruta, { id: a.id }); } catch (e) { avisar(e.message, true); }
+    refrescar();
+  };
+  switch (a.estado) {
+    case "instalada": return el("button", { class: "boton boton-contorno", type: "button", onclick: accion("/api/abrir") }, el("span", { text: "Abrir" }));
+    case "actualizacion": return el("button", { class: "boton boton-claro", type: "button", onclick: accion("/api/instalar") }, el("span", { text: "Actualizar" }));
+    case "disponible": return el("button", { class: "boton boton-claro", type: "button", onclick: accion("/api/instalar") }, el("span", { text: "Instalar" }));
+    default: return el("button", { class: "boton boton-contorno", type: "button", disabled: true }, el("span", { text: a.estado === "proximamente" ? "Próximamente" : "No disponible" }));
+  }
+}
+
+function botonMenu(a) {
+  return el("button", { class: "boton-cuadro", type: "button", "aria-label": `Más opciones de ${a.nombre}${a.sufijo}`, onclick: (ev) => abrirMenu(a, ev.currentTarget) },
+    el("span", { text: "…" }));
+}
+
+/* ---------------- Vistas ---------------- */
+
+function tarjeta(a, numero) {
+  const enlaces = el("div", { class: "tarjeta-enlaces" },
+    a.web && el("button", { type: "button", text: "Sitio web ↗", onclick: () => abrirEnlace(a.web) }),
+    a.urlRepo && el("button", { type: "button", text: "GitHub ↗", onclick: () => abrirEnlace(a.urlRepo) }));
+  return el("article", { class: "tarjeta", style: { "--color-app": a.color } },
+    el("div", { class: "tarjeta-cabecera" },
+      el("span", { class: "numero", text: String(numero).padStart(2, "0"), style: { background: a.color, color: textoSobre(a.color) } }),
+      enlaces),
+    el("div", { class: "tarjeta-cuerpo" },
+      el("div", { class: "identidad" }, iconoApp(a),
+        el("div", {}, nombreApp(a), el("p", { class: "descripcion", text: a.descripcion }), a.similar && el("p", { class: "similar", text: a.similar }), credito(a))),
+      pastillaEstado(a),
+      lineaVersion(a),
+      el("div", { class: "acciones" }, botonPrincipal(a), botonMenu(a))));
+}
+
+function filaTabla(a) {
+  const instalada = a.instalada ? a.versionInstalada || "—" : "—";
+  const ultima = a.ultima ? a.ultima.version : "—";
+  const fecha = a.ultima?.fecha ? formatoFecha(a.ultima.fecha) : "—";
+  return el("tr", {},
+    el("td", {}, el("div", { class: "celda-app" }, iconoApp(a),
+      el("div", {}, nombreApp(a, "div"), el("div", { class: "similar", text: a.autor ? `${a.descripcion} · de ${a.autor}` : a.descripcion })))),
+    el("td", {}, pastillaEstado(a)),
+    el("td", { class: a.instalada ? "ver" : null, text: instalada }),
+    el("td", { class: a.ultima ? "ver" : null, text: ultima }),
+    el("td", { text: fecha }),
+    el("td", {}, el("div", { class: "acciones" }, botonPrincipal(a), botonMenu(a))));
+}
+
+function pintarContenido() {
+  const e = ui.estado;
+  const numeros = new Map(e.apps.map((a, i) => [a.id, i + 1]));
+  const lista = grupos(e.apps);
+  const contenido = $("#contenido");
+  contenido.replaceChildren();
+  if (!lista.length) {
+    contenido.append(el("p", { class: "vacio", text: ui.busqueda ? "Ninguna app coincide con la búsqueda." : "No hay apps en este filtro." }));
+    return;
+  }
+  if (ui.modo === "tabla") {
+    contenido.append(el("div", { class: "tabla-caja" }, el("table", { class: "tabla" },
+      el("thead", {}, el("tr", {}, ...["Aplicación", "Estado", "Instalada", "Última", "Publicada", ""].map((t) => el("th", { text: t })))),
+      el("tbody", {}, lista.flatMap((g) => g.apps).map(filaTabla)))));
+    return;
+  }
+  lista.forEach((g, i) => {
+    contenido.append(el("div", { class: "seccion" },
+      el("span", {}, el("b", { text: `${String(i + 1).padStart(2, "0")} / ` }), g.nombre),
+      el("span", { text: g.apps.length === 1 ? "1 app" : `${g.apps.length} apps` })));
+    contenido.append(el("div", { class: "rejilla" }, g.apps.map((a) => tarjeta(a, numeros.get(a.id)))));
+  });
+}
+
+function pintar() {
+  const e = ui.estado;
+  if (!e) return;
+
+  // Banner de nueva versión del launcher
+  const nueva = e.hayNueva && e.propia && ui.bannerOculto !== e.propia.version;
+  $("#banner").hidden = !nueva;
+  if (nueva) {
+    $("#banner-texto").textContent = e.tareaPropia
+      ? `Actualizando Codex a la ${e.propia.version}…`
+      : `Codex ${e.propia.version} está disponible.`;
+    $("#banner-actualizar").disabled = !!e.tareaPropia;
+  }
+
+  // Cuentas de los filtros
+  const cuentas = {
+    todas: e.apps.length,
+    instaladas: e.apps.filter((a) => a.instalada).length,
+    actualizaciones: e.apps.filter((a) => a.estado === "actualizacion").length,
+    "no-instaladas": e.apps.filter((a) => !a.instalada).length,
+  };
+  $$("#filtros button").forEach((b) => {
+    b.querySelector(".cuenta").textContent = cuentas[b.dataset.filtro];
+    b.classList.toggle("activo", b.dataset.filtro === ui.filtro);
+  });
+  $$(".segmento-vista button").forEach((b) => b.classList.toggle("activo", b.dataset.modo === ui.modo));
+  document.body.classList.toggle("modo-tabla", ui.modo === "tabla");
+
+  // Solo se vuelve a dibujar el contenido si algo cambió (no se pierde el foco ni el hover).
+  const firma = JSON.stringify([e.apps, ui.filtro, ui.modo, ui.orden, ui.busqueda]);
+  if (firma !== ui.firma) {
+    ui.firma = firma;
+    pintarContenido();
+  }
+
+  // Pie
+  $("#btn-revisar").classList.toggle("girando", e.revisando);
+  $("#pie-revisado").textContent = e.revisando ? "Buscando actualizaciones…"
+    : e.revisado ? `Revisado ${haceCuanto(e.revisado)} · usando la API de GitHub` : "Sin revisar todavía";
+  $("#pie-plataforma").textContent = `Instalando para ${e.plataforma}`;
+
+  // Ajustes
+  $("#aj-auto").checked = e.ajustes.revisarAuto;
+  $("#aj-intervalo").value = String(e.ajustes.intervaloHoras);
+  $("#aj-intervalo").disabled = !e.ajustes.revisarAuto;
+  $("#aj-version").textContent = e.version;
+  $("#aj-carpeta").textContent = e.carpeta;
+  $("#aj-plataforma").textContent = e.plataforma;
+
+  if (e.aviso.id && e.aviso.id !== ui.ultimoAviso) {
+    if (ui.ultimoAviso !== 0 || e.aviso.error) avisar(e.aviso.texto, e.aviso.error);
+    ui.ultimoAviso = e.aviso.id;
+  }
+}
+
+/* ---------------- Ciclo de refresco ---------------- */
+
+let temporizador;
+async function refrescar() {
+  clearTimeout(temporizador);
+  let ocupado = false;
+  try {
+    ui.estado = await api("/api/estado");
+    if (ui.ultimoAviso === 0) ui.ultimoAviso = ui.estado.aviso.id || -1;
+    pintar();
+    ocupado = ui.estado.revisando || !!ui.estado.tareaPropia || ui.estado.apps.some((a) => a.tarea);
+  } catch (e) {
+    avisar(`No se pudo leer el estado del launcher: ${e.message}`, true);
+  }
+  temporizador = setTimeout(refrescar, ocupado ? 700 : 10000);
+}
+
+/* ---------------- Menú «…» ---------------- */
+
+function cerrarMenu() { $("#menu").hidden = true; }
+
+function abrirMenu(a, boton) {
+  const menu = $("#menu");
+  const opciones = [];
+  if (a.ultima?.notas) opciones.push(["Notas de la versión ↗", () => abrirEnlace(a.ultima.notas)]);
+  if (a.urlRepo) opciones.push(["Ver en GitHub ↗", () => abrirEnlace(a.urlRepo)]);
+  if (a.web) opciones.push(["Sitio web ↗", () => abrirEnlace(a.web)]);
+  if (a.instalada && !a.tarea) {
+    if (a.ultima?.instalador) opciones.push(["Reinstalar", () => api("/api/instalar", { id: a.id }).then(refrescar, (e) => avisar(e.message, true))]);
+    opciones.push(["Desinstalar", () => api("/api/desinstalar", { id: a.id }).then(refrescar, (e) => avisar(e.message, true)), true]);
+  }
+  if (!opciones.length) opciones.push(["Sin opciones por ahora", null]);
+  menu.replaceChildren(...opciones.map(([texto, f, peligro]) =>
+    el("button", { type: "button", role: "menuitem", class: peligro ? "peligro" : null, text: texto, disabled: !f, onclick: () => { cerrarMenu(); f && f(); } })));
+  menu.hidden = false;
+  const r = boton.getBoundingClientRect();
+  const ancho = menu.offsetWidth, alto = menu.offsetHeight;
+  menu.style.left = `${Math.min(r.right - ancho, innerWidth - ancho - 12)}px`;
+  menu.style.top = `${r.bottom + 6 + alto > innerHeight ? r.top - alto - 6 : r.bottom + 6}px`;
+  menu.querySelector("button:not(:disabled)")?.focus();
+}
+
+document.addEventListener("click", (ev) => {
+  if (!$("#menu").hidden && !ev.target.closest("#menu, .boton-cuadro")) cerrarMenu();
+});
+document.addEventListener("keydown", (ev) => {
+  if (ev.key === "Escape") { cerrarMenu(); cerrarAjustes(); }
+});
+
+/* ---------------- Acciones generales ---------------- */
+
+function abrirEnlace(url) {
+  api("/api/enlace", { url }).catch((e) => avisar(e.message, true));
+}
+
+let temporizadorAviso;
+function avisar(texto, esError = false) {
+  const a = $("#aviso");
+  a.textContent = texto;
+  a.classList.toggle("error", esError);
+  a.hidden = false;
+  clearTimeout(temporizadorAviso);
+  temporizadorAviso = setTimeout(() => { a.hidden = true; }, esError ? 7000 : 4500);
+}
+
+$$(".segmento-vista button").forEach((b) => b.addEventListener("click", () => { ui.modo = b.dataset.modo; guardar("ca.modo", ui.modo); pintar(); }));
+$$("#filtros button").forEach((b) => b.addEventListener("click", () => { ui.filtro = b.dataset.filtro; guardar("ca.filtro", ui.filtro); pintar(); }));
+$("#orden").value = ui.orden;
+$("#orden").addEventListener("change", (ev) => { ui.orden = ev.target.value; guardar("ca.orden", ui.orden); pintar(); });
+$("#buscar").addEventListener("input", (ev) => { ui.busqueda = ev.target.value; pintar(); });
+
+$("#btn-revisar").addEventListener("click", async () => {
+  try { await api("/api/revisar", {}); } catch (e) { avisar(e.message, true); }
+  setTimeout(refrescar, 150);
+});
+
+$("#banner-cerrar").addEventListener("click", () => { ui.bannerOculto = ui.estado?.propia?.version || ""; pintar(); });
+$("#banner-novedades").addEventListener("click", () => ui.estado?.propia && abrirEnlace(ui.estado.propia.notas));
+$("#banner-actualizar").addEventListener("click", async () => {
+  try { await api("/api/launcher/actualizar", {}); } catch (e) { avisar(e.message, true); }
+  refrescar();
+});
+
+/* Ajustes */
+function abrirAjustes() { $("#velo").hidden = false; $("#ajustes").hidden = false; $("#aj-auto").focus(); }
+function cerrarAjustes() { $("#velo").hidden = true; $("#ajustes").hidden = true; }
+$("#btn-ajustes").addEventListener("click", abrirAjustes);
+$("#ajustes-cerrar").addEventListener("click", cerrarAjustes);
+$("#velo").addEventListener("click", cerrarAjustes);
+async function guardarAjustes() {
+  const a = { revisarAuto: $("#aj-auto").checked, intervaloHoras: Number($("#aj-intervalo").value) };
+  try { await api("/api/ajustes", a); } catch (e) { avisar(e.message, true); }
+  refrescar();
+}
+$("#aj-auto").addEventListener("change", guardarAjustes);
+$("#aj-intervalo").addEventListener("change", guardarAjustes);
+
+/* ---------------- Ventana (solo dentro del launcher, no en un navegador) ---------------- */
+
+if (typeof window.caArrastrar === "function") {
+  $("#controles").hidden = false;
+  const barra = $("#barra");
+  const interactivo = "button, a, input, select, nav button";
+  barra.addEventListener("mousedown", (ev) => {
+    if (ev.button !== 0 || ev.detail > 1 || ev.target.closest(interactivo)) return;
+    window.caArrastrar();
+  });
+  barra.addEventListener("dblclick", (ev) => {
+    if (!ev.target.closest(interactivo)) window.caMaximizar().then(actualizarMaximizada);
+  });
+  $$(".redim").forEach((r) => r.addEventListener("mousedown", (ev) => {
+    if (ev.button === 0) window.caRedimensionar(r.dataset.borde);
+  }));
+  $("#btn-min").addEventListener("click", () => window.caMinimizar());
+  $("#btn-max").addEventListener("click", () => window.caMaximizar().then(actualizarMaximizada));
+  $("#btn-cerrar").addEventListener("click", () => window.caCerrar());
+  const actualizarMaximizada = async () => {
+    const max = await window.caMaximizada();
+    document.body.classList.toggle("maximizada", max);
+    $("#btn-max").setAttribute("aria-label", max ? "Restaurar" : "Maximizar");
+  };
+  window.addEventListener("resize", actualizarMaximizada);
+  actualizarMaximizada();
+} else {
+  $$(".redim").forEach((r) => r.remove());
+}
+
+refrescar();

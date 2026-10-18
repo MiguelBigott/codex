@@ -1,0 +1,118 @@
+{
+  "categorias": [
+    {
+      "id": "multimedia",
+      "nombre": "Multimedia"
+    },
+    {
+      "id": "productividad",
+      "nombre": "Productividad"
+    },
+    {
+      "id": "artcraft",
+      "nombre": "ArtCraft"
+    }
+  ],
+  "apps": [
+    {
+      "id": "videoangel",
+      "nombre": "Video",
+      "sufijo": "Angel",
+      "descripcion": "Descarga de video y audio",
+      "similar": "Video MP4 o audio MP3 en máxima calidad",
+      "color": "#2f7bf5",
+      "categoria": "multimedia",
+      "repo": "",
+      "web": "",
+      "ejemplo": true
+    },
+    {
+      "id": "fotoangel",
+      "nombre": "Foto",
+      "sufijo": "Angel",
+      "descripcion": "Edición y conversión de imágenes",
+      "similar": "Recorta, convierte y comprime en lote",
+      "color": "#e8573f",
+      "categoria": "multimedia",
+      "repo": "",
+      "web": "",
+      "ejemplo": true
+    },
+    {
+      "id": "audioangel",
+      "nombre": "Audio",
+      "sufijo": "Angel",
+      "descripcion": "Grabación y edición de audio",
+      "similar": "Corta, une y normaliza pistas",
+      "color": "#8b5cf6",
+      "categoria": "multimedia",
+      "repo": "",
+      "web": "",
+      "ejemplo": true
+    },
+    {
+      "id": "pantallaangel",
+      "nombre": "Pantalla",
+      "sufijo": "Angel",
+      "descripcion": "Capturas y grabación de pantalla",
+      "similar": "Imagen o video de una ventana o región",
+      "color": "#f5a524",
+      "categoria": "multimedia",
+      "repo": "",
+      "web": "",
+      "ejemplo": true
+    },
+    {
+      "id": "pdfangel",
+      "nombre": "Pdf",
+      "sufijo": "Angel",
+      "descripcion": "Lectura y organización de PDF",
+      "similar": "Une, separa y protege documentos",
+      "color": "#1fb889",
+      "categoria": "productividad",
+      "repo": "",
+      "web": "",
+      "ejemplo": true
+    },
+    {
+      "id": "notaangel",
+      "nombre": "Nota",
+      "sufijo": "Angel",
+      "descripcion": "Notas y documentos",
+      "similar": "Apuntes rápidos con búsqueda",
+      "color": "#e0457b",
+      "categoria": "productividad",
+      "repo": "",
+      "web": "",
+      "ejemplo": true
+    },
+    {
+      "id": "archivoangel",
+      "nombre": "Archivo",
+      "sufijo": "Angel",
+      "descripcion": "Orden y limpieza de archivos",
+      "similar": "Encuentra duplicados y archivos pesados",
+      "color": "#8ac926",
+      "categoria": "productividad",
+      "repo": "",
+      "web": "",
+      "ejemplo": true
+    },
+    {
+      "id": "photocraft",
+      "nombre": "Photo",
+      "sufijo": "Craft",
+      "descripcion": "Edición de imágenes",
+      "similar": "Capas, ajustes y archivos PSD",
+      "autor": "ArtCraft",
+      "color": "#2f7bf5",
+      "categoria": "artcraft",
+      "repo": "storytold/photocraft",
+      "web": "https://getartcraft.com/apps/photocraft",
+      "formato": "msi",
+      "propiedadCarpeta": "INSTALLFOLDER",
+      "ejecutable": "photocraft.exe",
+      "icono": "https://raw.githubusercontent.com/storytold/photocraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.photocraft.png"
+    }
+  ]
+}
