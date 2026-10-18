@@ -23,6 +23,18 @@
       "icono": "https://raw.githubusercontent.com/MiguelBigott/clipvault/main/build/logo.png"
     },
     {
+      "id": "pngwebp",
+      "nombre": "PNG",
+      "sufijo": "Webp",
+      "descripcion": "Conversión de imágenes a WebP",
+      "similar": "PNG o JPG con la máxima calidad y el menor peso",
+      "color": "#4d74c9",
+      "categoria": "multimedia",
+      "repo": "MiguelBigott/pngwebp",
+      "web": "",
+      "icono": "https://raw.githubusercontent.com/MiguelBigott/pngwebp/main/build/logo.png"
+    },
+    {
       "id": "photocraft",
       "nombre": "Photo",
       "sufijo": "Craft",

@@ -3,6 +3,11 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.1.4] - 2026-10-18
+
+### Añadido
+- En el catálogo: [PNGWebp](https://github.com/MiguelBigott/pngwebp), que convierte imágenes PNG y JPG a WebP con la máxima calidad y el menor peso.
+
 ## [0.1.3] - 2026-10-18
 
 ### Cambiado
@@ -35,6 +40,7 @@ Primera versión de **Codex**, el launcher de mis apps de Windows.
 - Ventana nativa de Windows (WebView2) con icono nítido en la barra de tareas.
 - En el catálogo: [Clipvault](https://github.com/MiguelBigott/clipvault) y, de ArtCraft, [PhotoCraft](https://github.com/storytold/photocraft), [FilmCraft](https://github.com/storytold/filmcraft), [WordCraft](https://github.com/storytold/wordcraft) y [GridCraft](https://github.com/storytold/gridcraft).
 
+[0.1.4]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.4
 [0.1.3]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.3
 [0.1.2]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.2
 [0.1.1]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.1

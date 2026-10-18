@@ -6,11 +6,11 @@
 
 > Un solo lugar para **instalar, actualizar y abrir** mis apps de Windows: eliges una app, Codex baja su instalador oficial, verifica su firma SHA-256 y la deja lista.
 
-[![Versión](https://img.shields.io/badge/versión-v0.1.3-ffb454)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versión-v0.1.4-ffb454)](CHANGELOG.md)
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)
-[![Apps](https://img.shields.io/badge/apps-8-c9a45c)](#-catálogo)
+[![Apps](https://img.shields.io/badge/apps-9-c9a45c)](#-catálogo)
 [![Licencia de fuentes](https://img.shields.io/badge/fuentes-OFL-8b949e)](web/fonts)
 
 [Historial de versiones](CHANGELOG.md) · [Releases](../../releases) · [Descargar el instalador](../../releases/latest)
@@ -49,6 +49,7 @@
 | App | Qué hace | Autor | Repositorio |
 |---|---|---|---|
 | <img src="https://raw.githubusercontent.com/MiguelBigott/clipvault/main/build/logo.png" width="20" alt=""> **Clipvault** | Descarga de video y audio: MP4 o MP3 con portada y metadatos, y **Clip** para bajar solo un tramo | Miguel Bigott | [MiguelBigott/clipvault](https://github.com/MiguelBigott/clipvault) |
+| <img src="https://raw.githubusercontent.com/MiguelBigott/pngwebp/main/build/logo.png" width="20" alt=""> **PNGWebp** | Convierte PNG y JPG a WebP con la máxima calidad y el menor peso | Miguel Bigott | [MiguelBigott/pngwebp](https://github.com/MiguelBigott/pngwebp) |
 | <img src="https://raw.githubusercontent.com/storytold/photocraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.photocraft.png" width="20" alt=""> **PhotoCraft** | Edición de imágenes: capas, ajustes y archivos PSD | [ArtCraft](https://getartcraft.com) | [storytold/photocraft](https://github.com/storytold/photocraft) |
 | <img src="https://raw.githubusercontent.com/storytold/filmcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.filmcraft.png" width="20" alt=""> **FilmCraft** | Edición de video: montaje no lineal en línea de tiempo | [ArtCraft](https://getartcraft.com) | [storytold/filmcraft](https://github.com/storytold/filmcraft) |
 | <img src="https://raw.githubusercontent.com/storytold/wordcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.wordcraft.png" width="20" alt=""> **WordCraft** | Procesador de textos al estilo de Microsoft Word | [ArtCraft](https://getartcraft.com) | [storytold/wordcraft](https://github.com/storytold/wordcraft) |
