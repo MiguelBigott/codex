@@ -48,7 +48,7 @@ var clienteWeb = &http.Client{Timeout: 20 * time.Second, CheckRedirect: func(*ht
 	return http.ErrUseLastResponse
 }}
 
-var errSinVersiones = errors.New("todavía no tiene versiones publicadas")
+var errSinVersiones = msj("sinVersiones")
 
 // etiquetaPublica lee la etiqueta de la última versión desde la página pública de GitHub, que
 // no cuenta para el límite de la API. Sin cuenta, la API gasta una consulta incluso cuando
@@ -77,9 +77,9 @@ func etiquetaPublica(repo string) (string, error) {
 		}
 		return etiqueta, nil
 	case http.StatusNotFound:
-		return "", errors.New("el repositorio no existe en GitHub")
+		return "", msj("repoNoExiste")
 	}
-	return "", fmt.Errorf("GitHub respondió %d", resp.StatusCode)
+	return "", msj("githubRespondio", "codigo", strconv.Itoa(resp.StatusCode))
 }
 
 // cacheGitHub guarda la última respuesta por repositorio y su ETag: las consultas sin
@@ -155,7 +155,7 @@ func esLimite(resp *http.Response) bool {
 }
 
 func errorLimite(hasta time.Time) error {
-	return fmt.Errorf("GitHub pausó las consultas hasta las %s", hasta.Local().Format("15:04"))
+	return msj("githubPausa", "hora", hasta.Local().Format("15:04"))
 }
 
 func pedirGitHub(url, etag string) (*http.Response, error) {
@@ -203,7 +203,7 @@ func ultimaRelease(repo string, msi bool) (*Release, error) {
 
 	resp, err := pedirGitHub(apiGitHub+"/repos/"+repo+"/releases/latest", previa.ETag)
 	if err != nil {
-		return nil, errors.New("sin conexión con GitHub")
+		return nil, msj("sinConexionGitHub")
 	}
 	defer resp.Body.Close()
 	switch {
@@ -221,7 +221,7 @@ func ultimaRelease(repo string, msi bool) (*Release, error) {
 		}
 		return nil, errorLimite(hasta)
 	case resp.StatusCode != http.StatusOK:
-		return nil, fmt.Errorf("GitHub respondió %d", resp.StatusCode)
+		return nil, msj("githubRespondio", "codigo", strconv.Itoa(resp.StatusCode))
 	}
 
 	var gh struct {
@@ -236,7 +236,7 @@ func ultimaRelease(repo string, msi bool) (*Release, error) {
 		} `json:"assets"`
 	}
 	if err := json.NewDecoder(io.LimitReader(resp.Body, 4<<20)).Decode(&gh); err != nil {
-		return nil, errors.New("respuesta de GitHub ilegible")
+		return nil, msj("respuestaIlegible")
 	}
 	rel := &Release{Version: versionDeEtiqueta(gh.Tag), Tag: gh.Tag, Fecha: gh.Publicada, Notas: gh.URL}
 
@@ -314,7 +314,7 @@ func sumaDesdeArchivo(url, nombre string) (string, error) {
 			}
 		}
 	}
-	return "", errors.New("el instalador no aparece en el archivo de sumas")
+	return "", msj("sinSuma")
 }
 
 // versionDeEtiqueta saca la versión de la etiqueta del release: «v1.2.0» → «1.2.0». Algunos

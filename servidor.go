@@ -5,7 +5,6 @@ import (
 	"crypto/subtle"
 	"encoding/hex"
 	"encoding/json"
-	"errors"
 	"io/fs"
 	"net"
 	"net/http"
@@ -57,11 +56,11 @@ func (s *servidor) handler() http.Handler {
 				ID string `json:"id"`
 			}
 			if err := json.NewDecoder(http.MaxBytesReader(w, r.Body, 4096)).Decode(&req); err != nil {
-				fallar(w, http.StatusBadRequest, "petición inválida")
+				fallar(w, http.StatusBadRequest, msj("peticionInvalida"))
 				return
 			}
 			if err := f(req.ID); err != nil {
-				fallar(w, http.StatusUnprocessableEntity, err.Error())
+				fallar(w, http.StatusUnprocessableEntity, comoMensaje(err))
 				return
 			}
 			responder(w, map[string]bool{"ok": true})
@@ -72,7 +71,7 @@ func (s *servidor) handler() http.Handler {
 	mux.HandleFunc("/api/abrir", conID(s.l.Abrir))
 	mux.HandleFunc("/api/launcher/actualizar", s.post(func(w http.ResponseWriter, r *http.Request) {
 		if err := s.l.ActualizarLauncher(); err != nil {
-			fallar(w, http.StatusUnprocessableEntity, err.Error())
+			fallar(w, http.StatusUnprocessableEntity, comoMensaje(err))
 			return
 		}
 		responder(w, map[string]bool{"ok": true})
@@ -80,10 +79,13 @@ func (s *servidor) handler() http.Handler {
 	mux.HandleFunc("/api/ajustes", s.post(func(w http.ResponseWriter, r *http.Request) {
 		var a Ajustes
 		if err := json.NewDecoder(http.MaxBytesReader(w, r.Body, 4096)).Decode(&a); err != nil {
-			fallar(w, http.StatusBadRequest, "ajustes inválidos")
+			fallar(w, http.StatusBadRequest, msj("peticionInvalida"))
 			return
 		}
-		s.l.GuardarAjustes(a)
+		if err := s.l.GuardarAjustes(a); err != nil {
+			fallar(w, http.StatusUnprocessableEntity, comoMensaje(err))
+			return
+		}
 		responder(w, map[string]bool{"ok": true})
 	}))
 	mux.HandleFunc("/api/enlace", s.post(func(w http.ResponseWriter, r *http.Request) {
@@ -91,11 +93,11 @@ func (s *servidor) handler() http.Handler {
 			URL string `json:"url"`
 		}
 		if err := json.NewDecoder(http.MaxBytesReader(w, r.Body, 4096)).Decode(&req); err != nil {
-			fallar(w, http.StatusBadRequest, "petición inválida")
+			fallar(w, http.StatusBadRequest, msj("peticionInvalida"))
 			return
 		}
 		if err := s.abrirEnlace(req.URL); err != nil {
-			fallar(w, http.StatusForbidden, err.Error())
+			fallar(w, http.StatusForbidden, comoMensaje(err))
 			return
 		}
 		responder(w, map[string]bool{"ok": true})
@@ -107,7 +109,7 @@ func (s *servidor) handler() http.Handler {
 func (s *servidor) soloLocal(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Host != s.host {
-			fallar(w, http.StatusForbidden, "host no permitido")
+			fallar(w, http.StatusForbidden, msj("accesoDenegado"))
 			return
 		}
 		w.Header().Set("Cache-Control", "no-store")
@@ -120,15 +122,15 @@ func (s *servidor) soloLocal(h http.Handler) http.Handler {
 func (s *servidor) api(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Host != s.host {
-			fallar(w, http.StatusForbidden, "host no permitido")
+			fallar(w, http.StatusForbidden, msj("accesoDenegado"))
 			return
 		}
 		if o := r.Header.Get("Origin"); o != "" && o != "http://"+s.host {
-			fallar(w, http.StatusForbidden, "origen no permitido")
+			fallar(w, http.StatusForbidden, msj("accesoDenegado"))
 			return
 		}
 		if subtle.ConstantTimeCompare([]byte(r.Header.Get("X-Codex")), []byte(s.clave)) != 1 {
-			fallar(w, http.StatusUnauthorized, "clave de sesión inválida")
+			fallar(w, http.StatusUnauthorized, msj("accesoDenegado"))
 			return
 		}
 		f(w, r)
@@ -138,7 +140,7 @@ func (s *servidor) api(f http.HandlerFunc) http.HandlerFunc {
 func (s *servidor) post(f http.HandlerFunc) http.HandlerFunc {
 	return s.api(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
-			fallar(w, http.StatusMethodNotAllowed, "método no permitido")
+			fallar(w, http.StatusMethodNotAllowed, msj("peticionInvalida"))
 			return
 		}
 		f(w, r)
@@ -148,7 +150,7 @@ func (s *servidor) post(f http.HandlerFunc) http.HandlerFunc {
 // abrirEnlace abre en el navegador solo enlaces que vienen del catálogo o de las releases.
 func (s *servidor) abrirEnlace(url string) error {
 	if !strings.HasPrefix(url, "https://") {
-		return errors.New("enlace no permitido")
+		return msj("enlaceNoPermitido")
 	}
 	permitidos := map[string]bool{}
 	e := s.l.Estado()
@@ -166,7 +168,7 @@ func (s *servidor) abrirEnlace(url string) error {
 	}
 	delete(permitidos, "")
 	if !permitidos[url] {
-		return errors.New("enlace no permitido")
+		return msj("enlaceNoPermitido")
 	}
 	verbo, _ := windows.UTF16PtrFromString("open")
 	destino, _ := windows.UTF16PtrFromString(url)
@@ -179,8 +181,9 @@ func responder(w http.ResponseWriter, v any) {
 	_ = json.NewEncoder(w).Encode(v)
 }
 
-func fallar(w http.ResponseWriter, estado int, msg string) {
+// fallar responde con un error que la interfaz muestra en su idioma.
+func fallar(w http.ResponseWriter, estado int, m *Mensaje) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(estado)
-	_ = json.NewEncoder(w).Encode(map[string]string{"error": msg})
+	_ = json.NewEncoder(w).Encode(map[string]*Mensaje{"error": m})
 }

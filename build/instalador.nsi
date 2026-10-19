@@ -25,7 +25,8 @@ VIAddVersionKey /LANG=1034 "ProductName" "${APP}"
 VIAddVersionKey /LANG=1034 "FileDescription" "Instalador de ${APP}"
 VIAddVersionKey /LANG=1034 "FileVersion" "${VERSION}"
 VIAddVersionKey /LANG=1034 "ProductVersion" "${VERSION}"
-VIAddVersionKey /LANG=1034 "LegalCopyright" "Codex"
+VIAddVersionKey /LANG=1034 "LegalCopyright" "© 2026 Miguel Bigott"
+VIAddVersionKey /LANG=1034 "CompanyName" "Miguel Bigott"
 
 !define MUI_ICON "app.ico"
 !define MUI_UNICON "app.ico"
@@ -87,13 +88,16 @@ Section "Instalar"
 
   SetOutPath "$INSTDIR"
   File "..\dist\${EXE}"
+  ; Licencia MIT de la app y las de terceros que van dentro del .exe.
+  File "..\dist\LICENSE.txt"
+  File "..\dist\LICENCIAS-TERCEROS.txt"
   WriteUninstaller "$INSTDIR\Desinstalar Codex.exe"
   CreateShortcut "$SMPROGRAMS\${APP}.lnk" "$INSTDIR\${EXE}"
 
   WriteRegStr HKLM "${REGAPP}" "InstallDir" "$INSTDIR"
   WriteRegStr HKLM "${UNINST}" "DisplayName" "${APP}"
   WriteRegStr HKLM "${UNINST}" "DisplayVersion" "${VERSION}"
-  WriteRegStr HKLM "${UNINST}" "Publisher" "Codex"
+  WriteRegStr HKLM "${UNINST}" "Publisher" "Miguel Bigott"
   WriteRegStr HKLM "${UNINST}" "DisplayIcon" "$INSTDIR\${EXE}"
   WriteRegStr HKLM "${UNINST}" "InstallLocation" "$INSTDIR"
   WriteRegStr HKLM "${UNINST}" "UninstallString" '"$INSTDIR\Desinstalar Codex.exe"'
@@ -117,6 +121,8 @@ Section "Uninstall"
   nsExec::Exec 'taskkill /IM "${EXE}" /F'
   Sleep 500
   Delete "$INSTDIR\${EXE}"
+  Delete "$INSTDIR\LICENSE.txt"
+  Delete "$INSTDIR\LICENCIAS-TERCEROS.txt"
   Delete "$INSTDIR\Desinstalar Codex.exe"
   ; Solo se borra la carpeta si quedó vacía: las apps instaladas tienen su propio desinstalador.
   RMDir "$INSTDIR"
@@ -125,6 +131,8 @@ Section "Uninstall"
   DeleteRegKey HKLM "${REGAPP}"
   SetShellVarContext current
   Delete "$DESKTOP\${APP}.lnk"
+  ; «Abrir Codex al iniciar sesión».
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP}"
   ; Configuración y caché del launcher.
   RMDir /r "$LOCALAPPDATA\Codex"
 SectionEnd

@@ -6,12 +6,12 @@
 
 > Un solo lugar para **instalar, actualizar y abrir** mis apps de Windows: eliges una app, Codex baja su instalador oficial, verifica su firma SHA-256 y la deja lista.
 
-[![Versión](https://img.shields.io/badge/versión-v0.2.2-ffb454)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versión-v0.3.0-ffb454)](CHANGELOG.md)
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)
 [![Apps](https://img.shields.io/badge/apps-15-c9a45c)](#-catálogo)
-[![Licencia de fuentes](https://img.shields.io/badge/fuentes-OFL-8b949e)](web/fonts)
+[![Licencia](https://img.shields.io/badge/licencia-MIT-3f9d6e)](LICENSE)
 
 [Historial de versiones](CHANGELOG.md) · [Releases](../../releases) · [Descargar el instalador](../../releases/latest)
 
@@ -32,6 +32,7 @@
 - [Compilar](#️-compilar)
 - [Añadir una app](#-añadir-una-app)
 - [Seguridad](#-seguridad)
+- [Licencia](#️-licencia)
 - [Créditos](#️-créditos)
 
 ## ✨ Funciones
@@ -43,6 +44,8 @@
 - **Se actualiza solo**: avisa cuando hay una versión nueva del propio launcher y se pone al día con un clic.
 - **Skin «Terminal», versión «Nítido»**: fondo gris neutro con líneas continuas y bien visibles, nombres de las apps en Inter, etiquetas en minúsculas monoespaciadas, estados con borde y un solo acento ámbar, con el cursor de `~/codex_`.
 - **Ventana propia**: ventana nativa de Windows (WebView2) con su icono nítido en la barra de tareas, sin barra de título del sistema.
+- **En segundo plano**: al cerrar la ventana, Codex sigue en la bandeja del sistema (clic en el icono para volver, clic derecho para salir), y puede abrirse solo al iniciar sesión. Las dos opciones están en Ajustes.
+- **8 idiomas**: español, inglés, francés, alemán, ruso, portugués, chino y japonés. Por defecto usa el idioma del PC (si no es ninguno de esos, inglés), y se puede elegir otro en Ajustes.
 
 ## 📚 Catálogo
 
@@ -131,7 +134,8 @@ Cada app vive en su propio repositorio público y se define en [`catalogo.json`]
 |---|---|
 | `id` | Identificador único |
 | `nombre` + `sufijo` | Se muestran juntos (`Clip` + `vault`) |
-| `descripcion`, `similar` | Las líneas bajo el nombre |
+| `descripcion`, `similar` | Las líneas bajo el nombre, en español |
+| `traducciones` | Las mismas líneas en otros idiomas: `{"en": {"descripcion": "…", "similar": "…"}}`; lo que falte se muestra en español |
 | `autor` | Crédito para apps de terceros («de ArtCraft») |
 | `color` | Color de la app (icono de respaldo) |
 | `icono` | URL `https` de su icono oficial (opcional) |
@@ -153,6 +157,12 @@ Cada release debe incluir el instalador para Windows x64 (un `.exe` con `setup` 
 - **Servidor cerrado**: la interfaz habla con un servidor en `127.0.0.1` que exige una clave nueva en cada sesión.
 - **Administrador solo para instalar**: el launcher corre como usuario normal y pide permiso (UAC) únicamente al instalar o desinstalar.
 - **CI con acciones fijadas por SHA** y permisos mínimos en cada workflow.
+
+## ⚖️ Licencia
+
+**Creado por [Miguel Bigott](https://github.com/MiguelBigott)** y publicado con licencia [MIT](LICENSE): cualquiera puede usarlo, copiarlo, modificarlo y compartirlo libremente, también en sus propios proyectos, siempre que mantenga el aviso de autor. Se entrega tal cual, sin garantías.
+
+Las apps del catálogo tienen sus propias licencias y Codex las descarga de sus releases oficiales sin modificarlas. Lo de terceros que va dentro de Codex (Go, go-webview2 y las tipografías) conserva su licencia; el instalador las deja en `LICENCIAS-TERCEROS.txt`, junto a la app.
 
 ## 🖋️ Créditos
 

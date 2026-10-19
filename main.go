@@ -8,12 +8,13 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"slices"
 
 	webview2 "github.com/jchv/go-webview2"
 	"golang.org/x/sys/windows"
 )
 
-const Version = "0.2.2"
+const Version = "0.3.0"
 
 // repoLauncher es el repositorio público de GitHub donde se publican las versiones del
 // launcher ("usuario/repositorio"). Vacío: el launcher no busca actualizaciones propias.
@@ -37,10 +38,15 @@ func main() {
 		log.SetOutput(f)
 	}
 
-	// Una sola instancia: si ya está abierto, lo traemos al frente.
+	// Al iniciar sesión, Windows abre Codex con --bandeja: arranca oculto, junto al reloj.
+	enBandeja := slices.Contains(os.Args[1:], argBandeja)
+
+	// Una sola instancia: si ya está abierto, lo traemos al frente (salvo al iniciar sesión).
 	nombre, _ := windows.UTF16PtrFromString("Local\\Codex")
 	if _, err := windows.CreateMutex(nil, false, nombre); errors.Is(err, windows.ERROR_ALREADY_EXISTS) {
-		traerAlFrente()
+		if !enBandeja {
+			traerAlFrente()
+		}
 		return
 	}
 
@@ -78,14 +84,23 @@ func main() {
 		},
 	})
 	if w == nil {
-		mensaje("Codex necesita Microsoft Edge WebView2, que viene con Windows 11. " +
-			"Instálalo desde https://developer.microsoft.com/microsoft-edge/webview2/ y vuelve a abrir el launcher.")
+		mensaje(textosDe(idiomaElegido(l.AjustesActuales())).FaltaWebView)
 		return
 	}
 	defer w.Destroy()
-	prepararVentana(uintptr(w.Window()))
+	hwnd := uintptr(w.Window())
+	prepararVentana(hwnd)
 	w.SetSize(1040, 660, webview2.HintMin)
-	l.salir = func() { w.Dispatch(ventanaCerrar) }
+	prepararBandeja(hwnd, l.AjustesActuales)
+	defer quitarIconoAlSalir()
+	if enBandeja && cerrarAlaBandeja() {
+		ocultarVentana()
+	}
+	if l.AjustesActuales().IniciarSesion {
+		_ = aplicarInicioSesion(true) // por si Codex cambió de carpeta
+	}
+	l.salir = func() { w.Dispatch(salirDeVerdad) }
+	l.alCambiarAjustes = func() { w.Dispatch(actualizarBandeja) }
 
 	_ = w.Bind("caArrastrar", ventanaArrastrar)
 	_ = w.Bind("caRedimensionar", ventanaRedimensionar)

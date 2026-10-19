@@ -5,7 +5,6 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -14,6 +13,8 @@ import (
 	"path/filepath"
 	"regexp"
 	"runtime"
+	"slices"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -27,14 +28,20 @@ type Tarea struct {
 }
 
 type Aviso struct {
-	ID    int    `json:"id"`
-	Texto string `json:"texto"`
-	Error bool   `json:"error"`
+	ID      int      `json:"id"`
+	Mensaje *Mensaje `json:"mensaje"`
+	Error   bool     `json:"error"`
 }
 
 type Ajustes struct {
 	RevisarAuto    bool `json:"revisarAuto"`
 	IntervaloHoras int  `json:"intervaloHoras"`
+	// Bandeja: cerrar la ventana deja Codex abierto en la bandeja del sistema.
+	Bandeja bool `json:"bandeja"`
+	// IniciarSesion: Windows abre Codex (oculto en la bandeja) al iniciar sesión.
+	IniciarSesion bool `json:"iniciarSesion"`
+	// Idioma de la interfaz: «auto» (el del PC) o uno de idiomas.
+	Idioma string `json:"idioma"`
 }
 
 type Launcher struct {
@@ -43,19 +50,21 @@ type Launcher struct {
 	datos     string
 	ajustes   Ajustes
 	releases  map[string]*Release
-	errores   map[string]string
+	errores   map[string]*Mensaje
 	tareas    map[string]*Tarea
 	revisado  time.Time
 	revisando bool
 	propia    *Release // última versión publicada del launcher
 	aviso     Aviso
 	salir     func() // cierra la ventana (para actualizar el launcher)
+	// alCambiarAjustes avisa a la ventana (pone o quita el icono de la bandeja).
+	alCambiarAjustes func()
 }
 
 func NuevoLauncher(cat Catalogo, datos string) *Launcher {
 	l := &Launcher{cat: cat, datos: datos, releases: map[string]*Release{},
-		errores: map[string]string{}, tareas: map[string]*Tarea{},
-		ajustes: Ajustes{RevisarAuto: true, IntervaloHoras: 6}}
+		errores: map[string]*Mensaje{}, tareas: map[string]*Tarea{},
+		ajustes: Ajustes{RevisarAuto: true, IntervaloHoras: 6, Bandeja: true, Idioma: "auto"}}
 	if b, err := os.ReadFile(filepath.Join(datos, "ajustes.json")); err == nil {
 		_ = json.Unmarshal(b, &l.ajustes)
 	}
@@ -73,24 +82,43 @@ func NuevoLauncher(cat Catalogo, datos string) *Launcher {
 	return l
 }
 
-func (l *Launcher) avisar(texto string, esError bool) {
+func (l *Launcher) avisar(m *Mensaje, esError bool) {
 	l.mu.Lock()
-	l.aviso = Aviso{ID: l.aviso.ID + 1, Texto: texto, Error: esError}
+	l.aviso = Aviso{ID: l.aviso.ID + 1, Mensaje: m, Error: esError}
 	l.mu.Unlock()
 	if esError {
-		log.Println("aviso:", texto)
+		log.Println("aviso:", m.Clave, m.Datos)
 	}
 }
 
-func (l *Launcher) GuardarAjustes(a Ajustes) {
+func (l *Launcher) AjustesActuales() Ajustes {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	return l.ajustes
+}
+
+func (l *Launcher) GuardarAjustes(a Ajustes) error {
 	if a.IntervaloHoras <= 0 {
 		a.IntervaloHoras = 6
 	}
+	if !slices.Contains(idiomas, a.Idioma) {
+		a.Idioma = "auto"
+	}
 	l.mu.Lock()
+	antes := l.ajustes
 	l.ajustes = a
 	l.mu.Unlock()
 	b, _ := json.MarshalIndent(a, "", "  ")
 	_ = os.WriteFile(filepath.Join(l.datos, "ajustes.json"), b, 0o644)
+	if l.alCambiarAjustes != nil {
+		l.alCambiarAjustes()
+	}
+	if a.IniciarSesion != antes.IniciarSesion {
+		if err := aplicarInicioSesion(a.IniciarSesion); err != nil {
+			return msj("inicioSesionFallo", "detalle", err.Error())
+		}
+	}
+	return nil
 }
 
 // ---------- Revisión de versiones ----------
@@ -129,7 +157,7 @@ func (l *Launcher) Revisar() {
 		rel, err := ultimaRelease(app.Repo, app.EsMSI())
 		l.mu.Lock()
 		if err != nil {
-			l.errores[app.ID] = err.Error()
+			l.errores[app.ID] = comoMensaje(err)
 		} else {
 			delete(l.errores, app.ID)
 			l.releases[app.ID] = rel
@@ -154,7 +182,7 @@ type EstadoApp struct {
 	VersionInstalada string   `json:"versionInstalada"`
 	Ultima           *Release `json:"ultima"`
 	Estado           string   `json:"estado"` // proximamente | sin-version | disponible | instalada | actualizacion
-	Error            string   `json:"error"`
+	Error            *Mensaje `json:"error"`
 	Tarea            *Tarea   `json:"tarea"`
 	URLRepoGitHub    string   `json:"urlRepo"`
 }
@@ -170,6 +198,7 @@ type EstadoLauncher struct {
 	HayNueva    bool        `json:"hayNueva"`
 	TareaPropia *Tarea      `json:"tareaPropia"`
 	Ajustes     Ajustes     `json:"ajustes"`
+	Idioma      string      `json:"idioma"` // el que se muestra: «auto» ya resuelto
 	Aviso       Aviso       `json:"aviso"`
 	Carpeta     string      `json:"carpeta"`
 	// LimiteHasta: GitHub pausó las consultas hasta esta hora (se muestran las últimas conocidas).
@@ -188,7 +217,7 @@ func (l *Launcher) Estado() EstadoLauncher {
 	defer l.mu.Unlock()
 	e := EstadoLauncher{Version: Version, Plataforma: "Windows " + map[string]string{"amd64": "x64", "arm64": "Arm64", "386": "x86"}[runtime.GOARCH],
 		Revisando: l.revisando, Categorias: l.cat.Categorias, Propia: l.propia, TareaPropia: l.tareas["_launcher"],
-		Ajustes: l.ajustes, Aviso: l.aviso, Carpeta: carpetaSuite()}
+		Ajustes: l.ajustes, Idioma: idiomaElegido(l.ajustes), Aviso: l.aviso, Carpeta: carpetaSuite()}
 	if !l.revisado.IsZero() {
 		t := l.revisado
 		e.Revisado = &t
@@ -285,34 +314,34 @@ func carpetaSuite() string {
 func (l *Launcher) Instalar(id string) error {
 	app, ok := l.app(id)
 	if !ok || app.Ejemplo {
-		return errors.New("esa app no está disponible")
+		return msj("appNoDisponible")
 	}
 	l.mu.Lock()
 	rel := l.releases[id]
 	l.mu.Unlock()
 	if rel == nil || rel.Instalador == nil {
-		return errors.New("no hay un instalador publicado para Windows")
+		return msj("sinInstalador")
 	}
 	if rel.Instalador.SHA256 == "" {
-		return errors.New("la versión publicada no trae su suma SHA-256; por seguridad no se instala")
+		return msj("sinSumaPublicada")
 	}
 	tipo := "instalar"
 	if buscarInstalada(app.Registro()) != nil {
 		tipo = "actualizar"
 	}
-	if !l.empezar(id, &Tarea{Tipo: tipo, Texto: "Preparando", Progreso: 0}) {
-		return errors.New("ya hay una tarea en curso para esta app")
+	if !l.empezar(id, &Tarea{Tipo: tipo, Texto: "preparando", Progreso: 0}) {
+		return msj("tareaEnCurso")
 	}
 	go func() {
 		defer l.terminar(id)
 		nombre := app.NombreCompleto()
-		archivo, err := l.descargar(id, rel.Instalador)
+		archivo, err := l.descargar(id, nombre, rel.Instalador)
 		if err != nil {
-			l.avisar(fmt.Sprintf("%s: %v", nombre, err), true)
+			l.avisar(comoMensaje(err), true)
 			return
 		}
 		defer os.Remove(archivo)
-		l.avance(id, "Instalando", -1)
+		l.avance(id, "instalando", -1)
 		carpeta := filepath.Join(carpetaSuite(), nombre)
 		exe, args := archivo, "/S /D="+carpeta // NSIS: /D= siempre al final y sin comillas
 		if app.EsMSI() {
@@ -324,17 +353,17 @@ func (l *Launcher) Instalar(id string) error {
 		codigo, err := ejecutarElevado(exe, args, true)
 		switch {
 		case errors.Is(err, errCancelado), codigo == msiCancelado:
-			l.avisar("Se canceló el permiso de administrador; "+nombre+" no se instaló.", true)
+			l.avisar(msj("instalarCancelado", "app", nombre), true)
 		case err != nil:
-			l.avisar(fmt.Sprintf("%s: no se pudo ejecutar el instalador (%v)", nombre, err), true)
+			l.avisar(msj("instaladorNoEjecuto", "app", nombre, "detalle", err.Error()), true)
 		case codigo == msiOcupado:
-			l.avisar(nombre+": Windows está terminando otra instalación; vuelve a intentarlo en un momento.", true)
+			l.avisar(msj("windowsOcupado", "app", nombre), true)
 		case codigo != 0 && codigo != msiReiniciar:
-			l.avisar(fmt.Sprintf("%s: el instalador terminó con error (código %d)", nombre, codigo), true)
+			l.avisar(msj("instaladorCodigo", "app", nombre, "codigo", strconv.FormatUint(uint64(codigo), 10)), true)
 		case tipo == "actualizar":
-			l.avisar(nombre+" se actualizó a la versión "+rel.Version+".", false)
+			l.avisar(msj("appActualizada", "app", nombre, "version", rel.Version), false)
 		default:
-			l.avisar(nombre+" se instaló.", false)
+			l.avisar(msj("appInstalada", "app", nombre), false)
 		}
 	}()
 	return nil
@@ -343,14 +372,14 @@ func (l *Launcher) Instalar(id string) error {
 func (l *Launcher) Desinstalar(id string) error {
 	app, ok := l.app(id)
 	if !ok {
-		return errors.New("app desconocida")
+		return msj("appDesconocida")
 	}
 	inst := buscarInstalada(app.Registro())
 	if inst == nil || inst.Desinstalar == "" {
-		return errors.New("la app no está instalada")
+		return msj("appNoInstalada")
 	}
-	if !l.empezar(id, &Tarea{Tipo: "desinstalar", Texto: "Desinstalando", Progreso: -1}) {
-		return errors.New("ya hay una tarea en curso para esta app")
+	if !l.empezar(id, &Tarea{Tipo: "desinstalar", Texto: "desinstalando", Progreso: -1}) {
+		return msj("tareaEnCurso")
 	}
 	go func() {
 		defer l.terminar(id)
@@ -367,13 +396,13 @@ func (l *Launcher) Desinstalar(id string) error {
 		}
 		switch {
 		case errors.Is(err, errCancelado), codigo == msiCancelado:
-			l.avisar("Se canceló el permiso de administrador.", true)
+			l.avisar(msj("permisoCancelado"), true)
 		case err != nil || codigo != 0:
-			l.avisar(app.NombreCompleto()+": no se pudo desinstalar.", true)
+			l.avisar(msj("desinstalarFallo", "app", app.NombreCompleto()), true)
 		default:
 			// El desinstalador de NSIS se copia y sigue un momento después de salir.
 			time.Sleep(1500 * time.Millisecond)
-			l.avisar(app.NombreCompleto()+" se desinstaló.", false)
+			l.avisar(msj("appDesinstalada", "app", app.NombreCompleto()), false)
 		}
 	}()
 	return nil
@@ -382,15 +411,15 @@ func (l *Launcher) Desinstalar(id string) error {
 func (l *Launcher) Abrir(id string) error {
 	app, ok := l.app(id)
 	if !ok {
-		return errors.New("app desconocida")
+		return msj("appDesconocida")
 	}
 	inst := buscarInstalada(app.Registro())
 	if inst == nil {
-		return errors.New("la app no está instalada")
+		return msj("appNoInstalada")
 	}
 	exe := ejecutableDe(app, inst)
 	if exe == "" {
-		return errors.New("no se encontró el ejecutable de " + app.NombreCompleto())
+		return msj("sinEjecutable", "app", app.NombreCompleto())
 	}
 	cmd := exec.Command(exe)
 	cmd.Dir = filepath.Dir(exe)
@@ -403,24 +432,24 @@ func (l *Launcher) ActualizarLauncher() error {
 	rel := l.propia
 	l.mu.Unlock()
 	if rel == nil || rel.Instalador == nil || rel.Instalador.SHA256 == "" {
-		return errors.New("no hay una versión nueva del launcher lista para instalar")
+		return msj("launcherSinVersion")
 	}
-	if !l.empezar("_launcher", &Tarea{Tipo: "launcher", Texto: "Descargando", Progreso: 0}) {
-		return errors.New("la actualización ya está en curso")
+	if !l.empezar("_launcher", &Tarea{Tipo: "launcher", Texto: "descargando", Progreso: 0}) {
+		return msj("launcherEnCurso")
 	}
 	go func() {
 		defer l.terminar("_launcher")
-		archivo, err := l.descargar("_launcher", rel.Instalador)
+		archivo, err := l.descargar("_launcher", tituloVentana, rel.Instalador)
 		if err != nil {
-			l.avisar("Launcher: "+err.Error(), true)
+			l.avisar(comoMensaje(err), true)
 			return
 		}
 		// El instalador cierra este launcher, lo reemplaza y lo vuelve a abrir (/reiniciar).
 		if _, err := ejecutarElevado(archivo, "/S /reiniciar", false); err != nil {
 			if errors.Is(err, errCancelado) {
-				l.avisar("Se canceló el permiso de administrador; el launcher no se actualizó.", true)
+				l.avisar(msj("launcherCancelado"), true)
 			} else {
-				l.avisar("Launcher: no se pudo ejecutar el instalador.", true)
+				l.avisar(msj("instaladorNoEjecuto", "app", tituloVentana, "detalle", err.Error()), true)
 			}
 			return
 		}
@@ -432,11 +461,12 @@ func (l *Launcher) ActualizarLauncher() error {
 }
 
 // descargar baja el archivo a la carpeta de datos, calcula su SHA-256 mientras lo escribe
-// y lo rechaza si no coincide con la suma publicada.
-func (l *Launcher) descargar(id string, a *Archivo) (string, error) {
+// y lo rechaza si no coincide con la suma publicada. Los errores nombran a la app (nombre).
+func (l *Launcher) descargar(id, nombre string, a *Archivo) (string, error) {
+	fallo := func(err error) error { return msj("appErrorDetalle", "app", nombre, "detalle", err.Error()) }
 	dir := filepath.Join(l.datos, "descargas")
 	if err := os.MkdirAll(dir, 0o755); err != nil {
-		return "", err
+		return "", fallo(err)
 	}
 	destino := filepath.Join(dir, filepath.Base(a.Nombre))
 	parcial := destino + ".part"
@@ -446,15 +476,15 @@ func (l *Launcher) descargar(id string, a *Archivo) (string, error) {
 	req.Header.Set("User-Agent", "Codex/"+Version)
 	resp, err := cli.Do(req)
 	if err != nil {
-		return "", errors.New("sin conexión para descargar")
+		return "", msj("descargaSinConexion", "app", nombre)
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("la descarga respondió %d", resp.StatusCode)
+		return "", msj("descargaRespondio", "app", nombre, "codigo", strconv.Itoa(resp.StatusCode))
 	}
 	f, err := os.Create(parcial)
 	if err != nil {
-		return "", err
+		return "", fallo(err)
 	}
 	total := resp.ContentLength
 	if total <= 0 {
@@ -470,12 +500,12 @@ func (l *Launcher) descargar(id string, a *Archivo) (string, error) {
 			if _, werr := f.Write(buf[:n]); werr != nil {
 				f.Close()
 				os.Remove(parcial)
-				return "", werr
+				return "", fallo(werr)
 			}
 			h.Write(buf[:n])
 			leido += int64(n)
 			if total > 0 && time.Since(ultimo) > 150*time.Millisecond {
-				l.avance(id, "Descargando", float64(leido)/float64(total))
+				l.avance(id, "descargando", float64(leido)/float64(total))
 				ultimo = time.Now()
 			}
 		}
@@ -485,18 +515,18 @@ func (l *Launcher) descargar(id string, a *Archivo) (string, error) {
 		if rerr != nil {
 			f.Close()
 			os.Remove(parcial)
-			return "", errors.New("la descarga se cortó")
+			return "", msj("descargaCortada", "app", nombre)
 		}
 	}
 	f.Close()
-	l.avance(id, "Verificando", 1)
+	l.avance(id, "verificando", 1)
 	if hex.EncodeToString(h.Sum(nil)) != a.SHA256 {
 		os.Remove(parcial)
-		return "", errors.New("el archivo descargado no coincide con su suma SHA-256; se descartó")
+		return "", msj("sumaNoCoincide", "app", nombre)
 	}
 	_ = os.Remove(destino)
 	if err := os.Rename(parcial, destino); err != nil {
-		return "", err
+		return "", fallo(err)
 	}
 	return destino, nil
 }

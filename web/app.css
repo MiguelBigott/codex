@@ -85,7 +85,7 @@ body.maximizada .redim { display: none; }
   font-size: 19px;
   white-space: nowrap;
 }
-.marca-logo { width: 28px; height: 28px; }
+.marca-logo { width: 36px; height: 36px; margin-right: -4px; } /* el libro es más angosto que su cuadro */
 .marca-texto::before { content: "~/"; color: var(--ambar); }
 .marca-suite { color: var(--texto-2); margin-left: -2px; }
 .marca-suite::after { content: "_"; color: var(--ambar); margin-left: 2px; }
@@ -511,6 +511,40 @@ body.modo-tabla .solo-cuadricula { display: none; }
 .aviso { border-radius: 8px; }
 .pie { font-size: 12px; }
 .marca-texto { color: #fff; }
+
+/* Cuadrícula de fondo detrás de las tarjetas; se desplaza junto con ellas. */
+.principal {
+  --linea-cuadricula: rgba(242, 240, 234, .03);
+  background-image:
+    linear-gradient(to right, var(--linea-cuadricula) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--linea-cuadricula) 1px, transparent 1px);
+  background-size: 36px 36px;
+  background-position: -1px -1px;
+  background-attachment: local;
+}
+
+/* Ajustes por grupos: actualizaciones, idioma y segundo plano. */
+.ajustes { overflow-y: auto; }
+.ajustes-grupo { display: grid; gap: 16px; }
+.ajustes h3 { margin: 0; font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--texto-3); text-transform: lowercase; }
+.selector-idioma { display: block; }
+.selector-idioma select { width: 100%; height: 38px; font-size: 14px; }
+.casilla { display: flex; align-items: flex-start; gap: 14px; cursor: pointer; font-size: 15px; line-height: 1.4; }
+.casilla input { position: absolute; opacity: 0; }
+.casilla-caja { position: relative; flex: none; width: 18px; height: 18px; margin-top: 1px; border: 1px solid var(--linea-fuerte); border-radius: 4px; }
+.casilla input:checked + .casilla-caja { border-color: var(--texto-2); }
+.casilla input:checked + .casilla-caja::after {
+  content: ""; position: absolute; left: 5px; top: 1px; width: 5px; height: 10px;
+  border: solid var(--texto); border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+.casilla input:focus-visible + .casilla-caja { outline: 2px solid var(--ambar); outline-offset: 2px; }
+
+/* Hasta saber el idioma, la interfaz no se muestra (evita ver el español un instante). */
+body.cargando .barra, body.cargando .principal, body.cargando .pie { visibility: hidden; }
+
+/* Chino y japonés: las tipografías de Windows para cada uno, con sus formas propias. */
+:root:lang(zh) { --sans: "Inter", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif; --mono: "Space Mono", "Cascadia Mono", "Microsoft YaHei UI", monospace; }
+:root:lang(ja) { --sans: "Inter", "Yu Gothic UI", "Meiryo UI", sans-serif; --mono: "Space Mono", "Cascadia Mono", "Yu Gothic UI", monospace; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }

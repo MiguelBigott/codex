@@ -22,9 +22,12 @@ EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 TINTA, BORDE, PERGAMINO, ORO, RUBRICA = "#16120e", "#3a3128", "#ece2cf", "#c9a45c", "#c8483a"
 
 
-def svg(chico=False):
+def svg(chico=False, solo_libro=False, ajustado=False):
     """Logo en viewBox 512: el códice cerrado (tapa pergamino, lomo recortado, banda y broche
-    de oro, marcapáginas rojo). `chico`: libro más grande y detalles más gruesos para 16-32 px."""
+    de oro, marcapáginas rojo). `chico`: libro más grande y detalles más gruesos para 16-32 px.
+    `solo_libro`: el libro sin el cuadro de fondo, en un cuadrado justo (icono y encabezado), con un
+    contorno de tinta para que no se pierda sobre la barra de tareas clara.
+    `ajustado`: el libro recortado a su tamaño, para la imagen del instalador."""
     if chico:
         tapa = '<rect x="118" y="70" width="252" height="342" rx="18" fill="{p}"/>'
         lomo = '<path d="M164 70 V412" stroke="{t}" stroke-width="16"/>'
@@ -39,7 +42,17 @@ def svg(chico=False):
         broche = '<rect x="330" y="214" width="62" height="56" rx="10" fill="{o}"/><circle cx="361" cy="242" r="9" fill="{t}"/>'
         marca = '<path d="M296 392 V448 L306 438 L316 448 V392 Z" fill="{r}"/>'
         borde = 10
+    if solo_libro:
+        contorno = 22 if chico else 12
+        tapa = tapa.replace('fill="{p}"', f'fill="{{p}}" stroke="{{t}}" stroke-width="{contorno}"')
     partes = "\n  ".join(x.format(p=PERGAMINO, t=TINTA, o=ORO, r=RUBRICA) for x in (tapa, lomo, banda, broche, marca))
+    if solo_libro:
+        # Cuadrado centrado en el libro (contando el broche y el marcapáginas), o recortado a él.
+        caja = "140 86 258 368" if ajustado else ("50 56 420 420" if chico else "81 82 370 370")
+        return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="{caja}">
+  {partes}
+</svg>
+'''
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <rect x="8" y="8" width="496" height="496" rx="112" fill="{TINTA}" stroke="{BORDE}" stroke-width="{borde}"/>
   {partes}
@@ -71,35 +84,36 @@ def png_de_svg(texto_svg, lado, destino):
     return im
 
 
-def lateral(logo_png, destino):
+def lateral(destino):
+    """Imagen lateral del instalador: el libro sin marco y «~/codex_» sobre la tinta del logo."""
     fuente = os.path.join(RAIZ, "web", "fonts", "space-mono-latin-400-normal.woff2").replace(os.sep, "/")
     with tempfile.TemporaryDirectory() as tmp:
         png = os.path.join(tmp, "lateral.png")
         renderizar(f'''<html><head><style>
 @font-face {{ font-family: Mono; src: url("file:///{fuente}"); }}
-html, body {{ margin: 0; width: 328px; height: 628px; overflow: hidden; background: #0d0f12; }}
-body {{ display: flex; flex-direction: column; align-items: center; font-family: Mono, monospace; color: #d9dfe6; }}
-img {{ width: 200px; height: 200px; margin-top: 150px; }}
-h1 {{ margin: 34px 0 0; font-weight: 400; font-size: 34px; }}
+html, body {{ margin: 0; width: 328px; height: 628px; overflow: hidden; background: {TINTA}; }}
+body {{ display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: Mono, monospace; color: #f2f0ea; }}
+svg {{ width: 168px; height: auto; display: block; margin-top: -36px; }}
+h1 {{ margin: 44px 0 0; font-weight: 400; font-size: 46px; line-height: 1; }}
 h1 b {{ color: #ffb454; font-weight: 400; }}
-</style></head><body><img src="file:///{logo_png.replace(os.sep, "/")}"><h1><b>~/</b>codex<b>_</b></h1></body></html>''', 328, 628, png)
+</style></head><body>{svg(solo_libro=True, ajustado=True)}<h1><b>~/</b>codex<b>_</b></h1></body></html>''', 328, 628, png)
         Image.open(png).convert("RGB").save(destino, format="BMP")
 
 
 def main():
     with open(os.path.join(RAIZ, "web", "logo.svg"), "w", encoding="utf-8", newline="\n") as f:
-        f.write(svg())
+        f.write(svg(solo_libro=True))
     with tempfile.TemporaryDirectory() as tmp:
-        normal = png_de_svg(svg(), 1024, os.path.join(tmp, "normal.png"))
-        chico = png_de_svg(svg(chico=True), 1024, os.path.join(tmp, "chico.png"))
-        normal.resize((256, 256), Image.LANCZOS).save(os.path.join(BUILD, "logo.png"))
+        # El README conserva el logo con su cuadro; el encabezado y el icono llevan solo el libro.
+        png_de_svg(svg(), 1024, os.path.join(tmp, "readme.png")).resize((256, 256), Image.LANCZOS).save(
+            os.path.join(BUILD, "logo.png"))
+        normal = png_de_svg(svg(solo_libro=True), 1024, os.path.join(tmp, "normal.png"))
+        chico = png_de_svg(svg(chico=True, solo_libro=True), 1024, os.path.join(tmp, "chico.png"))
         tam = [16, 20, 24, 30, 32, 36, 40, 48, 64, 128, 256]
         cuadros = [(chico if s <= 32 else normal).resize((s, s), Image.LANCZOS) for s in tam]
         cuadros[-1].save(os.path.join(BUILD, "app.ico"), format="ICO",
                          sizes=[(s, s) for s in tam], append_images=cuadros[:-1])
-        logo_lat = os.path.join(tmp, "lat.png")
-        normal.resize((400, 400), Image.LANCZOS).save(logo_lat)
-        lateral(logo_lat, os.path.join(BUILD, "lateral.bmp"))
+    lateral(os.path.join(BUILD, "lateral.bmp"))
     print("logo generado")
 
 

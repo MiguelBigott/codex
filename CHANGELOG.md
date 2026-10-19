@@ -3,6 +3,22 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.3.0] - 2026-10-19
+
+### Añadido
+- Codex puede seguir abierto en la bandeja del sistema al cerrar la ventana (activado por defecto): clic en el icono para volver y clic derecho para «Abrir Codex» o «Salir». Mientras tanto sigue buscando actualizaciones cada 6 horas, sin gastar el límite de GitHub.
+- Opción para abrir Codex al iniciar sesión, directo en la bandeja (desactivada por defecto). El desinstalador la quita.
+- Idiomas: español, inglés, francés, alemán, ruso, portugués, chino y japonés, con la descripción de cada app traducida. Por defecto, el idioma del PC.
+
+### Cambiado
+- El icono de la app y el logo del encabezado son el libro solo, sin el cuadro café, y más grandes.
+- Cuadrícula tenue de fondo detrás de las tarjetas.
+- La imagen del instalador muestra el libro sin marco y «~/codex_» más grande, sobre el café del logo.
+- Licencia MIT a nombre de Miguel Bigott: el código es de uso libre manteniendo el aviso de autor. El instalador deja la licencia y las de terceros (`LICENCIAS-TERCEROS.txt`) junto a la app, y el instalador y el .exe dicen «© 2026 Miguel Bigott».
+
+### Corregido
+- Las tildes del instalador se veían rotas (por ejemplo «tambiÃ©n»).
+
 ## [0.2.2] - 2026-10-19
 
 ### Cambiado

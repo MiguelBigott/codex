@@ -21,7 +21,37 @@
       "repo": "MiguelBigott/clipvault",
       "web": "",
       "icono": "https://raw.githubusercontent.com/MiguelBigott/clipvault/main/build/logo.png",
-      "colorSufijo": "#ffb454"
+      "colorSufijo": "#ffb454",
+      "traducciones": {
+        "en": {
+          "descripcion": "Video and audio downloader",
+          "similar": "MP4 or MP3 with cover art and metadata"
+        },
+        "fr": {
+          "descripcion": "Téléchargement de vidéo et d'audio",
+          "similar": "MP4 ou MP3 avec pochette et métadonnées"
+        },
+        "de": {
+          "descripcion": "Video- und Audio-Download",
+          "similar": "MP4 oder MP3 mit Cover und Metadaten"
+        },
+        "ru": {
+          "descripcion": "Загрузка видео и аудио",
+          "similar": "MP4 или MP3 с обложкой и метаданными"
+        },
+        "pt": {
+          "descripcion": "Download de vídeo e áudio",
+          "similar": "MP4 ou MP3 com capa e metadados"
+        },
+        "zh": {
+          "descripcion": "视频和音频下载",
+          "similar": "MP4 或 MP3，附带封面和元数据"
+        },
+        "ja": {
+          "descripcion": "動画と音声のダウンロード",
+          "similar": "カバー画像とメタデータ付きの MP4 または MP3"
+        }
+      }
     },
     {
       "id": "pngwebp",
@@ -34,7 +64,37 @@
       "repo": "MiguelBigott/pngwebp",
       "web": "",
       "icono": "https://raw.githubusercontent.com/MiguelBigott/pngwebp/main/build/logo.png",
-      "colorSufijo": "#ffb454"
+      "colorSufijo": "#ffb454",
+      "traducciones": {
+        "en": {
+          "descripcion": "Image conversion to WebP",
+          "similar": "PNG or JPG at the highest quality and smallest size"
+        },
+        "fr": {
+          "descripcion": "Conversion d'images en WebP",
+          "similar": "PNG ou JPG avec la meilleure qualité et le poids le plus léger"
+        },
+        "de": {
+          "descripcion": "Bildkonvertierung nach WebP",
+          "similar": "PNG oder JPG in höchster Qualität und kleinster Größe"
+        },
+        "ru": {
+          "descripcion": "Конвертация изображений в WebP",
+          "similar": "PNG или JPG с максимальным качеством и минимальным размером"
+        },
+        "pt": {
+          "descripcion": "Conversão de imagens para WebP",
+          "similar": "PNG ou JPG com a máxima qualidade e o menor tamanho"
+        },
+        "zh": {
+          "descripcion": "图片转换为 WebP",
+          "similar": "PNG 或 JPG，最高画质、最小体积"
+        },
+        "ja": {
+          "descripcion": "画像を WebP に変換",
+          "similar": "PNG や JPG を最高画質・最小サイズで"
+        }
+      }
     },
     {
       "id": "photocraft",
@@ -51,7 +111,30 @@
       "ejecutable": "photocraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/photocraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.photocraft.png",
       "numero": 1,
-      "colorSufijo": "#7fb0ff"
+      "colorSufijo": "#7fb0ff",
+      "traducciones": {
+        "en": {
+          "descripcion": "Image editing"
+        },
+        "fr": {
+          "descripcion": "Retouche d'images"
+        },
+        "de": {
+          "descripcion": "Bildbearbeitung"
+        },
+        "ru": {
+          "descripcion": "Редактирование изображений"
+        },
+        "pt": {
+          "descripcion": "Edição de imagens"
+        },
+        "zh": {
+          "descripcion": "图像编辑"
+        },
+        "ja": {
+          "descripcion": "画像編集"
+        }
+      }
     },
     {
       "id": "vectorcraft",
@@ -68,7 +151,30 @@
       "ejecutable": "vectorcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/vectorcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.vectorcraft.png",
       "numero": 2,
-      "colorSufijo": "#ff8a70"
+      "colorSufijo": "#ff8a70",
+      "traducciones": {
+        "en": {
+          "descripcion": "Vector illustration"
+        },
+        "fr": {
+          "descripcion": "Illustration vectorielle"
+        },
+        "de": {
+          "descripcion": "Vektorillustration"
+        },
+        "ru": {
+          "descripcion": "Векторная иллюстрация"
+        },
+        "pt": {
+          "descripcion": "Ilustração vetorial"
+        },
+        "zh": {
+          "descripcion": "矢量插画"
+        },
+        "ja": {
+          "descripcion": "ベクターイラスト"
+        }
+      }
     },
     {
       "id": "filmcraft",
@@ -85,7 +191,30 @@
       "ejecutable": "filmcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/filmcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.filmcraft.png",
       "numero": 3,
-      "colorSufijo": "#b69cff"
+      "colorSufijo": "#b69cff",
+      "traducciones": {
+        "en": {
+          "descripcion": "Video, color and sound editing"
+        },
+        "fr": {
+          "descripcion": "Montage vidéo, étalonnage et son"
+        },
+        "de": {
+          "descripcion": "Video-, Farb- und Tonbearbeitung"
+        },
+        "ru": {
+          "descripcion": "Монтаж видео, цветокоррекция и звук"
+        },
+        "pt": {
+          "descripcion": "Edição de vídeo, cor e som"
+        },
+        "zh": {
+          "descripcion": "视频剪辑、调色与音频"
+        },
+        "ja": {
+          "descripcion": "動画編集・カラー・サウンド"
+        }
+      }
     },
     {
       "id": "lightcraft",
@@ -102,7 +231,30 @@
       "ejecutable": "lightcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/lightcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.lightcraft.png",
       "numero": 4,
-      "colorSufijo": "#ffc14d"
+      "colorSufijo": "#ffc14d",
+      "traducciones": {
+        "en": {
+          "descripcion": "Photo development and editing"
+        },
+        "fr": {
+          "descripcion": "Développement et retouche photo"
+        },
+        "de": {
+          "descripcion": "Fotoentwicklung und -bearbeitung"
+        },
+        "ru": {
+          "descripcion": "Обработка и редактирование фотографий"
+        },
+        "pt": {
+          "descripcion": "Revelação e edição de fotos"
+        },
+        "zh": {
+          "descripcion": "照片冲印与编辑"
+        },
+        "ja": {
+          "descripcion": "写真の現像と編集"
+        }
+      }
     },
     {
       "id": "pdfcraft",
@@ -119,7 +271,30 @@
       "ejecutable": "pdfcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/pdfcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.pdfcraft.png",
       "numero": 5,
-      "colorSufijo": "#3fd6b8"
+      "colorSufijo": "#3fd6b8",
+      "traducciones": {
+        "en": {
+          "descripcion": "Read, organize and protect PDFs"
+        },
+        "fr": {
+          "descripcion": "Lire, organiser et protéger des PDF"
+        },
+        "de": {
+          "descripcion": "PDFs lesen, organisieren und schützen"
+        },
+        "ru": {
+          "descripcion": "Чтение, упорядочивание и защита PDF"
+        },
+        "pt": {
+          "descripcion": "Ler, organizar e proteger PDFs"
+        },
+        "zh": {
+          "descripcion": "阅读、整理和保护 PDF"
+        },
+        "ja": {
+          "descripcion": "PDF の閲覧・整理・保護"
+        }
+      }
     },
     {
       "id": "effectcraft",
@@ -136,7 +311,30 @@
       "ejecutable": "effectcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/effectcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.effectcraft.png",
       "numero": 6,
-      "colorSufijo": "#ff7ab8"
+      "colorSufijo": "#ff7ab8",
+      "traducciones": {
+        "en": {
+          "descripcion": "Motion graphics and visual effects"
+        },
+        "fr": {
+          "descripcion": "Animation graphique et effets visuels"
+        },
+        "de": {
+          "descripcion": "Motion Graphics und visuelle Effekte"
+        },
+        "ru": {
+          "descripcion": "Моушн-графика и визуальные эффекты"
+        },
+        "pt": {
+          "descripcion": "Motion graphics e efeitos visuais"
+        },
+        "zh": {
+          "descripcion": "动态图形与视觉特效"
+        },
+        "ja": {
+          "descripcion": "モーショングラフィックスと視覚効果"
+        }
+      }
     },
     {
       "id": "designcraft",
@@ -153,7 +351,30 @@
       "ejecutable": "designcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/designcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.designcraft.png",
       "numero": 7,
-      "colorSufijo": "#a6e04a"
+      "colorSufijo": "#a6e04a",
+      "traducciones": {
+        "en": {
+          "descripcion": "Page layout"
+        },
+        "fr": {
+          "descripcion": "Mise en page"
+        },
+        "de": {
+          "descripcion": "Seitenlayout"
+        },
+        "ru": {
+          "descripcion": "Вёрстка страниц"
+        },
+        "pt": {
+          "descripcion": "Diagramação de páginas"
+        },
+        "zh": {
+          "descripcion": "页面排版"
+        },
+        "ja": {
+          "descripcion": "ページレイアウト"
+        }
+      }
     },
     {
       "id": "figcraft",
@@ -170,7 +391,30 @@
       "ejecutable": "figcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/figcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.figcraft.png",
       "numero": 8,
-      "colorSufijo": "#4fe8b6"
+      "colorSufijo": "#4fe8b6",
+      "traducciones": {
+        "en": {
+          "descripcion": "Interface design and prototyping"
+        },
+        "fr": {
+          "descripcion": "Conception d'interfaces et prototypes"
+        },
+        "de": {
+          "descripcion": "Interface-Design und Prototypen"
+        },
+        "ru": {
+          "descripcion": "Дизайн интерфейсов и прототипов"
+        },
+        "pt": {
+          "descripcion": "Design de interfaces e protótipos"
+        },
+        "zh": {
+          "descripcion": "界面设计与原型"
+        },
+        "ja": {
+          "descripcion": "UI デザインとプロトタイプ"
+        }
+      }
     },
     {
       "id": "wordcraft",
@@ -187,7 +431,30 @@
       "ejecutable": "wordcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/wordcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.wordcraft.png",
       "numero": 9,
-      "colorSufijo": "#8ea2ff"
+      "colorSufijo": "#8ea2ff",
+      "traducciones": {
+        "en": {
+          "descripcion": "Writing and document design"
+        },
+        "fr": {
+          "descripcion": "Rédaction et mise en forme de documents"
+        },
+        "de": {
+          "descripcion": "Schreiben und Dokumentgestaltung"
+        },
+        "ru": {
+          "descripcion": "Создание и оформление документов"
+        },
+        "pt": {
+          "descripcion": "Escrita e design de documentos"
+        },
+        "zh": {
+          "descripcion": "文档写作与排版"
+        },
+        "ja": {
+          "descripcion": "文書の作成とデザイン"
+        }
+      }
     },
     {
       "id": "soundcraft",
@@ -204,7 +471,30 @@
       "ejecutable": "soundcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/soundcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.soundcraft.png",
       "numero": 10,
-      "colorSufijo": "#5fd0ee"
+      "colorSufijo": "#5fd0ee",
+      "traducciones": {
+        "en": {
+          "descripcion": "Audio recording, editing and mixing"
+        },
+        "fr": {
+          "descripcion": "Enregistrement, montage et mixage audio"
+        },
+        "de": {
+          "descripcion": "Audioaufnahme, -bearbeitung und -mischung"
+        },
+        "ru": {
+          "descripcion": "Запись, редактирование и сведение звука"
+        },
+        "pt": {
+          "descripcion": "Gravação, edição e mixagem de áudio"
+        },
+        "zh": {
+          "descripcion": "音频录制、编辑与混音"
+        },
+        "ja": {
+          "descripcion": "音声の録音・編集・ミキシング"
+        }
+      }
     },
     {
       "id": "deckcraft",
@@ -221,7 +511,30 @@
       "ejecutable": "deckcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/deckcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.deckcraft.png",
       "numero": 11,
-      "colorSufijo": "#ffa060"
+      "colorSufijo": "#ffa060",
+      "traducciones": {
+        "en": {
+          "descripcion": "Presentations and slides"
+        },
+        "fr": {
+          "descripcion": "Présentations et diapositives"
+        },
+        "de": {
+          "descripcion": "Präsentationen und Folien"
+        },
+        "ru": {
+          "descripcion": "Презентации и слайды"
+        },
+        "pt": {
+          "descripcion": "Apresentações e slides"
+        },
+        "zh": {
+          "descripcion": "演示文稿与幻灯片"
+        },
+        "ja": {
+          "descripcion": "プレゼンテーションとスライド"
+        }
+      }
     },
     {
       "id": "cadcraft",
@@ -238,7 +551,30 @@
       "ejecutable": "cadcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/cadcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.cadcraft.png",
       "numero": 12,
-      "colorSufijo": "#7cc8ff"
+      "colorSufijo": "#7cc8ff",
+      "traducciones": {
+        "en": {
+          "descripcion": "Design and technical drawing"
+        },
+        "fr": {
+          "descripcion": "Conception et dessin technique"
+        },
+        "de": {
+          "descripcion": "Konstruktion und technisches Zeichnen"
+        },
+        "ru": {
+          "descripcion": "Проектирование и технические чертежи"
+        },
+        "pt": {
+          "descripcion": "Projeto e desenho técnico"
+        },
+        "zh": {
+          "descripcion": "设计与工程制图"
+        },
+        "ja": {
+          "descripcion": "設計と製図"
+        }
+      }
     },
     {
       "id": "gridcraft",
@@ -255,7 +591,30 @@
       "ejecutable": "gridcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/gridcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.gridcraft.png",
       "numero": 13,
-      "colorSufijo": "#4fd68a"
+      "colorSufijo": "#4fd68a",
+      "traducciones": {
+        "en": {
+          "descripcion": "Spreadsheets and data"
+        },
+        "fr": {
+          "descripcion": "Tableurs et données"
+        },
+        "de": {
+          "descripcion": "Tabellenkalkulation und Daten"
+        },
+        "ru": {
+          "descripcion": "Электронные таблицы и данные"
+        },
+        "pt": {
+          "descripcion": "Planilhas e dados"
+        },
+        "zh": {
+          "descripcion": "电子表格与数据"
+        },
+        "ja": {
+          "descripcion": "表計算とデータ"
+        }
+      }
     }
   ]
 }

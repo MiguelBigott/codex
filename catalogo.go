@@ -46,6 +46,13 @@ type AppCatalogo struct {
 	Numero int `json:"numero,omitempty"`
 	// Color del sufijo («Craft», «vault») sobre fondo oscuro; si falta, se usa Color.
 	ColorSufijo string `json:"colorSufijo,omitempty"`
+	// Descripción y lema en otros idiomas («en», «fr»...); lo que falte se muestra en español.
+	Traducciones map[string]Traduccion `json:"traducciones,omitempty"`
+}
+
+type Traduccion struct {
+	Descripcion string `json:"descripcion,omitempty"`
+	Similar     string `json:"similar,omitempty"`
 }
 
 func (a AppCatalogo) EsMSI() bool { return strings.EqualFold(a.Formato, "msi") }

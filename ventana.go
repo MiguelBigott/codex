@@ -92,6 +92,14 @@ func prepararVentana(hwnd uintptr) {
 // procVentana extiende el área de cliente hasta arriba: sin barra de título, pero con los
 // bordes invisibles de Windows 11 para redimensionar por los costados y abajo.
 func procVentana(hwnd, msg, wp, lp uintptr) uintptr {
+	if mensajeBandeja(hwnd, msg, lp) {
+		return 0
+	}
+	// Con la bandeja activa, la X (o Alt+F4) oculta la ventana en vez de cerrar Codex.
+	if msg == wmClose && cerrarAlaBandeja() {
+		ocultarVentana()
+		return 0
+	}
 	if msg == wmNCCalcSize && wp != 0 {
 		// lp apunta a NCCALCSIZE_PARAMS, cuyo primer campo es el rectángulo propuesto.
 		r := (*rect)(*(*unsafe.Pointer)(unsafe.Pointer(&lp)))

@@ -15,7 +15,7 @@ async function api(ruta, cuerpo) {
   }
   const r = await fetch(ruta, opciones);
   const datos = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(datos.error || `Error ${r.status}`);
+  if (!r.ok) throw new Error(datos.error ? tm(datos.error) : `Error ${r.status}`);
   return datos;
 }
 
@@ -56,17 +56,22 @@ const ui = {
   firma: "",
 };
 
-const fechaCorta = new Intl.DateTimeFormat("es-ES", { day: "numeric", month: "short", year: "numeric" });
-const formatoFecha = (iso) => fechaCorta.format(new Date(iso)).replace(".", "");
+// Fechas y «hace…» en el idioma elegido (los formatos los pone el propio Windows/Edge).
+const formatoFecha = (iso) => new Intl.DateTimeFormat(localeActual(), { day: "numeric", month: "short", year: "numeric" })
+  .format(new Date(iso)).replace(".", "");
 
 function haceCuanto(iso) {
   const s = Math.max(0, (Date.now() - new Date(iso)) / 1000);
-  if (s < 60) return "hace unos segundos";
-  if (s < 3600) return `hace ${Math.floor(s / 60)} min`;
-  if (s < 86400) return `hace ${Math.floor(s / 3600)} h`;
-  const d = Math.floor(s / 86400);
-  return d === 1 ? "hace 1 día" : `hace ${d} días`;
+  if (s < 60) return t("haceSegundos");
+  const rtf = new Intl.RelativeTimeFormat(localeActual(), { style: "short" });
+  if (s < 3600) return rtf.format(-Math.floor(s / 60), "minute");
+  if (s < 86400) return rtf.format(-Math.floor(s / 3600), "hour");
+  return rtf.format(-Math.floor(s / 86400), "day");
 }
+
+// Descripción y lema de una app en el idioma elegido (si no hay traducción, en español).
+const descripcion = (a) => a.traducciones?.[idiomaActual]?.descripcion || a.descripcion;
+const similar = (a) => a.traducciones?.[idiomaActual]?.similar || a.similar;
 
 /* ---------------- Colores por app ---------------- */
 
@@ -91,15 +96,8 @@ const textoSobre = (hex) => (luminancia(hex) > 0.4 ? "#0b0b0c" : "#ffffff");
 
 /* ---------------- Datos derivados ---------------- */
 
-const ETIQUETA_ESTADO = {
-  instalada: "Instalada · al día",
-  actualizacion: "Actualización disponible",
-  disponible: "Disponible para instalar",
-  proximamente: "Próximamente",
-  "sin-version": "Sin versiones publicadas",
-};
 const ORDEN_ESTADO = { actualizacion: 0, instalada: 1, disponible: 2, "sin-version": 3, proximamente: 4 };
-const TAREA = { instalar: "Instalando", actualizar: "Actualizando", desinstalar: "Desinstalando" };
+const TAREAS = ["instalar", "actualizar", "desinstalar"];
 
 function pasaFiltro(a) {
   switch (ui.filtro) {
@@ -113,7 +111,7 @@ function pasaFiltro(a) {
 function pasaBusqueda(a) {
   const q = ui.busqueda.trim().toLowerCase();
   if (!q) return true;
-  return [a.nombre + a.sufijo, a.descripcion, a.similar].join(" ").toLowerCase().includes(q);
+  return [a.nombre + a.sufijo, descripcion(a), similar(a)].join(" ").toLowerCase().includes(q);
 }
 
 function grupos(apps) {
@@ -121,14 +119,14 @@ function grupos(apps) {
   if (ui.orden === "suite") {
     return ui.estado.categorias
       .map((c) => ({ nombre: c.nombre, apps: visibles.filter((a) => a.categoria === c.id) }))
-      .concat([{ nombre: "Otras apps", apps: visibles.filter((a) => !ui.estado.categorias.some((c) => c.id === a.categoria)) }])
+      .concat([{ nombre: t("grupo.otras"), apps: visibles.filter((a) => !ui.estado.categorias.some((c) => c.id === a.categoria)) }])
       .filter((g) => g.apps.length);
   }
   const ordenadas = [...visibles];
-  if (ui.orden === "nombre") ordenadas.sort((a, b) => (a.nombre + a.sufijo).localeCompare(b.nombre + b.sufijo, "es"));
+  if (ui.orden === "nombre") ordenadas.sort((a, b) => (a.nombre + a.sufijo).localeCompare(b.nombre + b.sufijo, localeActual()));
   if (ui.orden === "recientes") ordenadas.sort((a, b) => new Date(b.ultima?.fecha || 0) - new Date(a.ultima?.fecha || 0));
   if (ui.orden === "estado") ordenadas.sort((a, b) => ORDEN_ESTADO[a.estado] - ORDEN_ESTADO[b.estado]);
-  return ordenadas.length ? [{ nombre: "Todas las apps", apps: ordenadas }] : [];
+  return ordenadas.length ? [{ nombre: t("grupo.todas"), apps: ordenadas }] : [];
 }
 
 /* ---------------- Piezas comunes ---------------- */
@@ -143,7 +141,7 @@ function iconoApp(a) {
   return caja;
 }
 
-const credito = (a) => a.autor ? el("p", { class: "autor", text: `de ${a.autor}` }) : null;
+const credito = (a) => a.autor ? el("p", { class: "autor", text: t("de", { autor: a.autor }) }) : null;
 
 function nombreApp(a, etiqueta = "h3") {
   return el(etiqueta, { class: "nombre" }, a.nombre, el("span", { text: a.sufijo, style: { color: a.colorSufijo || a.color } }));
@@ -151,25 +149,25 @@ function nombreApp(a, etiqueta = "h3") {
 
 function pastillaEstado(a) {
   if (a.tarea) {
-    const pct = a.tarea.progreso >= 0 && a.tarea.texto === "Descargando" ? ` · ${Math.round(a.tarea.progreso * 100)} %` : "";
-    return el("span", { class: "estado estado-tarea", text: `${a.tarea.texto}${pct}` });
+    const pct = a.tarea.progreso >= 0 && a.tarea.texto === "descargando" ? ` · ${Math.round(a.tarea.progreso * 100)} %` : "";
+    return el("span", { class: "estado estado-tarea", text: `${t("tarea." + a.tarea.texto)}${pct}` });
   }
-  return el("span", { class: `estado estado-${a.estado}`, text: ETIQUETA_ESTADO[a.estado] });
+  return el("span", { class: `estado estado-${a.estado}`, text: t("estado." + a.estado) });
 }
 
 function lineaVersion(a) {
-  if (a.error && !a.ultima) return el("p", { class: "version" }, el("span", { class: "error", text: a.error }));
-  if (!a.ultima) return el("p", { class: "version", text: a.estado === "proximamente" ? "Aún sin versión publicada" : "Sin versión publicada" });
+  if (a.error && !a.ultima) return el("p", { class: "version" }, el("span", { class: "error", text: tm(a.error) }));
+  if (!a.ultima) return el("p", { class: "version", text: t(a.estado === "proximamente" ? "version.aunSin" : "version.sin") });
   const fecha = a.ultima.fecha ? ` · ${formatoFecha(a.ultima.fecha)}` : "";
-  if (a.estado === "actualizacion") return el("p", { class: "version", text: `Versión ${a.versionInstalada} → ${a.ultima.version}${fecha}` });
-  return el("p", { class: "version", text: `Versión ${a.instalada ? a.versionInstalada : a.ultima.version}${fecha}` });
+  if (a.estado === "actualizacion") return el("p", { class: "version", text: `${t("version", { version: a.versionInstalada })} → ${a.ultima.version}${fecha}` });
+  return el("p", { class: "version", text: `${t("version", { version: a.instalada ? a.versionInstalada : a.ultima.version })}${fecha}` });
 }
 
 function botonPrincipal(a) {
   if (a.tarea) {
     const b = el("button", { class: "boton boton-contorno", type: "button", disabled: true });
     const p = a.tarea.progreso >= 0 ? a.tarea.progreso : 1;
-    b.append(el("span", { class: "relleno", style: { width: `${Math.round(p * 100)}%` } }), el("span", { text: TAREA[a.tarea.tipo] || "Trabajando" }));
+    b.append(el("span", { class: "relleno", style: { width: `${Math.round(p * 100)}%` } }), el("span", { text: t(TAREAS.includes(a.tarea.tipo) ? "boton." + a.tarea.tipo : "boton.trabajando") }));
     return b;
   }
   // El botón se desactiva mientras dura la acción (evita el doble clic) y se vuelve a activar
@@ -182,15 +180,15 @@ function botonPrincipal(a) {
     refrescar();
   };
   switch (a.estado) {
-    case "instalada": return el("button", { class: "boton boton-contorno", type: "button", onclick: accion("/api/abrir") }, el("span", { text: "Abrir" }));
-    case "actualizacion": return el("button", { class: "boton boton-claro", type: "button", onclick: accion("/api/instalar") }, el("span", { text: "Actualizar" }));
-    case "disponible": return el("button", { class: "boton boton-claro", type: "button", onclick: accion("/api/instalar") }, el("span", { text: "Instalar" }));
-    default: return el("button", { class: "boton boton-contorno", type: "button", disabled: true }, el("span", { text: a.estado === "proximamente" ? "Próximamente" : "No disponible" }));
+    case "instalada": return el("button", { class: "boton boton-contorno", type: "button", onclick: accion("/api/abrir") }, el("span", { text: t("abrir") }));
+    case "actualizacion": return el("button", { class: "boton boton-claro", type: "button", onclick: accion("/api/instalar") }, el("span", { text: t("actualizar") }));
+    case "disponible": return el("button", { class: "boton boton-claro", type: "button", onclick: accion("/api/instalar") }, el("span", { text: t("instalar") }));
+    default: return el("button", { class: "boton boton-contorno", type: "button", disabled: true }, el("span", { text: t(a.estado === "proximamente" ? "proximamente" : "noDisponible") }));
   }
 }
 
 function botonMenu(a) {
-  return el("button", { class: "boton-cuadro", type: "button", "aria-label": `Más opciones de ${a.nombre}${a.sufijo}`, onclick: (ev) => abrirMenu(a, ev.currentTarget) },
+  return el("button", { class: "boton-cuadro", type: "button", "aria-label": t("masOpciones", { app: a.nombre + a.sufijo }), onclick: (ev) => abrirMenu(a, ev.currentTarget) },
     el("span", { text: "…" }));
 }
 
@@ -204,8 +202,8 @@ function numeroApp(a, clase) {
 
 function tarjeta(a) {
   const enlaces = el("div", { class: "tarjeta-enlaces" },
-    a.web && el("button", { type: "button", text: "Sitio web ↗", onclick: () => abrirEnlace(a.web) }),
-    a.urlRepo && el("button", { type: "button", text: "GitHub ↗", onclick: () => abrirEnlace(a.urlRepo) }));
+    a.web && el("button", { type: "button", text: t("sitioWeb"), onclick: () => abrirEnlace(a.web) }),
+    a.urlRepo && el("button", { type: "button", text: t("github"), onclick: () => abrirEnlace(a.urlRepo) }));
   const estilo = { "--color-app": a.color };
   if (a.numero) estilo["--color-barra"] = a.color; // apps de ArtCraft: barra de su color
   return el("article", { class: "tarjeta", style: estilo },
@@ -214,7 +212,7 @@ function tarjeta(a) {
       enlaces),
     el("div", { class: "tarjeta-cuerpo" },
       el("div", { class: "identidad" }, iconoApp(a),
-        el("div", {}, nombreApp(a), el("p", { class: "descripcion", text: a.descripcion }), a.similar && el("p", { class: "similar", text: a.similar }), credito(a))),
+        el("div", {}, nombreApp(a), el("p", { class: "descripcion", text: descripcion(a) }), similar(a) && el("p", { class: "similar", text: similar(a) }), credito(a))),
       pastillaEstado(a),
       lineaVersion(a),
       el("div", { class: "acciones" }, botonPrincipal(a), botonMenu(a))));
@@ -226,7 +224,7 @@ function filaTabla(a) {
   const fecha = a.ultima?.fecha ? formatoFecha(a.ultima.fecha) : "—";
   return el("tr", { style: { "--color-app": a.color } },
     el("td", {}, el("div", { class: "celda-app" }, el("span", { class: "hueco-numero" }, numeroApp(a, "numero")), iconoApp(a),
-      el("div", {}, nombreApp(a, "div"), el("div", { class: "similar", text: a.autor ? `${a.descripcion} · de ${a.autor}` : a.descripcion })))),
+      el("div", {}, nombreApp(a, "div"), el("div", { class: "similar", text: a.autor ? `${descripcion(a)} · ${t("de", { autor: a.autor })}` : descripcion(a) })))),
     el("td", {}, pastillaEstado(a)),
     el("td", { class: a.instalada ? "ver" : null, text: instalada }),
     el("td", { class: a.ultima ? "ver" : null, text: ultima }),
@@ -240,34 +238,47 @@ function pintarContenido() {
   const contenido = $("#contenido");
   contenido.replaceChildren();
   if (!lista.length) {
-    contenido.append(el("p", { class: "vacio", text: ui.busqueda ? "Ninguna app coincide con la búsqueda." : "No hay apps en este filtro." }));
+    contenido.append(el("p", { class: "vacio", text: t(ui.busqueda ? "vacio.busqueda" : "vacio.filtro") }));
     return;
   }
   if (ui.modo === "tabla") {
     contenido.append(el("div", { class: "tabla-caja" }, el("table", { class: "tabla" },
-      el("thead", {}, el("tr", {}, ...["Aplicación", "Estado", "Instalada", "Última", "Publicada", ""].map((t) => el("th", { text: t })))),
+      el("thead", {}, el("tr", {}, ...["tabla.app", "tabla.estado", "tabla.instalada", "tabla.ultima", "tabla.publicada"].map((c) => el("th", { text: t(c) })), el("th"))),
       el("tbody", {}, lista.flatMap((g) => g.apps).map(filaTabla)))));
     return;
   }
   lista.forEach((g, i) => {
     contenido.append(el("div", { class: "seccion" },
       el("span", {}, el("b", { text: `${String(i + 1).padStart(2, "0")} / ` }), g.nombre),
-      el("span", { text: g.apps.length === 1 ? "1 app" : `${g.apps.length} apps` })));
+      el("span", { text: g.apps.length === 1 ? t("apps.una") : t("apps.varias", { n: g.apps.length }) })));
     contenido.append(el("div", { class: "rejilla" }, g.apps.map(tarjeta)));
   });
+}
+
+// textosAjustes: las opciones de los selectores de ajustes, que dependen del idioma.
+function textosAjustes() {
+  $$("#aj-intervalo option").forEach((o) => { o.textContent = o.value === "1" ? t("aj.hora") : t("aj.horas", { n: o.value }); });
+  $("#aj-idioma").replaceChildren(el("option", { value: "auto", text: t("aj.automatico") }),
+    ...Object.entries(IDIOMAS).map(([id, i]) => el("option", { value: id, text: i.nombre, lang: id })));
 }
 
 function pintar() {
   const e = ui.estado;
   if (!e) return;
 
+  // Idioma: el que eligió el usuario o, en automático, el del PC (Codex lo resuelve).
+  if (e.idioma !== idiomaActual || !$("#aj-idioma").options.length) {
+    aplicarIdioma(e.idioma);
+    textosAjustes();
+    ui.firma = "";
+  }
+  document.body.classList.remove("cargando");
+
   // Banner de nueva versión del launcher
   const nueva = e.hayNueva && e.propia && ui.bannerOculto !== e.propia.version;
   $("#banner").hidden = !nueva;
   if (nueva) {
-    $("#banner-texto").textContent = e.tareaPropia
-      ? `Actualizando Codex a la ${e.propia.version}…`
-      : `Codex ${e.propia.version} está disponible.`;
+    $("#banner-texto").textContent = t(e.tareaPropia ? "banner.actualizando" : "banner.disponible", { version: e.propia.version });
     $("#banner-actualizar").disabled = !!e.tareaPropia;
   }
 
@@ -286,7 +297,7 @@ function pintar() {
   document.body.classList.toggle("modo-tabla", ui.modo === "tabla");
 
   // Solo se vuelve a dibujar el contenido si algo cambió (no se pierde el foco ni el hover).
-  const firma = JSON.stringify([e.apps, ui.filtro, ui.modo, ui.orden, ui.busqueda]);
+  const firma = JSON.stringify([e.apps, ui.filtro, ui.modo, ui.orden, ui.busqueda, idiomaActual]);
   if (firma !== ui.firma) {
     ui.firma = firma;
     pintarContenido();
@@ -295,22 +306,25 @@ function pintar() {
   // Pie
   $("#btn-revisar").classList.toggle("girando", e.revisando);
   const pausa = e.limiteHasta && new Date(e.limiteHasta) > new Date()
-    ? new Date(e.limiteHasta).toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" }) : "";
-  $("#pie-revisado").textContent = e.revisando ? "Buscando actualizaciones…"
-    : pausa ? `GitHub pausó las consultas hasta las ${pausa} · se muestran las últimas versiones conocidas`
-    : e.revisado ? `Revisado ${haceCuanto(e.revisado)} · desde GitHub` : "Sin revisar todavía";
-  $("#pie-plataforma").textContent = `Instalando para ${e.plataforma}`;
+    ? new Date(e.limiteHasta).toLocaleTimeString(localeActual(), { hour: "2-digit", minute: "2-digit" }) : "";
+  $("#pie-revisado").textContent = e.revisando ? t("pie.buscando")
+    : pausa ? t("pie.pausa", { hora: pausa })
+    : e.revisado ? t("pie.revisado", { cuando: haceCuanto(e.revisado) }) : t("pie.sinRevisar");
+  $("#pie-plataforma").textContent = t("pie.plataforma", { plataforma: e.plataforma });
 
   // Ajustes
   $("#aj-auto").checked = e.ajustes.revisarAuto;
   $("#aj-intervalo").value = String(e.ajustes.intervaloHoras);
   $("#aj-intervalo").disabled = !e.ajustes.revisarAuto;
+  $("#aj-idioma").value = e.ajustes.idioma || "auto";
+  $("#aj-bandeja").checked = e.ajustes.bandeja;
+  $("#aj-inicio").checked = e.ajustes.iniciarSesion;
   $("#aj-version").textContent = e.version;
   $("#aj-carpeta").textContent = e.carpeta;
   $("#aj-plataforma").textContent = e.plataforma;
 
   if (e.aviso.id && e.aviso.id !== ui.ultimoAviso) {
-    if (ui.ultimoAviso !== 0 || e.aviso.error) avisar(e.aviso.texto, e.aviso.error);
+    if (ui.ultimoAviso !== 0 || e.aviso.error) avisar(tm(e.aviso.mensaje), e.aviso.error);
     ui.ultimoAviso = e.aviso.id;
   }
 }
@@ -327,7 +341,8 @@ async function refrescar() {
     pintar();
     ocupado = ui.estado.revisando || !!ui.estado.tareaPropia || ui.estado.apps.some((a) => a.tarea);
   } catch (e) {
-    avisar(`No se pudo leer el estado del launcher: ${e.message}`, true);
+    avisar(t("errorEstado", { detalle: e.message }), true);
+    document.body.classList.remove("cargando");
   }
   temporizador = setTimeout(refrescar, ocupado ? 700 : 10000);
 }
@@ -339,14 +354,14 @@ function cerrarMenu() { $("#menu").hidden = true; }
 function abrirMenu(a, boton) {
   const menu = $("#menu");
   const opciones = [];
-  if (a.ultima?.notas) opciones.push(["Notas de la versión ↗", () => abrirEnlace(a.ultima.notas)]);
-  if (a.urlRepo) opciones.push(["Ver en GitHub ↗", () => abrirEnlace(a.urlRepo)]);
-  if (a.web) opciones.push(["Sitio web ↗", () => abrirEnlace(a.web)]);
+  if (a.ultima?.notas) opciones.push([t("menu.notas"), () => abrirEnlace(a.ultima.notas)]);
+  if (a.urlRepo) opciones.push([t("menu.github"), () => abrirEnlace(a.urlRepo)]);
+  if (a.web) opciones.push([t("menu.sitio"), () => abrirEnlace(a.web)]);
   if (a.instalada && !a.tarea) {
-    if (a.ultima?.instalador) opciones.push(["Reinstalar", () => api("/api/instalar", { id: a.id }).then(refrescar, (e) => avisar(e.message, true))]);
-    opciones.push(["Desinstalar", () => api("/api/desinstalar", { id: a.id }).then(refrescar, (e) => avisar(e.message, true)), true]);
+    if (a.ultima?.instalador) opciones.push([t("menu.reinstalar"), () => api("/api/instalar", { id: a.id }).then(refrescar, (e) => avisar(e.message, true))]);
+    opciones.push([t("menu.desinstalar"), () => api("/api/desinstalar", { id: a.id }).then(refrescar, (e) => avisar(e.message, true)), true]);
   }
-  if (!opciones.length) opciones.push(["Sin opciones por ahora", null]);
+  if (!opciones.length) opciones.push([t("menu.sinOpciones"), null]);
   menu.replaceChildren(...opciones.map(([texto, f, peligro]) =>
     el("button", { type: "button", role: "menuitem", class: peligro ? "peligro" : null, text: texto, disabled: !f, onclick: () => { cerrarMenu(); f && f(); } })));
   menu.hidden = false;
@@ -405,12 +420,14 @@ $("#btn-ajustes").addEventListener("click", abrirAjustes);
 $("#ajustes-cerrar").addEventListener("click", cerrarAjustes);
 $("#velo").addEventListener("click", cerrarAjustes);
 async function guardarAjustes() {
-  const a = { revisarAuto: $("#aj-auto").checked, intervaloHoras: Number($("#aj-intervalo").value) };
+  const a = {
+    revisarAuto: $("#aj-auto").checked, intervaloHoras: Number($("#aj-intervalo").value),
+    idioma: $("#aj-idioma").value, bandeja: $("#aj-bandeja").checked, iniciarSesion: $("#aj-inicio").checked,
+  };
   try { await api("/api/ajustes", a); } catch (e) { avisar(e.message, true); }
   refrescar();
 }
-$("#aj-auto").addEventListener("change", guardarAjustes);
-$("#aj-intervalo").addEventListener("change", guardarAjustes);
+["#aj-auto", "#aj-intervalo", "#aj-idioma", "#aj-bandeja", "#aj-inicio"].forEach((s) => $(s).addEventListener("change", guardarAjustes));
 
 /* ---------------- Ventana (solo dentro del launcher, no en un navegador) ---------------- */
 
@@ -434,7 +451,7 @@ if (typeof window.caArrastrar === "function") {
   const actualizarMaximizada = async () => {
     const max = await window.caMaximizada();
     document.body.classList.toggle("maximizada", max);
-    $("#btn-max").setAttribute("aria-label", max ? "Restaurar" : "Maximizar");
+    $("#btn-max").setAttribute("aria-label", t(max ? "restaurar" : "maximizar"));
   };
   window.addEventListener("resize", actualizarMaximizada);
   actualizarMaximizada();
