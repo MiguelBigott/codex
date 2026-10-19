@@ -6,7 +6,7 @@
 
 > Un solo lugar para **instalar, actualizar y abrir** mis apps de Windows: eliges una app, Codex baja su instalador oficial, verifica su firma SHA-256 y la deja lista.
 
-[![Versión](https://img.shields.io/badge/versión-v0.2.1-ffb454)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versión-v0.2.2-ffb454)](CHANGELOG.md)
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)
@@ -50,7 +50,7 @@ Las apps de ArtCraft llevan el mismo número y los mismos colores que en su prop
 
 | # | App | Qué hace | Autor | Repositorio |
 |---|---|---|---|---|
-|  | <img src="https://raw.githubusercontent.com/MiguelBigott/clipvault/main/build/logo.png" width="20" alt=""> **Clipvault** | Descarga de video y audio · MP4 o MP3 con portada y metadatos | Miguel Bigott | [MiguelBigott/clipvault](https://github.com/MiguelBigott/clipvault) |
+|  | <img src="https://raw.githubusercontent.com/MiguelBigott/clipvault/main/build/logo.png" width="20" alt=""> **ClipVault** | Descarga de video y audio · MP4 o MP3 con portada y metadatos | Miguel Bigott | [MiguelBigott/clipvault](https://github.com/MiguelBigott/clipvault) |
 |  | <img src="https://raw.githubusercontent.com/MiguelBigott/pngwebp/main/build/logo.png" width="20" alt=""> **PngWebp** | Conversión de imágenes a WebP · PNG o JPG con la máxima calidad y el menor peso | Miguel Bigott | [MiguelBigott/pngwebp](https://github.com/MiguelBigott/pngwebp) |
 | 01 | <img src="https://raw.githubusercontent.com/storytold/photocraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.photocraft.png" width="20" alt=""> **PhotoCraft** | Edición de imágenes | [ArtCraft](https://getartcraft.com) | [storytold/photocraft](https://github.com/storytold/photocraft) |
 | 02 | <img src="https://raw.githubusercontent.com/storytold/vectorcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.vectorcraft.png" width="20" alt=""> **VectorCraft** | Ilustración vectorial | [ArtCraft](https://getartcraft.com) | [storytold/vectorcraft](https://github.com/storytold/vectorcraft) |

@@ -472,7 +472,9 @@ body.modo-tabla .solo-cuadricula { display: none; }
 
 /* Tarjetas: número de ArtCraft en un recuadro del color de la app, rejilla con líneas visibles */
 .rejilla { background: var(--panel); border-radius: 8px; overflow: hidden; border-right: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
-.tarjeta::before { background: var(--ambar); }
+/* Barra superior al pasar el mouse: el color de cada app de ArtCraft, como en su launcher;
+   las apps propias la llevan en el dorado del skin. Solo la barra, el contenedor no se tiñe. */
+.tarjeta::before { background: var(--color-barra, var(--ambar)); }
 .tarjeta-cabecera { height: 40px; }
 .numero { padding: 2px 7px; border-radius: 4px; font-family: var(--mono); font-weight: 700; font-size: 12.5px; letter-spacing: .06em; }
 .tarjeta-enlaces { margin-left: auto; }

@@ -3,6 +3,15 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.2.2] - 2026-10-19
+
+### Cambiado
+- Al pasar el mouse por una app de ArtCraft, la barra de arriba de su tarjeta toma el color de esa app, como en el launcher de ArtCraft. Las apps propias la mantienen en el dorado del skin.
+- ClipVault se escribe con V mayúscula.
+
+### Corregido
+- Después de abrir una app, el botón «abrir» quedaba gris y no se podía volver a usar hasta reiniciar Codex.
+
 ## [0.2.1] - 2026-10-18
 
 ### Corregido
@@ -91,6 +100,7 @@ Primera versión de **Codex**, el launcher de mis apps de Windows.
 - Ventana nativa de Windows (WebView2) con icono nítido en la barra de tareas.
 - En el catálogo: [Clipvault](https://github.com/MiguelBigott/clipvault) y, de ArtCraft, [PhotoCraft](https://github.com/storytold/photocraft), [FilmCraft](https://github.com/storytold/filmcraft), [WordCraft](https://github.com/storytold/wordcraft) y [GridCraft](https://github.com/storytold/gridcraft).
 
+[0.2.2]: https://github.com/MiguelBigott/codex/releases/tag/v0.2.2
 [0.2.1]: https://github.com/MiguelBigott/codex/releases/tag/v0.2.1
 [0.2.0]: https://github.com/MiguelBigott/codex/releases/tag/v0.2.0
 [0.1.9]: https://github.com/MiguelBigott/codex/releases/tag/v0.1.9

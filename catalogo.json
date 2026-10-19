@@ -13,7 +13,7 @@
     {
       "id": "clipvault",
       "nombre": "Clip",
-      "sufijo": "vault",
+      "sufijo": "Vault",
       "descripcion": "Descarga de video y audio",
       "similar": "MP4 o MP3 con portada y metadatos",
       "color": "#c8483a",
@@ -34,9 +34,7 @@
       "repo": "MiguelBigott/pngwebp",
       "web": "",
       "icono": "https://raw.githubusercontent.com/MiguelBigott/pngwebp/main/build/logo.png",
-      "colorSufijo": "#ffb454",
-      "nombreRegistro": "PNGWebp",
-      "ejecutable": "PNGWebp.exe"
+      "colorSufijo": "#ffb454"
     },
     {
       "id": "photocraft",

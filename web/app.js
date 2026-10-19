@@ -172,9 +172,13 @@ function botonPrincipal(a) {
     b.append(el("span", { class: "relleno", style: { width: `${Math.round(p * 100)}%` } }), el("span", { text: TAREA[a.tarea.tipo] || "Trabajando" }));
     return b;
   }
-  const accion = (ruta, texto) => async (ev) => {
-    ev.currentTarget.disabled = true;
+  // El botón se desactiva mientras dura la acción (evita el doble clic) y se vuelve a activar
+  // al terminar: abrir una app no cambia su estado, así que la tarjeta no se redibuja sola.
+  const accion = (ruta) => async (ev) => {
+    const boton = ev.currentTarget;
+    boton.disabled = true;
     try { await api(ruta, { id: a.id }); } catch (e) { avisar(e.message, true); }
+    boton.disabled = false;
     refrescar();
   };
   switch (a.estado) {
@@ -202,7 +206,9 @@ function tarjeta(a) {
   const enlaces = el("div", { class: "tarjeta-enlaces" },
     a.web && el("button", { type: "button", text: "Sitio web ↗", onclick: () => abrirEnlace(a.web) }),
     a.urlRepo && el("button", { type: "button", text: "GitHub ↗", onclick: () => abrirEnlace(a.urlRepo) }));
-  return el("article", { class: "tarjeta", style: { "--color-app": a.color } },
+  const estilo = { "--color-app": a.color };
+  if (a.numero) estilo["--color-barra"] = a.color; // apps de ArtCraft: barra de su color
+  return el("article", { class: "tarjeta", style: estilo },
     el("div", { class: "tarjeta-cabecera" },
       numeroApp(a, "numero"),
       enlaces),
