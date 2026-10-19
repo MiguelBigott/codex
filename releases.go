@@ -54,7 +54,25 @@ var errSinVersiones = msj("sinVersiones")
 // no cuenta para el límite de la API. Sin cuenta, la API gasta una consulta incluso cuando
 // responde «sin cambios» (304), así que se usa solo cuando la etiqueta cambió.
 func etiquetaPublica(repo string) (string, error) {
-	req, err := http.NewRequest(http.MethodHead, webGitHub+"/"+repo+"/releases/latest", nil)
+	direccion := webGitHub + "/" + repo + "/releases/latest"
+	// Si el repositorio se mudó (a otra cuenta u organización), GitHub redirige primero a
+	// …/releases/latest de la dirección nueva: se sigue hasta llegar a la etiqueta.
+	for saltos := 0; ; saltos++ {
+		destino, err := redireccionDe(direccion)
+		if err != nil {
+			return "", err
+		}
+		if strings.HasSuffix(destino, "/releases/latest") && destino != direccion && saltos < 3 {
+			direccion = destino
+			continue
+		}
+		return leerEtiqueta(destino)
+	}
+}
+
+// redireccionDe pide la página sin seguir la redirección y devuelve a dónde apunta.
+func redireccionDe(direccion string) (string, error) {
+	req, err := http.NewRequest(http.MethodHead, direccion, nil)
 	if err != nil {
 		return "", err
 	}
@@ -66,20 +84,28 @@ func etiquetaPublica(repo string) (string, error) {
 	resp.Body.Close()
 	switch resp.StatusCode {
 	case http.StatusMovedPermanently, http.StatusFound, http.StatusSeeOther, http.StatusTemporaryRedirect, http.StatusPermanentRedirect:
-		destino := resp.Header.Get("Location")
-		i := strings.Index(destino, "/releases/tag/")
-		if i < 0 {
-			return "", errSinVersiones // redirige a …/releases: no hay ninguna versión
+		u, err := resp.Location()
+		if err != nil {
+			return "", err
 		}
-		etiqueta, err := url.PathUnescape(destino[i+len("/releases/tag/"):])
-		if err != nil || etiqueta == "" {
-			return "", fmt.Errorf("etiqueta ilegible en %q", destino)
-		}
-		return etiqueta, nil
+		return u.String(), nil
 	case http.StatusNotFound:
 		return "", msj("repoNoExiste")
 	}
 	return "", msj("githubRespondio", "codigo", strconv.Itoa(resp.StatusCode))
+}
+
+// leerEtiqueta saca la etiqueta de una dirección …/releases/tag/<etiqueta>.
+func leerEtiqueta(destino string) (string, error) {
+	i := strings.Index(destino, "/releases/tag/")
+	if i < 0 {
+		return "", errSinVersiones // redirige a …/releases: no hay ninguna versión
+	}
+	etiqueta, err := url.PathUnescape(destino[i+len("/releases/tag/"):])
+	if err != nil || etiqueta == "" {
+		return "", fmt.Errorf("etiqueta ilegible en %q", destino)
+	}
+	return etiqueta, nil
 }
 
 // cacheGitHub guarda la última respuesta por repositorio y su ETag: las consultas sin

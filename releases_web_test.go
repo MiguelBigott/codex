@@ -26,6 +26,11 @@ func TestEtiquetaPublicaEvitaLaAPI(t *testing.T) {
 			http.Redirect(w, r, "/yo/sinversion/releases", http.StatusFound)
 			return
 		}
+		// Repositorio mudado a una organización: GitHub redirige a la dirección nueva.
+		if r.URL.Path == "/yo/mudada/releases/latest" {
+			http.Redirect(w, r, "/organizacion/mudada/releases/latest", http.StatusMovedPermanently)
+			return
+		}
 		http.Redirect(w, r, "/yo/app/releases/tag/"+etiqueta.Load().(string), http.StatusFound)
 	}))
 	defer srv.Close()
@@ -44,6 +49,9 @@ func TestEtiquetaPublicaEvitaLaAPI(t *testing.T) {
 
 	if e, err := etiquetaPublica("yo/app"); err != nil || e != "v1.0.0" {
 		t.Fatalf("etiquetaPublica = %q, %v", e, err)
+	}
+	if e, err := etiquetaPublica("yo/mudada"); err != nil || e != "v1.0.0" {
+		t.Fatalf("repositorio mudado: etiquetaPublica = %q, %v", e, err)
 	}
 	// Primera vez: no hay nada guardado, se usa la API una vez.
 	if rel, err := ultimaRelease("yo/app", false); err != nil || rel.Version != "1.0.0" {

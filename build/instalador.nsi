@@ -108,6 +108,13 @@ Section "Instalar"
   IntFmt $0 "0x%08X" $0
   WriteRegDWORD HKLM "${UNINST}" "EstimatedSize" "$0"
 
+  ; Windows guarda una copia de los iconos y no la renueva al reemplazar el .exe: se le pide
+  ; que la refresque, para que el escritorio y la barra de tareas muestren el icono nuevo.
+  ${DisableX64FSRedirection}
+  nsExec::Exec '"$WINDIR\System32\ie4uinit.exe" -show'
+  ${EnableX64FSRedirection}
+  System::Call 'shell32::SHChangeNotify(i 0x08000000, i 0x1000, p 0, p 0)'
+
   ; Actualización desde el propio launcher: vuelve a abrirlo al terminar.
   ${GetParameters} $R0
   ClearErrors

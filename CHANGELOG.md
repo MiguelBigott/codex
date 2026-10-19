@@ -3,6 +3,12 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.3.1] - 2026-10-19
+
+### Corregido
+- Al actualizar, el escritorio y la barra de tareas seguían mostrando el icono anterior: el instalador ahora le pide a Windows que refresque sus iconos.
+- Si un repositorio del catálogo se muda a otra cuenta u organización de GitHub, Codex sigue la redirección y no lo da por «sin versiones».
+
 ## [0.3.0] - 2026-10-19
 
 ### Añadido
