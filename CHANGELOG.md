@@ -3,6 +3,11 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.3.2] - 2026-10-19
+
+### Corregido
+- Al instalar ClipVault o PngWebp, Codex crea su acceso directo en el escritorio si falta. Con una cuenta de Windows que no es administradora, el instalador lo dejaba en el escritorio de la cuenta que dio el permiso.
+
 ## [0.3.1] - 2026-10-19
 
 ### Corregido

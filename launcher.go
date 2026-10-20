@@ -363,6 +363,7 @@ func (l *Launcher) Instalar(id string) error {
 		case tipo == "actualizar":
 			l.avisar(msj("appActualizada", "app", nombre, "version", rel.Version), false)
 		default:
+			accesoDeAppInstalada(app)
 			l.avisar(msj("appInstalada", "app", nombre), false)
 		}
 	}()

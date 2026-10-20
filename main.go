@@ -14,7 +14,7 @@ import (
 	"golang.org/x/sys/windows"
 )
 
-const Version = "0.3.1"
+const Version = "0.3.2"
 
 // repoLauncher es el repositorio público de GitHub donde se publican las versiones del
 // launcher ("usuario/repositorio"). Vacío: el launcher no busca actualizaciones propias.
