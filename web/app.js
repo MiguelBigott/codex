@@ -257,7 +257,6 @@ function pintarContenido() {
 
 // textosAjustes: las opciones de los selectores de ajustes, que dependen del idioma.
 function textosAjustes() {
-  $$("#aj-intervalo option").forEach((o) => { o.textContent = o.value === "1" ? t("aj.hora") : t("aj.horas", { n: o.value }); });
   $("#aj-idioma").replaceChildren(el("option", { value: "auto", text: t("aj.automatico") }),
     ...Object.entries(IDIOMAS).map(([id, i]) => el("option", { value: id, text: i.nombre, lang: id })));
 }
@@ -314,8 +313,8 @@ function pintar() {
 
   // Ajustes
   $("#aj-auto").checked = e.ajustes.revisarAuto;
-  $("#aj-intervalo").value = String(e.ajustes.intervaloHoras);
-  $("#aj-intervalo").disabled = !e.ajustes.revisarAuto;
+  // El interruptor y el selector dicen lo mismo: activado = cada 24 horas, apagado = manualmente.
+  $("#aj-intervalo").value = e.ajustes.revisarAuto ? "24" : "manual";
   $("#aj-idioma").value = e.ajustes.idioma || "auto";
   $("#aj-bandeja").checked = e.ajustes.bandeja;
   $("#aj-inicio").checked = e.ajustes.iniciarSesion;
@@ -421,13 +420,16 @@ $("#ajustes-cerrar").addEventListener("click", cerrarAjustes);
 $("#velo").addEventListener("click", cerrarAjustes);
 async function guardarAjustes() {
   const a = {
-    revisarAuto: $("#aj-auto").checked, intervaloHoras: Number($("#aj-intervalo").value),
+    revisarAuto: $("#aj-auto").checked, intervaloHoras: 24,
     idioma: $("#aj-idioma").value, bandeja: $("#aj-bandeja").checked, iniciarSesion: $("#aj-inicio").checked,
   };
   try { await api("/api/ajustes", a); } catch (e) { avisar(e.message, true); }
   refrescar();
 }
-["#aj-auto", "#aj-intervalo", "#aj-idioma", "#aj-bandeja", "#aj-inicio"].forEach((s) => $(s).addEventListener("change", guardarAjustes));
+// Elegir «manualmente» apaga el interruptor y «cada 24 horas» lo enciende (y al revés).
+$("#aj-intervalo").addEventListener("change", (ev) => { $("#aj-auto").checked = ev.target.value === "24"; guardarAjustes(); });
+$("#aj-auto").addEventListener("change", () => { $("#aj-intervalo").value = $("#aj-auto").checked ? "24" : "manual"; guardarAjustes(); });
+["#aj-idioma", "#aj-bandeja", "#aj-inicio"].forEach((s) => $(s).addEventListener("change", guardarAjustes));
 
 /* ---------------- Ventana (solo dentro del launcher, no en un navegador) ---------------- */
 

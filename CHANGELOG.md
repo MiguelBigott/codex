@@ -3,6 +3,11 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.3.3] - 2026-10-20
+
+### Cambiado
+- Buscar actualizaciones tiene dos opciones: cada 24 horas o manualmente. Van unidas al interruptor: activado es cada 24 horas; apagado es manual, con el botón de buscar actualizaciones junto al engranaje; en modo manual, Codex igual revisa una vez al abrirse. Las revisiones cada 1, 6 o 12 horas de antes pasan a 24.
+
 ## [0.3.2] - 2026-10-19
 
 ### Corregido

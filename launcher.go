@@ -35,7 +35,7 @@ type Aviso struct {
 
 type Ajustes struct {
 	RevisarAuto    bool `json:"revisarAuto"`
-	IntervaloHoras int  `json:"intervaloHoras"`
+	IntervaloHoras int  `json:"intervaloHoras"` // siempre 24: «cada 24 horas» o, sin RevisarAuto, manual
 	// Bandeja: cerrar la ventana deja Codex abierto en la bandeja del sistema.
 	Bandeja bool `json:"bandeja"`
 	// IniciarSesion: Windows abre Codex (oculto en la bandeja) al iniciar sesión.
@@ -64,13 +64,13 @@ type Launcher struct {
 func NuevoLauncher(cat Catalogo, datos string) *Launcher {
 	l := &Launcher{cat: cat, datos: datos, releases: map[string]*Release{},
 		errores: map[string]*Mensaje{}, tareas: map[string]*Tarea{},
-		ajustes: Ajustes{RevisarAuto: true, IntervaloHoras: 6, Bandeja: true, Idioma: "auto"}}
+		ajustes: Ajustes{RevisarAuto: true, IntervaloHoras: horasEntreRevisiones, Bandeja: true, Idioma: "auto"}}
 	if b, err := os.ReadFile(filepath.Join(datos, "ajustes.json")); err == nil {
 		_ = json.Unmarshal(b, &l.ajustes)
 	}
-	if l.ajustes.IntervaloHoras <= 0 {
-		l.ajustes.IntervaloHoras = 6
-	}
+	// Desde la 0.3.3 solo hay «cada 24 horas» o «manualmente» (las 1, 6 y 12 horas de antes
+	// pasan a 24).
+	l.ajustes.IntervaloHoras = horasEntreRevisiones
 	// Lo último que se supo de cada app se muestra al instante, aun sin conexión.
 	conocidas := cargarCache(datos)
 	for _, app := range cat.Apps {
@@ -98,9 +98,7 @@ func (l *Launcher) AjustesActuales() Ajustes {
 }
 
 func (l *Launcher) GuardarAjustes(a Ajustes) error {
-	if a.IntervaloHoras <= 0 {
-		a.IntervaloHoras = 6
-	}
+	a.IntervaloHoras = horasEntreRevisiones
 	if !slices.Contains(idiomas, a.Idioma) {
 		a.Idioma = "auto"
 	}
@@ -123,8 +121,14 @@ func (l *Launcher) GuardarAjustes(a Ajustes) error {
 
 // ---------- Revisión de versiones ----------
 
-// Vigilar revisa al iniciar y luego cada IntervaloHoras, si está activado.
+// horasEntreRevisiones: con la revisión automática, Codex busca versiones nuevas cada 24 horas.
+// Sin ella (manualmente), solo al abrirse y cuando se aprieta el botón de buscar actualizaciones.
+const horasEntreRevisiones = 24
+
+// Vigilar revisa al iniciar, también en modo manual, y luego cada IntervaloHoras si la
+// revisión automática está activada.
 func (l *Launcher) Vigilar() {
+	l.Revisar()
 	for {
 		l.mu.Lock()
 		a, ultima := l.ajustes, l.revisado
