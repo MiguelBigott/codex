@@ -1,8 +1,0 @@
-# Salidas de compilación
-dist/
-*.exe
-*.syso
-build/app.ico
-build/setup/payload/
-build/setup/payload.zip
-build/setup/*.syso
