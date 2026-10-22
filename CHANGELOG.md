@@ -5,6 +5,9 @@ etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
 ## [0.3.4] - 2026-10-22
 
+### Añadido
+- PdfEpub en el catálogo: convierte libros PDF a EPUB, con portada, datos y capítulos editables.
+
 ### Seguridad
 - Los desinstaladores registrados para el usuario actual se ejecutan sin elevar permisos; solo se eleva una entrada registrada para toda la máquina.
 - Actualiza el runtime de Go a 1.27.3.

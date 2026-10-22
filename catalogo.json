@@ -97,6 +97,49 @@
       }
     },
     {
+      "id": "pdfepub",
+      "nombre": "Pdf",
+      "sufijo": "Epub",
+      "descripcion": "Conversión de PDF a EPUB",
+      "similar": "Libros con portada, datos y capítulos editables",
+      "color": "#8a6fd1",
+      "categoria": "codex",
+      "repo": "MiguelBigott/pdfepub",
+      "web": "",
+      "icono": "https://raw.githubusercontent.com/MiguelBigott/pdfepub/main/build/logo.png",
+      "colorSufijo": "#ffb454",
+      "traducciones": {
+        "en": {
+          "descripcion": "PDF to EPUB conversion",
+          "similar": "Books with editable cover, details and chapters"
+        },
+        "fr": {
+          "descripcion": "Conversion de PDF en EPUB",
+          "similar": "Livres avec couverture, informations et chapitres modifiables"
+        },
+        "de": {
+          "descripcion": "PDF-zu-EPUB-Konvertierung",
+          "similar": "Bücher mit bearbeitbarem Cover, Angaben und Kapiteln"
+        },
+        "ru": {
+          "descripcion": "Конвертация PDF в EPUB",
+          "similar": "Книги с редактируемой обложкой, данными и главами"
+        },
+        "pt": {
+          "descripcion": "Conversão de PDF para EPUB",
+          "similar": "Livros com capa, dados e capítulos editáveis"
+        },
+        "zh": {
+          "descripcion": "PDF 转换为 EPUB",
+          "similar": "可编辑封面、书籍信息和章节"
+        },
+        "ja": {
+          "descripcion": "PDF を EPUB に変換",
+          "similar": "表紙・書誌情報・章を編集できる電子書籍"
+        }
+      }
+    },
+    {
       "id": "photocraft",
       "nombre": "Photo",
       "sufijo": "Craft",
