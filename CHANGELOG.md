@@ -3,6 +3,12 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.3.4] - 2026-10-22
+
+### Seguridad
+- Los desinstaladores registrados para el usuario actual se ejecutan sin elevar permisos; solo se eleva una entrada registrada para toda la máquina.
+- Actualiza el runtime de Go a 1.27.3.
+
 ## [0.3.3] - 2026-10-20
 
 ### Cambiado

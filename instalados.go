@@ -16,6 +16,7 @@ type Instalada struct {
 	Icono       string
 	Desinstalar string // comando silencioso si existe, si no el normal
 	Silencioso  bool
+	Maquina     bool // la entrada de desinstalación está en HKLM y puede requerir elevación
 }
 
 const claveDesinstalar = `Software\Microsoft\Windows\CurrentVersion\Uninstall`
@@ -47,7 +48,7 @@ func buscarInstalada(nombre string) *Instalada {
 				sk.Close()
 				continue
 			}
-			inst := &Instalada{}
+			inst := &Instalada{Maquina: l.raiz == registry.LOCAL_MACHINE}
 			inst.Version, _, _ = sk.GetStringValue("DisplayVersion")
 			inst.Carpeta, _, _ = sk.GetStringValue("InstallLocation")
 			inst.Icono, _, _ = sk.GetStringValue("DisplayIcon")

@@ -395,7 +395,13 @@ func (l *Launcher) Desinstalar(id string) error {
 		} else if !inst.Silencioso {
 			args += " /S"
 		}
-		codigo, err := ejecutarElevado(exe, args, true)
+		var codigo uint32
+		var err error
+		if inst.Maquina {
+			codigo, err = ejecutarElevado(exe, args, true)
+		} else {
+			codigo, err = ejecutarNormal(exe, args, true)
+		}
 		if codigo == msiReiniciar {
 			codigo = 0
 		}

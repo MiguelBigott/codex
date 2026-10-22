@@ -42,7 +42,20 @@ var (
 // ejecutarElevado ejecuta exe como administrador. Si esperar es true, espera a que termine
 // y devuelve su código de salida.
 func ejecutarElevado(exe, args string, esperar bool) (uint32, error) {
-	verbo, _ := windows.UTF16PtrFromString("runas")
+	return ejecutarConVerbo("runas", exe, args, esperar)
+}
+
+// ejecutarNormal inicia un comando con los permisos actuales, para operaciones registradas
+// en HKCU que pertenecen al usuario y no requieren acceso administrativo.
+func ejecutarNormal(exe, args string, esperar bool) (uint32, error) {
+	return ejecutarConVerbo("open", exe, args, esperar)
+}
+
+func ejecutarConVerbo(nombreVerbo, exe, args string, esperar bool) (uint32, error) {
+	verbo, err := windows.UTF16PtrFromString(nombreVerbo)
+	if err != nil {
+		return 0, err
+	}
 	archivo, err := windows.UTF16PtrFromString(exe)
 	if err != nil {
 		return 0, err
