@@ -41,6 +41,7 @@
 - **Sabe qué tienes**: detecta qué apps están instaladas y en qué versión leyendo el registro de Windows, aunque no las hayas instalado desde Codex.
 - **Siempre al día**: consulta la última versión de cada app en sus releases de GitHub y marca las que tienen actualización. Mira primero la página pública de releases, que no cuenta para el límite de consultas de GitHub, y usa la API solo cuando hay una versión nueva; si GitHub pausa las consultas, sigue mostrando las últimas versiones conocidas.
 - **Instala con un clic**: baja el instalador, **verifica su SHA-256** y lo ejecuta como administrador (Windows muestra el aviso de UAC). Acepta setups `.exe` (NSIS) y paquetes `.msi`, y también desinstala.
+- **Accesos directos**: crea uno para cada app instalada del catálogo, tanto las propias como las de ArtCraft; al iniciar, repara los que falten y actualiza los que apunten a una ruta anterior.
 - **Se actualiza solo**: avisa cuando hay una versión nueva del propio launcher y se pone al día con un clic.
 - **Skin «Terminal», versión «Nítido»**: fondo gris neutro con líneas continuas y bien visibles, nombres de las apps en Inter, etiquetas en minúsculas monoespaciadas, estados con borde y un solo acento ámbar, con el cursor de `~/codex_`.
 - **Ventana propia**: ventana nativa de Windows (WebView2) con su icono nítido en la barra de tareas, sin barra de título del sistema.
@@ -90,6 +91,7 @@ Descarga `Codex-Setup-<versión>.exe` desde [Releases](../../releases/latest) y 
 - Todo queda en `C:\Program Files\Codex`: el launcher (`Codex.exe`) y una subcarpeta por app (`C:\Program Files\Codex\<App>`).
 - La configuración vive en `%LOCALAPPDATA%\Codex`.
 - El instalador ofrece crear un acceso directo en el escritorio.
+- Codex también crea el acceso directo de cada app instalada y comprueba los enlaces existentes al iniciar.
 
 ## 🛠️ Compilar
 

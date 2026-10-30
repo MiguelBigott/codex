@@ -55,6 +55,7 @@ func main() {
 		log.Fatal(err)
 	}
 	l := NuevoLauncher(cat, datos)
+	go asegurarAccesosDeAppsInstaladas(cat)
 	go l.Vigilar()
 
 	srv, ln, err := iniciarServidor(l)

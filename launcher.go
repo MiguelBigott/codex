@@ -364,11 +364,15 @@ func (l *Launcher) Instalar(id string) error {
 			l.avisar(msj("windowsOcupado", "app", nombre), true)
 		case codigo != 0 && codigo != msiReiniciar:
 			l.avisar(msj("instaladorCodigo", "app", nombre, "codigo", strconv.FormatUint(uint64(codigo), 10)), true)
-		case tipo == "actualizar":
-			l.avisar(msj("appActualizada", "app", nombre, "version", rel.Version), false)
 		default:
-			accesoDeAppInstalada(app)
-			l.avisar(msj("appInstalada", "app", nombre), false)
+			if err := asegurarAccesoDeAppInstalada(app); err != nil {
+				log.Printf("acceso directo de %s: %v", nombre, err)
+				l.avisar(msj("accesoDirectoFallo", "app", nombre, "detalle", err.Error()), true)
+			} else if tipo == "actualizar" {
+				l.avisar(msj("appActualizada", "app", nombre, "version", rel.Version), false)
+			} else {
+				l.avisar(msj("appInstalada", "app", nombre), false)
+			}
 		}
 	}()
 	return nil

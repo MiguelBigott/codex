@@ -21,6 +21,37 @@ type Instalada struct {
 
 const claveDesinstalar = `Software\Microsoft\Windows\CurrentVersion\Uninstall`
 
+// carpetaInstalacionRegistrada devuelve InstallDir de los MSI de ArtCraft, aunque no hayan
+// publicado una entrada DisplayName en la lista de apps instaladas.
+func carpetaInstalacionRegistrada(app AppCatalogo) string {
+	for _, acceso := range []uint32{registry.WOW64_64KEY, registry.WOW64_32KEY} {
+		k, err := registry.OpenKey(registry.LOCAL_MACHINE, `Software\`+app.Registro(), registry.QUERY_VALUE|acceso)
+		if err != nil {
+			continue
+		}
+		dir, _, _ := k.GetStringValue("InstallDir")
+		k.Close()
+		if dir = strings.Trim(strings.TrimSpace(dir), `"`); dir != "" {
+			return filepath.Clean(os.ExpandEnv(dir))
+		}
+	}
+	return ""
+}
+
+// iconoDeMSI devuelve una copia del icono, no el ejecutable real. No se debe usar como destino
+// del acceso directo aunque el archivo tenga extensión .exe.
+func esCacheInstaladorWindows(ruta string) bool {
+	windows := os.Getenv("WINDIR")
+	if windows == "" {
+		return false
+	}
+	limpia := func(p string) string {
+		return strings.TrimRight(strings.ToLower(filepath.Clean(p)), `\`)
+	}
+	ruta, raiz := limpia(ruta), limpia(filepath.Join(windows, "Installer"))
+	return ruta == raiz || strings.HasPrefix(ruta, raiz+`\`)
+}
+
 // buscarInstalada busca por DisplayName en HKLM (64 y 32 bits) y HKCU.
 func buscarInstalada(nombre string) *Instalada {
 	lugares := []struct {
@@ -69,18 +100,14 @@ func buscarInstalada(nombre string) *Instalada {
 // ArtCraft), la carpeta de Codex y el icono registrado.
 func ejecutableDe(app AppCatalogo, inst *Instalada) string {
 	carpetas := []string{strings.Trim(inst.Carpeta, `"`)}
-	if k, err := registry.OpenKey(registry.LOCAL_MACHINE, `Software\`+app.Registro(), registry.QUERY_VALUE|registry.WOW64_64KEY); err == nil {
-		dir, _, _ := k.GetStringValue("InstallDir")
-		k.Close()
-		carpetas = append(carpetas, dir)
-	}
+	carpetas = append(carpetas, carpetaInstalacionRegistrada(app))
 	carpetas = append(carpetas, filepath.Join(carpetaSuite(), app.NombreCompleto()))
 	for _, c := range carpetas {
 		if c == "" {
 			continue
 		}
 		p := filepath.Join(c, app.Exe())
-		if _, err := os.Stat(p); err == nil {
+		if _, err := os.Stat(p); err == nil && !esCacheInstaladorWindows(p) {
 			return p
 		}
 	}
@@ -89,7 +116,7 @@ func ejecutableDe(app AppCatalogo, inst *Instalada) string {
 	if i := strings.LastIndex(ico, ","); i > 0 && !strings.Contains(ico[i:], `\`) {
 		ico = ico[:i]
 	}
-	if strings.EqualFold(filepath.Ext(ico), ".exe") {
+	if strings.EqualFold(filepath.Ext(ico), ".exe") && !esCacheInstaladorWindows(ico) {
 		if _, err := os.Stat(ico); err == nil {
 			return ico
 		}

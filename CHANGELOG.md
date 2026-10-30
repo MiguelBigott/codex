@@ -3,6 +3,11 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## En desarrollo
+
+### Corregido
+- Codex crea el acceso directo de las apps propias y de ArtCraft después de instalarlas o actualizarlas, y repara al iniciar los enlaces que falten o apunten a una ruta anterior.
+
 ## [0.3.4] - 2026-10-22
 
 ### Añadido
