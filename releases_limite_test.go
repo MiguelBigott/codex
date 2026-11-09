@@ -48,7 +48,7 @@ func TestLimiteDeGitHubUsaLoConocido(t *testing.T) {
 	carpeta := t.TempDir()
 	cargarCache(carpeta)
 
-	rel, err := ultimaRelease("yo/app", false)
+	rel, err := ultimaRelease("yo/app", false, false)
 	if err != nil || rel.Version != "1.0.1" {
 		t.Fatalf("primera consulta: %v %+v", err, rel)
 	}
@@ -56,7 +56,7 @@ func TestLimiteDeGitHubUsaLoConocido(t *testing.T) {
 
 	// GitHub pausa: se usa lo conocido, sin error, y se anota hasta cuándo.
 	pausado.Store(1)
-	rel, err = ultimaRelease("yo/app", false)
+	rel, err = ultimaRelease("yo/app", false, false)
 	if err != nil || rel == nil || rel.Version != "1.0.1" {
 		t.Fatalf("durante el límite debía usar lo conocido: %v %+v", err, rel)
 	}
@@ -66,14 +66,14 @@ func TestLimiteDeGitHubUsaLoConocido(t *testing.T) {
 
 	// Durante la pausa no se vuelve a consultar.
 	n := pedidos.Load()
-	if _, err := ultimaRelease("yo/app", false); err != nil {
+	if _, err := ultimaRelease("yo/app", false, false); err != nil {
 		t.Fatal(err)
 	}
 	if pedidos.Load() != n {
 		t.Fatal("no debía consultar a GitHub durante la pausa")
 	}
 	// Una app nunca consultada recibe un error claro con la hora.
-	if _, err := ultimaRelease("yo/otra", false); err == nil {
+	if _, err := ultimaRelease("yo/otra", false, false); err == nil {
 		t.Fatal("una app sin datos previos debía dar error durante la pausa")
 	}
 

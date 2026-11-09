@@ -202,13 +202,31 @@ func pedirGitHub(url, etag string) (*http.Response, error) {
 	return cliente.Do(req)
 }
 
+// releaseGitHub es lo que se usa de una versión en la API de GitHub.
+type releaseGitHub struct {
+	Tag       string    `json:"tag_name"`
+	Publicada time.Time `json:"published_at"`
+	URL       string    `json:"html_url"`
+	Borrador  bool      `json:"draft"`
+	Assets    []struct {
+		Nombre string `json:"name"`
+		URL    string `json:"browser_download_url"`
+		Tamano int64  `json:"size"`
+		Digest string `json:"digest"`
+	} `json:"assets"`
+}
+
 // ultimaRelease consulta /releases/latest del repositorio y elige el instalador según el
-// formato: setup .exe (NSIS) o .msi.
-func ultimaRelease(repo string, msi bool) (*Release, error) {
+// formato: setup .exe (NSIS) o .msi. Con betas, mira también las versiones beta.
+func ultimaRelease(repo string, msi, betas bool) (*Release, error) {
 	cacheRel.mu.Lock()
 	previa := cacheRel.datos[repo]
 	pausa := cacheRel.limiteHasta
 	cacheRel.mu.Unlock()
+
+	if betas {
+		return releaseConBetas(repo, msi, previa, pausa)
+	}
 
 	// Primero la página pública (gratis): si la etiqueta es la misma, no hace falta la API.
 	if etiqueta, err := etiquetaPublica(repo); err == nil {
@@ -227,43 +245,88 @@ func ultimaRelease(repo string, msi bool) (*Release, error) {
 		return nil, errorLimite(pausa)
 	}
 
-	resp, err := pedirGitHub(apiGitHub+"/repos/"+repo+"/releases/latest", previa.ETag)
-	if err != nil {
-		return nil, msj("sinConexionGitHub")
+	resp, rel, err := consultarAPI(apiGitHub+"/repos/"+repo+"/releases/latest", previa)
+	if resp == nil {
+		return rel, err
 	}
 	defer resp.Body.Close()
+	var gh releaseGitHub
+	if err := json.NewDecoder(io.LimitReader(resp.Body, 4<<20)).Decode(&gh); err != nil {
+		return nil, msj("respuestaIlegible")
+	}
+	rel = releaseDe(gh, msi)
+	cacheRel.mu.Lock()
+	cacheRel.datos[repo] = entradaCache{ETag: resp.Header.Get("ETag"), Release: rel}
+	cacheRel.mu.Unlock()
+	return rel, nil
+}
+
+// releaseConBetas busca, entre las versiones recientes (también las beta), la más nueva que
+// trae instalador para Windows. La página pública solo dice la última estable, así que usa
+// la API una vez por revisión (con ETag).
+func releaseConBetas(repo string, msi bool, previa entradaCache, pausa time.Time) (*Release, error) {
+	if time.Now().Before(pausa) {
+		if previa.Release != nil {
+			return previa.Release, nil
+		}
+		return nil, errorLimite(pausa)
+	}
+	resp, rel, err := consultarAPI(apiGitHub+"/repos/"+repo+"/releases?per_page=20", previa)
+	if resp == nil {
+		return rel, err
+	}
+	defer resp.Body.Close()
+	var lista []releaseGitHub
+	if err := json.NewDecoder(io.LimitReader(resp.Body, 16<<20)).Decode(&lista); err != nil {
+		return nil, msj("respuestaIlegible")
+	}
+	for _, gh := range lista { // GitHub las entrega de la más nueva a la más vieja
+		if gh.Borrador {
+			continue
+		}
+		if rel := releaseDe(gh, msi); rel.Instalador != nil {
+			cacheRel.mu.Lock()
+			cacheRel.datos[repo] = entradaCache{ETag: resp.Header.Get("ETag"), Release: rel}
+			cacheRel.mu.Unlock()
+			return rel, nil
+		}
+	}
+	return nil, errSinVersiones
+}
+
+// consultarAPI pide una dirección de la API. Si no hay nada nuevo que leer (sin cambios,
+// pausa de GitHub o error), devuelve resp nil y lo que corresponde mostrar.
+func consultarAPI(url string, previa entradaCache) (*http.Response, *Release, error) {
+	resp, err := pedirGitHub(url, previa.ETag)
+	if err != nil {
+		return nil, nil, msj("sinConexionGitHub")
+	}
 	switch {
+	case resp.StatusCode == http.StatusOK:
+		return resp, nil, nil
 	case resp.StatusCode == http.StatusNotModified && previa.Release != nil:
-		return previa.Release, nil
+		resp.Body.Close()
+		return nil, previa.Release, nil
 	case resp.StatusCode == http.StatusNotFound:
-		return nil, errSinVersiones
+		resp.Body.Close()
+		return nil, nil, errSinVersiones
 	case esLimite(resp):
+		resp.Body.Close()
 		hasta := finDelLimite(resp)
 		cacheRel.mu.Lock()
 		cacheRel.limiteHasta = hasta
 		cacheRel.mu.Unlock()
 		if previa.Release != nil {
-			return previa.Release, nil
+			return nil, previa.Release, nil
 		}
-		return nil, errorLimite(hasta)
-	case resp.StatusCode != http.StatusOK:
-		return nil, msj("githubRespondio", "codigo", strconv.Itoa(resp.StatusCode))
+		return nil, nil, errorLimite(hasta)
 	}
+	resp.Body.Close()
+	return nil, nil, msj("githubRespondio", "codigo", strconv.Itoa(resp.StatusCode))
+}
 
-	var gh struct {
-		Tag       string    `json:"tag_name"`
-		Publicada time.Time `json:"published_at"`
-		URL       string    `json:"html_url"`
-		Assets    []struct {
-			Nombre string `json:"name"`
-			URL    string `json:"browser_download_url"`
-			Tamano int64  `json:"size"`
-			Digest string `json:"digest"`
-		} `json:"assets"`
-	}
-	if err := json.NewDecoder(io.LimitReader(resp.Body, 4<<20)).Decode(&gh); err != nil {
-		return nil, msj("respuestaIlegible")
-	}
+// releaseDe arma la versión con su instalador (y su SHA-256) a partir de la respuesta de GitHub.
+func releaseDe(gh releaseGitHub, msi bool) *Release {
 	rel := &Release{Version: versionDeEtiqueta(gh.Tag), Tag: gh.Tag, Fecha: gh.Publicada, Notas: gh.URL}
 
 	var sumas string
@@ -290,11 +353,7 @@ func ultimaRelease(repo string, msi bool) (*Release, error) {
 			}
 		}
 	}
-
-	cacheRel.mu.Lock()
-	cacheRel.datos[repo] = entradaCache{ETag: resp.Header.Get("ETag"), Release: rel}
-	cacheRel.mu.Unlock()
-	return rel, nil
+	return rel
 }
 
 func esSumas(n string) bool {

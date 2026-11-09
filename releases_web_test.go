@@ -54,7 +54,7 @@ func TestEtiquetaPublicaEvitaLaAPI(t *testing.T) {
 		t.Fatalf("repositorio mudado: etiquetaPublica = %q, %v", e, err)
 	}
 	// Primera vez: no hay nada guardado, se usa la API una vez.
-	if rel, err := ultimaRelease("yo/app", false); err != nil || rel.Version != "1.0.0" {
+	if rel, err := ultimaRelease("yo/app", false, false); err != nil || rel.Version != "1.0.0" {
 		t.Fatalf("primera consulta: %v %+v", err, rel)
 	}
 	if api.Load() != 1 {
@@ -62,7 +62,7 @@ func TestEtiquetaPublicaEvitaLaAPI(t *testing.T) {
 	}
 	// Misma etiqueta: diez revisiones y ninguna consulta a la API.
 	for i := 0; i < 10; i++ {
-		if _, err := ultimaRelease("yo/app", false); err != nil {
+		if _, err := ultimaRelease("yo/app", false, false); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -71,14 +71,14 @@ func TestEtiquetaPublicaEvitaLaAPI(t *testing.T) {
 	}
 	// Sale una versión nueva: una sola consulta a la API para traerla.
 	etiqueta.Store("v1.1.0")
-	if rel, err := ultimaRelease("yo/app", false); err != nil || rel.Version != "1.1.0" {
+	if rel, err := ultimaRelease("yo/app", false, false); err != nil || rel.Version != "1.1.0" {
 		t.Fatalf("versión nueva: %v %+v", err, rel)
 	}
 	if api.Load() != 2 {
 		t.Fatalf("la versión nueva debía usar la API una vez más, total %d", api.Load())
 	}
 	// Un repositorio sin versiones se reconoce sin la API.
-	if _, err := ultimaRelease("yo/sinversion", false); err != errSinVersiones {
+	if _, err := ultimaRelease("yo/sinversion", false, false); err != errSinVersiones {
 		t.Fatalf("sin versiones: %v", err)
 	}
 	if api.Load() != 2 {

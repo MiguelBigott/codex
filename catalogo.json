@@ -7,6 +7,10 @@
     {
       "id": "artcraft",
       "nombre": "ArtCraft"
+    },
+    {
+      "id": "sfg545",
+      "nombre": "SFG545"
     }
   ],
   "apps": [
@@ -658,6 +662,44 @@
           "descripcion": "表計算とデータ"
         }
       }
+    },
+    {
+      "id": "orchard",
+      "nombre": "Orchard",
+      "sufijo": "",
+      "descripcion": "Reproductor de música para escritorio",
+      "color": "#0d3b33",
+      "categoria": "sfg545",
+      "repo": "sfg5453/orchard",
+      "web": "https://sfg545.dev/orchard",
+      "autor": "SFG545",
+      "icono": "https://raw.githubusercontent.com/sfg5453/orchard/HEAD/mobile/assets/icon.png",
+      "traducciones": {
+        "en": {
+          "descripcion": "Desktop music player"
+        },
+        "fr": {
+          "descripcion": "Lecteur de musique pour ordinateur"
+        },
+        "de": {
+          "descripcion": "Musikplayer für den Desktop"
+        },
+        "ru": {
+          "descripcion": "Музыкальный плеер для компьютера"
+        },
+        "pt": {
+          "descripcion": "Player de música para desktop"
+        },
+        "zh": {
+          "descripcion": "桌面音乐播放器"
+        },
+        "ja": {
+          "descripcion": "デスクトップ向け音楽プレーヤー"
+        }
+      },
+      "porUsuario": true,
+      "seActualizaSola": true,
+      "betas": true
     }
   ]
 }

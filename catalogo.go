@@ -48,6 +48,15 @@ type AppCatalogo struct {
 	ColorSufijo string `json:"colorSufijo,omitempty"`
 	// Descripción y lema en otros idiomas («en», «fr»...); lo que falte se muestra en español.
 	Traducciones map[string]Traduccion `json:"traducciones,omitempty"`
+	// PorUsuario: el instalador se instala solo para el usuario, sin permiso de administrador,
+	// y elige su propia carpeta. Codex lo ejecuta sin elevar y sin /D=.
+	PorUsuario bool `json:"porUsuario,omitempty"`
+	// SeActualizaSola: la app trae su propio actualizador. Codex la instala, la abre y la
+	// desinstala, pero no ofrece actualizaciones (no pelea con el de la app).
+	SeActualizaSola bool `json:"seActualizaSola,omitempty"`
+	// Betas: si la última versión estable no trae instalador para Windows, se usa la versión
+	// más reciente que sí lo traiga, aunque sea beta.
+	Betas bool `json:"betas,omitempty"`
 }
 
 type Traduccion struct {

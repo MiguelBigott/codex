@@ -10,7 +10,7 @@
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)
-[![Apps](https://img.shields.io/badge/apps-15-c9a45c)](#-catálogo)
+[![Apps](https://img.shields.io/badge/apps-17-c9a45c)](#-catálogo)
 [![Licencia](https://img.shields.io/badge/licencia-MIT-3f9d6e)](LICENSE)
 
 [Historial de versiones](CHANGELOG.md) · [Releases](../../releases) · [Descargar el instalador](../../releases/latest)
@@ -70,6 +70,7 @@ Las apps de ArtCraft llevan el mismo número y los mismos colores que en su prop
 | 11 | <img src="https://raw.githubusercontent.com/storytold/deckcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.deckcraft.png" width="20" alt=""> **DeckCraft** | Presentaciones y diapositivas | [ArtCraft](https://getartcraft.com) | [storytold/deckcraft](https://github.com/storytold/deckcraft) |
 | 12 | <img src="https://raw.githubusercontent.com/storytold/cadcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.cadcraft.png" width="20" alt=""> **CADCraft** | Diseño y dibujo técnico | [ArtCraft](https://getartcraft.com) | [storytold/cadcraft](https://github.com/storytold/cadcraft) |
 | 13 | <img src="https://raw.githubusercontent.com/storytold/gridcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.gridcraft.png" width="20" alt=""> **GridCraft** | Hojas de cálculo y datos | [ArtCraft](https://getartcraft.com) | [storytold/gridcraft](https://github.com/storytold/gridcraft) |
+|  | <img src="https://raw.githubusercontent.com/sfg5453/orchard/HEAD/mobile/assets/icon.png" width="20" alt=""> **Orchard** | Reproductor de música para escritorio | [SFG545](https://sfg545.dev/orchard) | [sfg5453/orchard](https://github.com/sfg5453/orchard) |
 
 Cada app nueva entra al catálogo cuando tiene su primera versión publicada.
 
@@ -150,6 +151,9 @@ Cada app vive en su propio repositorio público y se define en [`catalogo.json`]
 | `nombreRegistro` | Nombre con el que se registra en Windows (por defecto `nombre`+`sufijo`) |
 | `ejecutable` | `.exe` dentro de su carpeta (por defecto `nombre`+`sufijo`.exe) |
 | `ejemplo` | `true` para mostrarla como «Próximamente» |
+| `porUsuario` | `true` si su instalador se instala solo para el usuario, sin permiso de administrador y en su propia carpeta |
+| `seActualizaSola` | `true` si la app trae su propio actualizador: Codex no ofrece actualizaciones |
+| `betas` | `true` para usar la versión beta más reciente con instalador si la estable no lo trae |
 
 Cada release debe incluir el instalador para Windows x64 (un `.exe` con `setup` en el nombre, o un `.msi` con `x64`) y su suma SHA-256: GitHub ya la publica para cada archivo, o puede ir en un `SHA256SUMS.txt`.
 
@@ -170,6 +174,7 @@ Las apps del catálogo tienen sus propias licencias y Codex las descarga de sus 
 ## 🖋️ Créditos
 
 - [PhotoCraft](https://github.com/storytold/photocraft), [LightCraft](https://github.com/storytold/lightcraft), [VectorCraft](https://github.com/storytold/vectorcraft), [DesignCraft](https://github.com/storytold/designcraft), [FigCraft](https://github.com/storytold/figcraft), [FilmCraft](https://github.com/storytold/filmcraft), [EffectCraft](https://github.com/storytold/effectcraft), [SoundCraft](https://github.com/storytold/soundcraft), [WordCraft](https://github.com/storytold/wordcraft), [GridCraft](https://github.com/storytold/gridcraft), [DeckCraft](https://github.com/storytold/deckcraft), [PdfCraft](https://github.com/storytold/pdfcraft) y [CADCraft](https://github.com/storytold/cadcraft) son de [ArtCraft](https://getartcraft.com), con licencia Apache 2.0. Codex las muestra con su nombre, su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas.
+- [Orchard](https://github.com/sfg5453/orchard) es de [SFG545](https://sfg545.dev/orchard), con licencia AGPL 3.0 (su motor de mezcla, PolyForm Shield). Codex la muestra con su icono oficial y su crédito, y baja su instalador oficial sin modificarlo; la app se mantiene al día con su propio actualizador.
 - Tipografías [Inter](https://rsms.me/inter/) y [Space Mono](https://fonts.google.com/specimen/Space+Mono), con licencia SIL Open Font License.
 - Ventana con [go-webview2](https://github.com/jchv/go-webview2) (MIT).
 

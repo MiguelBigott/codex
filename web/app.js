@@ -158,7 +158,9 @@ function pastillaEstado(a) {
 function lineaVersion(a) {
   if (a.error && !a.ultima) return el("p", { class: "version" }, el("span", { class: "error", text: tm(a.error) }));
   if (!a.ultima) return el("p", { class: "version", text: t(a.estado === "proximamente" ? "version.aunSin" : "version.sin") });
-  const fecha = a.ultima.fecha ? ` · ${formatoFecha(a.ultima.fecha)}` : "";
+  // Las apps que se actualizan solas pueden ir por delante de la versión que conoce Codex:
+  // instaladas, se muestra solo su versión, sin la fecha de otra.
+  const fecha = a.ultima.fecha && !(a.seActualizaSola && a.instalada) ? ` · ${formatoFecha(a.ultima.fecha)}` : "";
   if (a.estado === "actualizacion") return el("p", { class: "version", text: `${t("version", { version: a.versionInstalada })} → ${a.ultima.version}${fecha}` });
   return el("p", { class: "version", text: `${t("version", { version: a.instalada ? a.versionInstalada : a.ultima.version })}${fecha}` });
 }

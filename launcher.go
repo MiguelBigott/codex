@@ -158,7 +158,7 @@ func (l *Launcher) Revisar() {
 		if app.Ejemplo || app.Repo == "" {
 			continue
 		}
-		rel, err := ultimaRelease(app.Repo, app.EsMSI())
+		rel, err := ultimaRelease(app.Repo, app.EsMSI(), app.Betas)
 		l.mu.Lock()
 		if err != nil {
 			l.errores[app.ID] = comoMensaje(err)
@@ -169,7 +169,7 @@ func (l *Launcher) Revisar() {
 		l.mu.Unlock()
 	}
 	if repoLauncher != "" {
-		if rel, err := ultimaRelease(repoLauncher, false); err == nil {
+		if rel, err := ultimaRelease(repoLauncher, false, false); err == nil {
 			l.mu.Lock()
 			l.propia = rel
 			l.mu.Unlock()
@@ -238,6 +238,8 @@ func (l *Launcher) Estado() EstadoLauncher {
 		switch {
 		case app.Ejemplo:
 			ea.Estado = "proximamente"
+		case ea.Instalada && app.SeActualizaSola:
+			ea.Estado = "instalada" // su propio actualizador la mantiene al día
 		case ea.Instalada && ea.Ultima != nil && compararVersiones(ea.Ultima.Version, ea.VersionInstalada) > 0:
 			ea.Estado = "actualizacion"
 		case ea.Instalada:
@@ -354,7 +356,12 @@ func (l *Launcher) Instalar(id string) error {
 				args += ` ` + app.PropiedadCarpeta + `="` + carpeta + `"`
 			}
 		}
-		codigo, err := ejecutarElevado(exe, args, true)
+		ejecutar := ejecutarElevado
+		if app.PorUsuario {
+			// Se instala para el usuario, en la carpeta que elige: sin /D= ni permiso de administrador.
+			args, ejecutar = "/S", ejecutarNormal
+		}
+		codigo, err := ejecutar(exe, args, true)
 		switch {
 		case errors.Is(err, errCancelado), codigo == msiCancelado:
 			l.avisar(msj("instalarCancelado", "app", nombre), true)
@@ -396,7 +403,8 @@ func (l *Launcher) Desinstalar(id string) error {
 		if guid := codigoProductoMSI(inst.Desinstalar); guid != "" {
 			// MSI: «MsiExec.exe /I{...}» abre el asistente; /x desinstala en silencio.
 			exe, args = "msiexec.exe", "/x "+guid+" /qn /norestart"
-		} else if !inst.Silencioso {
+		} else if !inst.Silencioso && !app.PorUsuario {
+			// /S es de NSIS; las apps por usuario traen su propio desinstalador.
 			args += " /S"
 		}
 		var codigo uint32

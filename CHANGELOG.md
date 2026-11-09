@@ -8,6 +8,12 @@ etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 ### Corregido
 - Codex crea el acceso directo de las apps propias y de ArtCraft después de instalarlas o actualizarlas, y repara al iniciar los enlaces que falten o apunten a una ruta anterior.
 
+## [0.3.5] - 2026-11-09
+
+### Añadido
+- Orchard, el reproductor de música de SFG545, en su propia sección del catálogo. Se instala para el usuario sin pedir permiso de administrador y se mantiene al día con su propio actualizador, así que Codex no le ofrece actualizaciones.
+- Opciones del catálogo `porUsuario`, `seActualizaSola` y `betas` para apps de terceros con instaladores así.
+
 ## [0.3.4] - 2026-10-22
 
 ### Añadido
