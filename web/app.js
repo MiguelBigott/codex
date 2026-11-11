@@ -207,7 +207,7 @@ function tarjeta(a) {
     a.web && el("button", { type: "button", text: t("sitioWeb"), onclick: () => abrirEnlace(a.web) }),
     a.urlRepo && el("button", { type: "button", text: t("github"), onclick: () => abrirEnlace(a.urlRepo) }));
   const estilo = { "--color-app": a.color };
-  if (a.numero) estilo["--color-barra"] = a.color; // apps de ArtCraft: barra de su color
+  if (a.categoria === "artcraft") estilo["--color-barra"] = a.color; // apps de ArtCraft: barra de su color
   return el("article", { class: "tarjeta", style: estilo },
     el("div", { class: "tarjeta-cabecera" },
       numeroApp(a, "numero"),

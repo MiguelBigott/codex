@@ -464,6 +464,86 @@
       }
     },
     {
+      "id": "texturecraft",
+      "nombre": "Texture",
+      "sufijo": "Craft",
+      "descripcion": "Pintura de texturas 3D",
+      "autor": "ArtCraft",
+      "color": "#c2672b",
+      "categoria": "artcraft",
+      "repo": "storytold/texturecraft",
+      "web": "https://getartcraft.com/apps/texturecraft",
+      "formato": "msi",
+      "propiedadCarpeta": "INSTALLFOLDER",
+      "ejecutable": "texturecraft.exe",
+      "icono": "https://raw.githubusercontent.com/storytold/texturecraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.texturecraft.png",
+      "numero": 9,
+      "colorSufijo": "#e58a4e",
+      "traducciones": {
+        "en": {
+          "descripcion": "3D texture painting"
+        },
+        "fr": {
+          "descripcion": "Peinture de textures 3D"
+        },
+        "de": {
+          "descripcion": "3D-Texturmalerei"
+        },
+        "ru": {
+          "descripcion": "Рисование 3D-текстур"
+        },
+        "pt": {
+          "descripcion": "Pintura de texturas 3D"
+        },
+        "zh": {
+          "descripcion": "3D 纹理绘制"
+        },
+        "ja": {
+          "descripcion": "3D テクスチャペイント"
+        }
+      }
+    },
+    {
+      "id": "materialcraft",
+      "nombre": "Material",
+      "sufijo": "Craft",
+      "descripcion": "Diseño de materiales procedurales",
+      "autor": "ArtCraft",
+      "color": "#178a9c",
+      "categoria": "artcraft",
+      "repo": "storytold/materialcraft",
+      "web": "https://getartcraft.com/apps/materialcraft",
+      "formato": "msi",
+      "propiedadCarpeta": "INSTALLFOLDER",
+      "ejecutable": "materialcraft.exe",
+      "icono": "https://raw.githubusercontent.com/storytold/materialcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.materialcraft.png",
+      "numero": 10,
+      "colorSufijo": "#63c5d3",
+      "traducciones": {
+        "en": {
+          "descripcion": "Procedural material design"
+        },
+        "fr": {
+          "descripcion": "Conception de matériaux procéduraux"
+        },
+        "de": {
+          "descripcion": "Prozedurales Materialdesign"
+        },
+        "ru": {
+          "descripcion": "Проектирование процедурных материалов"
+        },
+        "pt": {
+          "descripcion": "Design de materiais procedurais"
+        },
+        "zh": {
+          "descripcion": "程序化材质设计"
+        },
+        "ja": {
+          "descripcion": "プロシージャルマテリアルのデザイン"
+        }
+      }
+    },
+    {
       "id": "wordcraft",
       "nombre": "Word",
       "sufijo": "Craft",
@@ -477,7 +557,7 @@
       "propiedadCarpeta": "INSTALLFOLDER",
       "ejecutable": "wordcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/wordcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.wordcraft.png",
-      "numero": 9,
+      "numero": 11,
       "colorSufijo": "#8ea2ff",
       "traducciones": {
         "en": {
@@ -517,7 +597,7 @@
       "propiedadCarpeta": "INSTALLFOLDER",
       "ejecutable": "soundcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/soundcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.soundcraft.png",
-      "numero": 10,
+      "numero": 12,
       "colorSufijo": "#5fd0ee",
       "traducciones": {
         "en": {
@@ -557,7 +637,7 @@
       "propiedadCarpeta": "INSTALLFOLDER",
       "ejecutable": "deckcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/deckcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.deckcraft.png",
-      "numero": 11,
+      "numero": 13,
       "colorSufijo": "#ffa060",
       "traducciones": {
         "en": {
@@ -597,7 +677,7 @@
       "propiedadCarpeta": "INSTALLFOLDER",
       "ejecutable": "cadcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/cadcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.cadcraft.png",
-      "numero": 12,
+      "numero": 14,
       "colorSufijo": "#7cc8ff",
       "traducciones": {
         "en": {
@@ -637,7 +717,7 @@
       "propiedadCarpeta": "INSTALLFOLDER",
       "ejecutable": "gridcraft.exe",
       "icono": "https://raw.githubusercontent.com/storytold/gridcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.gridcraft.png",
-      "numero": 13,
+      "numero": 15,
       "colorSufijo": "#4fd68a",
       "traducciones": {
         "en": {
@@ -660,6 +740,163 @@
         },
         "ja": {
           "descripcion": "表計算とデータ"
+        }
+      }
+    },
+    {
+      "id": "craft-anything",
+      "nombre": "Craft Anything",
+      "sufijo": "",
+      "descripcion": "Descubre cómo funciona cualquier programa y crea el tuyo",
+      "autor": "ArtCraft",
+      "color": "#4e7bfb",
+      "categoria": "artcraft",
+      "repo": "storytold/craft-anything",
+      "web": "https://getartcraft.com/apps/craft-anything",
+      "formato": "msi",
+      "propiedadCarpeta": "INSTALLFOLDER",
+      "ejecutable": "craft-anything.exe",
+      "icono": "https://raw.githubusercontent.com/storytold/craft-anything/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.craft-anything.png",
+      "numero": 16,
+      "colorSufijo": "#74aaff",
+      "traducciones": {
+        "en": {
+          "descripcion": "Find out how any software works, then craft your own"
+        },
+        "fr": {
+          "descripcion": "Découvrez comment fonctionne n'importe quel logiciel, puis créez le vôtre"
+        },
+        "de": {
+          "descripcion": "Finde heraus, wie jede Software funktioniert, und baue deine eigene"
+        },
+        "ru": {
+          "descripcion": "Узнайте, как устроена любая программа, и создайте свою"
+        },
+        "pt": {
+          "descripcion": "Descubra como qualquer programa funciona e crie o seu"
+        },
+        "zh": {
+          "descripcion": "了解任何软件的工作原理，然后打造你自己的"
+        },
+        "ja": {
+          "descripcion": "どんなソフトの仕組みも調べて、自分のものを作る"
+        }
+      }
+    },
+    {
+      "id": "anicraft",
+      "nombre": "Ani",
+      "sufijo": "Craft",
+      "descripcion": "Animación vectorial 2D",
+      "autor": "ArtCraft",
+      "color": "#dac604",
+      "categoria": "artcraft",
+      "repo": "storytold/anicraft",
+      "web": "https://github.com/storytold/anicraft",
+      "formato": "msi",
+      "propiedadCarpeta": "INSTALLFOLDER",
+      "ejecutable": "anicraft.exe",
+      "icono": "https://raw.githubusercontent.com/storytold/anicraft/HEAD/assets/app-icon/hicolor/128x128/apps/ai.storyteller.anicraft.png",
+      "colorSufijo": "#e8d84a",
+      "traducciones": {
+        "en": {
+          "descripcion": "2D vector animation"
+        },
+        "fr": {
+          "descripcion": "Animation vectorielle 2D"
+        },
+        "de": {
+          "descripcion": "2D-Vektoranimation"
+        },
+        "ru": {
+          "descripcion": "2D-векторная анимация"
+        },
+        "pt": {
+          "descripcion": "Animação vetorial 2D"
+        },
+        "zh": {
+          "descripcion": "2D 矢量动画"
+        },
+        "ja": {
+          "descripcion": "2D ベクターアニメーション"
+        }
+      }
+    },
+    {
+      "id": "solidcraft",
+      "nombre": "Solid",
+      "sufijo": "Craft",
+      "descripcion": "CAD 3D paramétrico",
+      "autor": "Tangency Labs",
+      "color": "#46a1fb",
+      "categoria": "artcraft",
+      "repo": "tangency-labs/solidcraft",
+      "web": "https://solidcraft.io",
+      "formato": "msi",
+      "propiedadCarpeta": "INSTALLFOLDER",
+      "ejecutable": "solidcraft.exe",
+      "icono": "https://raw.githubusercontent.com/tangency-labs/solidcraft/HEAD/assets/icons/app/linux/exports/hicolor/256x256/apps/io.tangencylabs.solidcraft.png",
+      "colorSufijo": "#8cc4ff",
+      "traducciones": {
+        "en": {
+          "descripcion": "Parametric 3D CAD"
+        },
+        "fr": {
+          "descripcion": "CAO 3D paramétrique"
+        },
+        "de": {
+          "descripcion": "Parametrisches 3D-CAD"
+        },
+        "ru": {
+          "descripcion": "Параметрическое 3D-проектирование"
+        },
+        "pt": {
+          "descripcion": "CAD 3D paramétrico"
+        },
+        "zh": {
+          "descripcion": "参数化 3D CAD"
+        },
+        "ja": {
+          "descripcion": "パラメトリック 3D CAD"
+        }
+      }
+    },
+    {
+      "id": "mailcraft",
+      "nombre": "Mail",
+      "sufijo": "Craft",
+      "descripcion": "Correo, calendario y contactos",
+      "autor": "UCS Care Group",
+      "color": "#0f68f0",
+      "categoria": "artcraft",
+      "repo": "UCS-Care-Group/mailcraft",
+      "web": "https://mailcraft.work",
+      "formato": "msi",
+      "propiedadCarpeta": "INSTALLFOLDER",
+      "ejecutable": "mailcraft.exe",
+      "icono": "https://raw.githubusercontent.com/UCS-Care-Group/mailcraft/HEAD/assets/app-icon/hicolor/256x256/apps/io.github.billsecond.mailcraft.png",
+      "colorSufijo": "#8fbfff",
+      "traducciones": {
+        "en": {
+          "descripcion": "Mail, calendar and contacts"
+        },
+        "fr": {
+          "descripcion": "Courrier, calendrier et contacts"
+        },
+        "de": {
+          "descripcion": "E-Mail, Kalender und Kontakte"
+        },
+        "ru": {
+          "descripcion": "Почта, календарь и контакты"
+        },
+        "pt": {
+          "descripcion": "E-mail, calendário e contatos"
+        },
+        "zh": {
+          "descripcion": "邮件、日历和联系人"
+        },
+        "ja": {
+          "descripcion": "メール、カレンダー、連絡先"
         }
       }
     },

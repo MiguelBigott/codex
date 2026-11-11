@@ -6,11 +6,11 @@
 
 > Un solo lugar para **instalar, actualizar y abrir** mis apps de Windows: eliges una app, Codex baja su instalador oficial, verifica su firma SHA-256 y la deja lista.
 
-[![Versión](https://img.shields.io/badge/versión-v0.3.5-ffb454)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versión-v0.3.6-ffb454)](CHANGELOG.md)
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)
-[![Apps](https://img.shields.io/badge/apps-17-c9a45c)](#-catálogo)
+[![Apps](https://img.shields.io/badge/apps-23-c9a45c)](#-catálogo)
 [![Licencia](https://img.shields.io/badge/licencia-MIT-3f9d6e)](LICENSE)
 
 [Historial de versiones](CHANGELOG.md) · [Releases](../../releases) · [Descargar el instalador](../../releases/latest)
@@ -50,7 +50,7 @@
 
 ## 📚 Catálogo
 
-Las apps de ArtCraft llevan el mismo número y los mismos colores que en su propio launcher (PhotoCraft 01 … GridCraft 13).
+Las apps de ArtCraft llevan el mismo número y los mismos colores que en su propio launcher (PhotoCraft 01 … Craft Anything 16). AniCraft aún no tiene número en su web; SolidCraft y MailCraft son apps de la comunidad que el launcher de ArtCraft también instala.
 
 | # | App | Qué hace | Autor | Repositorio |
 |---|---|---|---|---|
@@ -65,11 +65,17 @@ Las apps de ArtCraft llevan el mismo número y los mismos colores que en su prop
 | 06 | <img src="https://raw.githubusercontent.com/storytold/effectcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.effectcraft.png" width="20" alt=""> **EffectCraft** | Gráficos en movimiento y efectos visuales | [ArtCraft](https://getartcraft.com) | [storytold/effectcraft](https://github.com/storytold/effectcraft) |
 | 07 | <img src="https://raw.githubusercontent.com/storytold/designcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.designcraft.png" width="20" alt=""> **DesignCraft** | Maquetación de páginas | [ArtCraft](https://getartcraft.com) | [storytold/designcraft](https://github.com/storytold/designcraft) |
 | 08 | <img src="https://raw.githubusercontent.com/storytold/figcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.figcraft.png" width="20" alt=""> **FigCraft** | Diseño de interfaces y prototipos | [ArtCraft](https://getartcraft.com) | [storytold/figcraft](https://github.com/storytold/figcraft) |
-| 09 | <img src="https://raw.githubusercontent.com/storytold/wordcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.wordcraft.png" width="20" alt=""> **WordCraft** | Escritura y diseño de documentos | [ArtCraft](https://getartcraft.com) | [storytold/wordcraft](https://github.com/storytold/wordcraft) |
-| 10 | <img src="https://raw.githubusercontent.com/storytold/soundcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.soundcraft.png" width="20" alt=""> **SoundCraft** | Grabación, edición y mezcla de audio | [ArtCraft](https://getartcraft.com) | [storytold/soundcraft](https://github.com/storytold/soundcraft) |
-| 11 | <img src="https://raw.githubusercontent.com/storytold/deckcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.deckcraft.png" width="20" alt=""> **DeckCraft** | Presentaciones y diapositivas | [ArtCraft](https://getartcraft.com) | [storytold/deckcraft](https://github.com/storytold/deckcraft) |
-| 12 | <img src="https://raw.githubusercontent.com/storytold/cadcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.cadcraft.png" width="20" alt=""> **CADCraft** | Diseño y dibujo técnico | [ArtCraft](https://getartcraft.com) | [storytold/cadcraft](https://github.com/storytold/cadcraft) |
-| 13 | <img src="https://raw.githubusercontent.com/storytold/gridcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.gridcraft.png" width="20" alt=""> **GridCraft** | Hojas de cálculo y datos | [ArtCraft](https://getartcraft.com) | [storytold/gridcraft](https://github.com/storytold/gridcraft) |
+| 09 | <img src="https://raw.githubusercontent.com/storytold/texturecraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.texturecraft.png" width="20" alt=""> **TextureCraft** | Pintura de texturas 3D | [ArtCraft](https://getartcraft.com) | [storytold/texturecraft](https://github.com/storytold/texturecraft) |
+| 10 | <img src="https://raw.githubusercontent.com/storytold/materialcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.materialcraft.png" width="20" alt=""> **MaterialCraft** | Diseño de materiales procedurales | [ArtCraft](https://getartcraft.com) | [storytold/materialcraft](https://github.com/storytold/materialcraft) |
+| 11 | <img src="https://raw.githubusercontent.com/storytold/wordcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.wordcraft.png" width="20" alt=""> **WordCraft** | Escritura y diseño de documentos | [ArtCraft](https://getartcraft.com) | [storytold/wordcraft](https://github.com/storytold/wordcraft) |
+| 12 | <img src="https://raw.githubusercontent.com/storytold/soundcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.soundcraft.png" width="20" alt=""> **SoundCraft** | Grabación, edición y mezcla de audio | [ArtCraft](https://getartcraft.com) | [storytold/soundcraft](https://github.com/storytold/soundcraft) |
+| 13 | <img src="https://raw.githubusercontent.com/storytold/deckcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.deckcraft.png" width="20" alt=""> **DeckCraft** | Presentaciones y diapositivas | [ArtCraft](https://getartcraft.com) | [storytold/deckcraft](https://github.com/storytold/deckcraft) |
+| 14 | <img src="https://raw.githubusercontent.com/storytold/cadcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.cadcraft.png" width="20" alt=""> **CADCraft** | Diseño y dibujo técnico | [ArtCraft](https://getartcraft.com) | [storytold/cadcraft](https://github.com/storytold/cadcraft) |
+| 15 | <img src="https://raw.githubusercontent.com/storytold/gridcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.gridcraft.png" width="20" alt=""> **GridCraft** | Hojas de cálculo y datos | [ArtCraft](https://getartcraft.com) | [storytold/gridcraft](https://github.com/storytold/gridcraft) |
+| 16 | <img src="https://raw.githubusercontent.com/storytold/craft-anything/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.craft-anything.png" width="20" alt=""> **Craft Anything** | Descubre cómo funciona cualquier programa y crea el tuyo | [ArtCraft](https://getartcraft.com) | [storytold/craft-anything](https://github.com/storytold/craft-anything) |
+|  | <img src="https://raw.githubusercontent.com/storytold/anicraft/HEAD/assets/app-icon/hicolor/128x128/apps/ai.storyteller.anicraft.png" width="20" alt=""> **AniCraft** | Animación vectorial 2D | [ArtCraft](https://getartcraft.com) | [storytold/anicraft](https://github.com/storytold/anicraft) |
+|  | <img src="https://raw.githubusercontent.com/tangency-labs/solidcraft/HEAD/assets/icons/app/linux/exports/hicolor/256x256/apps/io.tangencylabs.solidcraft.png" width="20" alt=""> **SolidCraft** | CAD 3D paramétrico | [Tangency Labs](https://solidcraft.io) | [tangency-labs/solidcraft](https://github.com/tangency-labs/solidcraft) |
+|  | <img src="https://raw.githubusercontent.com/UCS-Care-Group/mailcraft/HEAD/assets/app-icon/hicolor/256x256/apps/io.github.billsecond.mailcraft.png" width="20" alt=""> **MailCraft** | Correo, calendario y contactos | [UCS Care Group](https://mailcraft.work) | [UCS-Care-Group/mailcraft](https://github.com/UCS-Care-Group/mailcraft) |
 |  | <img src="https://raw.githubusercontent.com/sfg5453/orchard/HEAD/mobile/assets/icon.png" width="20" alt=""> **Orchard** | Reproductor de música para escritorio | [SFG545](https://sfg545.dev/orchard) | [sfg5453/orchard](https://github.com/sfg5453/orchard) |
 
 Cada app nueva entra al catálogo cuando tiene su primera versión publicada.
@@ -173,7 +179,8 @@ Las apps del catálogo tienen sus propias licencias y Codex las descarga de sus 
 
 ## 🖋️ Créditos
 
-- [PhotoCraft](https://github.com/storytold/photocraft), [LightCraft](https://github.com/storytold/lightcraft), [VectorCraft](https://github.com/storytold/vectorcraft), [DesignCraft](https://github.com/storytold/designcraft), [FigCraft](https://github.com/storytold/figcraft), [FilmCraft](https://github.com/storytold/filmcraft), [EffectCraft](https://github.com/storytold/effectcraft), [SoundCraft](https://github.com/storytold/soundcraft), [WordCraft](https://github.com/storytold/wordcraft), [GridCraft](https://github.com/storytold/gridcraft), [DeckCraft](https://github.com/storytold/deckcraft), [PdfCraft](https://github.com/storytold/pdfcraft) y [CADCraft](https://github.com/storytold/cadcraft) son de [ArtCraft](https://getartcraft.com), con licencia Apache 2.0. Codex las muestra con su nombre, su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas.
+- [PhotoCraft](https://github.com/storytold/photocraft), [VectorCraft](https://github.com/storytold/vectorcraft), [FilmCraft](https://github.com/storytold/filmcraft), [LightCraft](https://github.com/storytold/lightcraft), [PdfCraft](https://github.com/storytold/pdfcraft), [EffectCraft](https://github.com/storytold/effectcraft), [DesignCraft](https://github.com/storytold/designcraft), [FigCraft](https://github.com/storytold/figcraft), [TextureCraft](https://github.com/storytold/texturecraft), [MaterialCraft](https://github.com/storytold/materialcraft), [WordCraft](https://github.com/storytold/wordcraft), [SoundCraft](https://github.com/storytold/soundcraft), [DeckCraft](https://github.com/storytold/deckcraft), [CADCraft](https://github.com/storytold/cadcraft), [GridCraft](https://github.com/storytold/gridcraft), [Craft Anything](https://github.com/storytold/craft-anything) y [AniCraft](https://github.com/storytold/anicraft) son de [ArtCraft](https://getartcraft.com), con licencia Apache 2.0. Codex las muestra con su nombre, su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas.
+- [SolidCraft](https://github.com/tangency-labs/solidcraft) es de [Tangency Labs](https://solidcraft.io) y [MailCraft](https://github.com/UCS-Care-Group/mailcraft) de [UCS Care Group](https://mailcraft.work), ambas con licencia Apache 2.0: apps de la comunidad que el launcher de ArtCraft también instala. Codex las muestra con su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas.
 - [Orchard](https://github.com/sfg5453/orchard) es de [SFG545](https://sfg545.dev/orchard), con licencia AGPL 3.0 (su motor de mezcla, PolyForm Shield). Codex la muestra con su icono oficial y su crédito, y baja su instalador oficial sin modificarlo; la app se mantiene al día con su propio actualizador.
 - Tipografías [Inter](https://rsms.me/inter/) y [Space Mono](https://fonts.google.com/specimen/Space+Mono), con licencia SIL Open Font License.
 - Ventana con [go-webview2](https://github.com/jchv/go-webview2) (MIT).

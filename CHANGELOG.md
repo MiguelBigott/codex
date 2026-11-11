@@ -8,6 +8,18 @@ etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 ### Corregido
 - Codex crea el acceso directo de las apps propias y de ArtCraft después de instalarlas o actualizarlas, y repara al iniciar los enlaces que falten o apunten a una ruta anterior.
 
+## [0.3.6] - 2026-11-10
+
+### Añadido
+- TextureCraft, MaterialCraft y Craft Anything, las apps nuevas de ArtCraft, con el número y los colores de su web: TextureCraft 09, MaterialCraft 10 y Craft Anything 16.
+- AniCraft, también de ArtCraft (sin número todavía: no está en su web), y SolidCraft (de Tangency Labs) y MailCraft (de UCS Care Group), las apps de la comunidad que el launcher de ArtCraft también instala.
+
+### Corregido
+- Los MSI se instalan para todo el PC (ALLUSERS=1), como en el launcher de ArtCraft: los que permiten elegir entre usuario y PC quedaban solo para el usuario.
+
+### Cambiado
+- Las apps de ArtCraft siguen la numeración actual de getartcraft.com: WordCraft pasa a 11, SoundCraft a 12, DeckCraft a 13, CADCraft a 14 y GridCraft a 15.
+
 ## [0.3.5] - 2026-11-09
 
 ### Añadido

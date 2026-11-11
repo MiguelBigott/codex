@@ -355,6 +355,9 @@ func (l *Launcher) Instalar(id string) error {
 			if app.PropiedadCarpeta != "" {
 				args += ` ` + app.PropiedadCarpeta + `="` + carpeta + `"`
 			}
+			// Para todo el PC, como lo instala el launcher de ArtCraft: los MSI «por usuario o PC»
+			// (AniCraft) se quedarían solo para el usuario sin esto.
+			args += ` ALLUSERS=1`
 		}
 		ejecutar := ejecutarElevado
 		if app.PorUsuario {
