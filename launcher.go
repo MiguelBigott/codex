@@ -169,7 +169,8 @@ func (l *Launcher) Revisar() {
 		l.mu.Unlock()
 	}
 	if repoLauncher != "" {
-		if rel, err := ultimaRelease(repoLauncher, false, false); err == nil {
+		// Codex se revisa a sí mismo sin la API: su aviso llega aunque la cuota esté agotada.
+		if rel, err := releasePropia(repoLauncher); err == nil {
 			l.mu.Lock()
 			l.propia = rel
 			l.mu.Unlock()

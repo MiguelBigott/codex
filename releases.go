@@ -294,6 +294,41 @@ func ultimaRelease(repo string, msi, betas bool) (*Release, error) {
 	return rel, nil
 }
 
+// releasePropia arma la última versión de Codex sin usar la API de GitHub: la etiqueta sale de
+// la página pública, el instalador tiene nombre fijo (Codex-Setup-<versión>.exe) y su SHA-256
+// viene del SHA256SUMS.txt de la misma release, que se baja como cualquier archivo. Así el aviso
+// de una versión nueva de Codex llega aunque la cuota de la API esté agotada. Si la release no
+// trae SHA256SUMS.txt, se pregunta a la API como con cualquier app.
+func releasePropia(repo string) (*Release, error) {
+	etiqueta, err := etiquetaPublica(repo)
+	if err != nil {
+		return nil, err
+	}
+	cacheRel.mu.Lock()
+	previa := cacheRel.datos[repo]
+	cacheRel.mu.Unlock()
+	if r := previa.Release; r != nil && r.Tag == etiqueta && r.Instalador != nil && esHex64(r.Instalador.SHA256) {
+		return r, nil
+	}
+	version := versionDeEtiqueta(etiqueta)
+	descargas := webGitHub + "/" + repo + "/releases/download/" + url.PathEscape(etiqueta) + "/"
+	nombre := "Codex-Setup-" + version + ".exe"
+	suma, err := sumaDesdeArchivo(descargas+"SHA256SUMS.txt", nombre)
+	if err != nil {
+		return ultimaRelease(repo, false, false)
+	}
+	rel := &Release{
+		Version:    version,
+		Tag:        etiqueta,
+		Notas:      webGitHub + "/" + repo + "/releases/tag/" + url.PathEscape(etiqueta),
+		Instalador: &Archivo{Nombre: nombre, URL: descargas + nombre, SHA256: suma},
+	}
+	cacheRel.mu.Lock()
+	cacheRel.datos[repo] = entradaCache{Release: rel, ConCambios: true}
+	cacheRel.mu.Unlock()
+	return rel, nil
+}
+
 // releaseConBetas busca, entre las versiones recientes (también las beta), la más nueva que
 // trae instalador para Windows. La página pública solo dice la última estable, así que usa
 // la API una vez por revisión (con ETag).

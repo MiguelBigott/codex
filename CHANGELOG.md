@@ -3,6 +3,11 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.4.1] - 2026-11-11
+
+### Corregido
+- El aviso de una versión nueva de Codex llega aunque la cuota de la API de GitHub esté agotada: Codex lee su versión de la página pública y la suma del SHA256SUMS.txt de la release, sin consultar la API.
+
 ## [0.4.0] - 2026-11-11
 
 ### Añadido
