@@ -10,7 +10,7 @@
     },
     {
       "id": "sfg545",
-      "nombre": "SFG545"
+      "nombre": "Gallery"
     }
   ],
   "apps": [
@@ -823,13 +823,51 @@
       }
     },
     {
+      "id": "orchard",
+      "nombre": "Orchard",
+      "sufijo": "",
+      "descripcion": "Reproductor de música para escritorio",
+      "color": "#0d3b33",
+      "categoria": "sfg545",
+      "repo": "sfg5453/orchard",
+      "web": "https://sfg545.dev/orchard",
+      "autor": "SFG545",
+      "icono": "https://raw.githubusercontent.com/sfg5453/orchard/HEAD/mobile/assets/icon.png",
+      "traducciones": {
+        "en": {
+          "descripcion": "Desktop music player"
+        },
+        "fr": {
+          "descripcion": "Lecteur de musique pour ordinateur"
+        },
+        "de": {
+          "descripcion": "Musikplayer für den Desktop"
+        },
+        "ru": {
+          "descripcion": "Музыкальный плеер для компьютера"
+        },
+        "pt": {
+          "descripcion": "Player de música para desktop"
+        },
+        "zh": {
+          "descripcion": "桌面音乐播放器"
+        },
+        "ja": {
+          "descripcion": "デスクトップ向け音楽プレーヤー"
+        }
+      },
+      "porUsuario": true,
+      "seActualizaSola": true,
+      "betas": true
+    },
+    {
       "id": "solidcraft",
       "nombre": "Solid",
       "sufijo": "Craft",
       "descripcion": "CAD 3D paramétrico",
       "autor": "Tangency Labs",
       "color": "#46a1fb",
-      "categoria": "artcraft",
+      "categoria": "sfg545",
       "repo": "tangency-labs/solidcraft",
       "web": "https://solidcraft.io",
       "formato": "msi",
@@ -868,7 +906,7 @@
       "descripcion": "Correo, calendario y contactos",
       "autor": "UCS Care Group",
       "color": "#0f68f0",
-      "categoria": "artcraft",
+      "categoria": "sfg545",
       "repo": "UCS-Care-Group/mailcraft",
       "web": "https://mailcraft.work",
       "formato": "msi",
@@ -901,42 +939,40 @@
       }
     },
     {
-      "id": "orchard",
-      "nombre": "Orchard",
+      "id": "obs",
+      "nombre": "OBS Studio",
       "sufijo": "",
-      "descripcion": "Reproductor de música para escritorio",
-      "color": "#0d3b33",
+      "descripcion": "Grabación y transmisión de video en directo",
+      "color": "#302e31",
       "categoria": "sfg545",
-      "repo": "sfg5453/orchard",
-      "web": "https://sfg545.dev/orchard",
-      "autor": "SFG545",
-      "icono": "https://raw.githubusercontent.com/sfg5453/orchard/HEAD/mobile/assets/icon.png",
+      "repo": "obsproject/obs-studio",
+      "web": "https://obsproject.com",
+      "autor": "OBS Project",
+      "icono": "https://avatars.githubusercontent.com/u/7725691?s=280&v=4",
+      "ejecutable": "bin/64bit/obs64.exe",
       "traducciones": {
         "en": {
-          "descripcion": "Desktop music player"
+          "descripcion": "Video recording and live streaming"
         },
         "fr": {
-          "descripcion": "Lecteur de musique pour ordinateur"
+          "descripcion": "Enregistrement vidéo et diffusion en direct"
         },
         "de": {
-          "descripcion": "Musikplayer für den Desktop"
+          "descripcion": "Videoaufnahme und Livestreaming"
         },
         "ru": {
-          "descripcion": "Музыкальный плеер для компьютера"
+          "descripcion": "Запись видео и трансляции в прямом эфире"
         },
         "pt": {
-          "descripcion": "Player de música para desktop"
+          "descripcion": "Gravação de vídeo e transmissão ao vivo"
         },
         "zh": {
-          "descripcion": "桌面音乐播放器"
+          "descripcion": "视频录制与直播"
         },
         "ja": {
-          "descripcion": "デスクトップ向け音楽プレーヤー"
+          "descripcion": "動画の録画とライブ配信"
         }
-      },
-      "porUsuario": true,
-      "seActualizaSola": true,
-      "betas": true
+      }
     }
   ]
 }

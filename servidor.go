@@ -46,6 +46,14 @@ func (s *servidor) handler() http.Handler {
 	mux.HandleFunc("/api/estado", s.api(func(w http.ResponseWriter, r *http.Request) {
 		responder(w, s.l.Estado())
 	}))
+	mux.HandleFunc("/api/detalles", s.api(func(w http.ResponseWriter, r *http.Request) {
+		d, err := s.l.Detalles(r.URL.Query().Get("id"))
+		if err != nil {
+			fallar(w, http.StatusNotFound, comoMensaje(err))
+			return
+		}
+		responder(w, d)
+	}))
 	mux.HandleFunc("/api/revisar", s.post(func(w http.ResponseWriter, r *http.Request) {
 		go s.l.Revisar()
 		responder(w, map[string]bool{"ok": true})

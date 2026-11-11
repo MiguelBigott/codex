@@ -155,14 +155,22 @@ function pastillaEstado(a) {
   return el("span", { class: `estado estado-${a.estado}`, text: t("estado." + a.estado) });
 }
 
+// Versión arriba a la izquierda, en la cabecera de la tarjeta: solo el número.
+function versionChip(a) {
+  if (!a.ultima) return el("span", { class: "version-chip" });
+  // En actualización se muestra la versión que se va a instalar; el estado ya dice que hay una nueva.
+  if (a.estado === "actualizacion") return el("span", { class: "version-chip", text: `v${a.ultima.version}` });
+  return el("span", { class: "version-chip", text: `v${a.instalada ? a.versionInstalada : a.ultima.version}` });
+}
+
+// Debajo de la descripción solo queda la fecha (o el error / el aviso de que no hay versión).
 function lineaVersion(a) {
   if (a.error && !a.ultima) return el("p", { class: "version" }, el("span", { class: "error", text: tm(a.error) }));
   if (!a.ultima) return el("p", { class: "version", text: t(a.estado === "proximamente" ? "version.aunSin" : "version.sin") });
   // Las apps que se actualizan solas pueden ir por delante de la versión que conoce Codex:
-  // instaladas, se muestra solo su versión, sin la fecha de otra.
-  const fecha = a.ultima.fecha && !(a.seActualizaSola && a.instalada) ? ` · ${formatoFecha(a.ultima.fecha)}` : "";
-  if (a.estado === "actualizacion") return el("p", { class: "version", text: `${t("version", { version: a.versionInstalada })} → ${a.ultima.version}${fecha}` });
-  return el("p", { class: "version", text: `${t("version", { version: a.instalada ? a.versionInstalada : a.ultima.version })}${fecha}` });
+  // instaladas, no se muestra la fecha de otra.
+  if (a.seActualizaSola && a.instalada) return el("p", { class: "version" });
+  return el("p", { class: "version", text: a.ultima.fecha ? formatoFecha(a.ultima.fecha) : "" });
 }
 
 function botonPrincipal(a) {
@@ -191,16 +199,10 @@ function botonPrincipal(a) {
 
 function botonMenu(a) {
   return el("button", { class: "boton-cuadro", type: "button", "aria-label": t("masOpciones", { app: a.nombre + a.sufijo }), onclick: (ev) => abrirMenu(a, ev.currentTarget) },
-    el("span", { text: "…" }));
+    el("span", { class: "puntos", "aria-hidden": "true" }, el("i", {}), el("i", {}), el("i", {})));
 }
 
 /* ---------------- Vistas ---------------- */
-
-// numeroApp: el número de la app en su colección (ArtCraft numera las suyas: 01, 02...).
-function numeroApp(a, clase) {
-  if (!a.numero) return null;
-  return el("span", { class: clase, text: String(a.numero).padStart(2, "0"), style: { background: a.color, color: textoSobre(a.color) } });
-}
 
 function tarjeta(a) {
   const enlaces = el("div", { class: "tarjeta-enlaces" },
@@ -208,24 +210,30 @@ function tarjeta(a) {
     a.urlRepo && el("button", { type: "button", text: t("github"), onclick: () => abrirEnlace(a.urlRepo) }));
   const estilo = { "--color-app": a.color };
   if (a.categoria === "artcraft") estilo["--color-barra"] = a.color; // apps de ArtCraft: barra de su color
-  return el("article", { class: "tarjeta", style: estilo },
-    el("div", { class: "tarjeta-cabecera" },
-      numeroApp(a, "numero"),
-      enlaces),
+  // Un clic en la tarjeta (fuera de sus botones) abre el panel de detalles; con teclado, Enter.
+  return el("article", {
+    class: "tarjeta", style: estilo, "data-id": a.id, tabindex: "0",
+    "aria-label": t("det.ver", { app: a.nombre + a.sufijo }),
+    onclick: (ev) => { if (!ev.target.closest("button, a")) abrirDetalles(a.id); },
+    onkeydown: (ev) => { if ((ev.key === "Enter" || ev.key === " ") && ev.target === ev.currentTarget) { ev.preventDefault(); abrirDetalles(a.id); } },
+  },
+    el("div", { class: "tarjeta-cabecera" }, versionChip(a), enlaces),
+    // Placa: icono con el nombre a su derecha, texto debajo, estado y fecha en una línea y una
+    // barra de botones al pie.
     el("div", { class: "tarjeta-cuerpo" },
-      el("div", { class: "identidad" }, iconoApp(a),
-        el("div", {}, nombreApp(a), el("p", { class: "descripcion", text: descripcion(a) }), similar(a) && el("p", { class: "similar", text: similar(a) }), credito(a))),
-      pastillaEstado(a),
-      lineaVersion(a),
-      el("div", { class: "acciones" }, botonPrincipal(a), botonMenu(a))));
+      el("div", { class: "tarjeta-titulo" }, iconoApp(a), nombreApp(a)),
+      el("div", { class: "tarjeta-texto" }, el("p", { class: "descripcion", text: descripcion(a) }), similar(a) && el("p", { class: "similar", text: similar(a) }), credito(a)),
+      el("div", { class: "tarjeta-estado" }, pastillaEstado(a), lineaVersion(a))),
+    el("div", { class: "acciones" }, botonPrincipal(a), botonMenu(a)));
 }
 
-function filaTabla(a) {
+// indice: posición de la fila en la tabla, desde la primera (ClipVault) hacia abajo.
+function filaTabla(a, indice) {
   const instalada = a.instalada ? a.versionInstalada || "—" : "—";
   const ultima = a.ultima ? a.ultima.version : "—";
   const fecha = a.ultima?.fecha ? formatoFecha(a.ultima.fecha) : "—";
-  return el("tr", { style: { "--color-app": a.color } },
-    el("td", {}, el("div", { class: "celda-app" }, el("span", { class: "hueco-numero" }, numeroApp(a, "numero")), iconoApp(a),
+  return el("tr", { style: { "--color-app": a.color }, class: "fila-app", onclick: (ev) => { if (!ev.target.closest("button, a")) abrirDetalles(a.id); } },
+    el("td", {}, el("div", { class: "celda-app" }, el("span", { class: "hueco-numero", text: String(indice + 1).padStart(2, "0") }), iconoApp(a),
       el("div", {}, nombreApp(a, "div"), el("div", { class: "similar", text: a.autor ? `${descripcion(a)} · ${t("de", { autor: a.autor })}` : descripcion(a) })))),
     el("td", {}, pastillaEstado(a)),
     el("td", { class: a.instalada ? "ver" : null, text: instalada }),
@@ -328,6 +336,8 @@ function pintar() {
     if (ui.ultimoAviso !== 0 || e.aviso.error) avisar(tm(e.aviso.mensaje), e.aviso.error);
     ui.ultimoAviso = e.aviso.id;
   }
+
+  pintarDetalles();
 }
 
 /* ---------------- Ciclo de refresco ---------------- */
@@ -377,8 +387,232 @@ document.addEventListener("click", (ev) => {
   if (!$("#menu").hidden && !ev.target.closest("#menu, .boton-cuadro")) cerrarMenu();
 });
 document.addEventListener("keydown", (ev) => {
-  if (ev.key === "Escape") { cerrarMenu(); cerrarAjustes(); }
+  if (ev.key === "Escape") {
+    if (!$("#menu").hidden) return cerrarMenu();
+    if (ui.detalle) return cerrarDetalles();
+    cerrarAjustes();
+  }
+  // En el panel de detalles, las flechas pasan a la app anterior o a la siguiente.
+  if (ui.detalle && $("#menu").hidden && !ev.target.closest("input, select, textarea")) {
+    if (ev.key === "ArrowLeft") navegarDetalles(-1);
+    if (ev.key === "ArrowRight") navegarDetalles(1);
+  }
 });
+
+/* ---------------- Panel de detalles ----------------
+   Al hacer clic en una app (fuera de sus botones) se abre su página: titular, descripción,
+   funciones y plataformas (de /api/detalles, que se pide al abrirla) y, de la última versión,
+   número, fecha, tamaño y notas. El estado sigue llegando por /api/estado, así que los botones
+   del panel (instalar, actualizar, abrir...) se ven al día. */
+
+const cacheDetalles = new Map(); // "id@tag" → respuesta de /api/detalles (null mientras carga)
+
+const claveDetalles = (a) => `${a.id}@${a.ultima?.tag || ""}`;
+const appsEnOrden = () => grupos(ui.estado.apps).flatMap((g) => g.apps);
+
+async function cargarDetalles(a) {
+  const clave = claveDetalles(a);
+  if (cacheDetalles.has(clave)) return;
+  cacheDetalles.set(clave, null);
+  try {
+    cacheDetalles.set(clave, await api(`/api/detalles?id=${encodeURIComponent(a.id)}`));
+  } catch (e) {
+    cacheDetalles.set(clave, { error: e.message });
+  }
+  if (ui.detalle?.id === a.id) pintarDetalles();
+}
+
+function abrirDetalles(id) {
+  cerrarMenu();
+  const enfocar = !ui.detalle;
+  ui.detalle = { id, firma: "" };
+  pintarDetalles();
+  const panel = $("#detalles .detalles");
+  if (panel) panel.querySelector(".det-cuerpo").scrollTop = 0;
+  if (enfocar) $("#detalles .det-cerrar")?.focus();
+}
+
+function cerrarDetalles() {
+  const id = ui.detalle?.id;
+  ui.detalle = null;
+  $("#detalles")?.remove();
+  document.querySelector(`.tarjeta[data-id="${CSS.escape(id || "")}"]`)?.focus();
+}
+
+function navegarDetalles(paso) {
+  const lista = appsEnOrden();
+  const i = lista.findIndex((x) => x.id === ui.detalle?.id);
+  if (i < 0) return;
+  abrirDetalles(lista[(i + paso + lista.length) % lista.length].id);
+}
+
+function botonNav(trazo, clase, texto, f) {
+  const b = el("button", { type: "button", class: `det-nav ${clase}`, "aria-label": texto, title: texto, onclick: f });
+  b.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${trazo}"/></svg>`;
+  return b;
+}
+
+// limpiarMd deja una línea de las notas de GitHub en texto plano: enlaces como su texto, los
+// pedidos de cambio como #número y sin negritas ni etiquetas.
+function limpiarMd(s) {
+  return s
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/\s+by @[\w-]+ in https?:\/\/github\.com\/\S+?\/(?:pull|issues)\/(\d+)/g, " #$1")
+    .replace(/https?:\/\/github\.com\/\S+?\/(?:pull|issues)\/(\d+)/g, "#$1")
+    .replace(/<[^>]+>/g, "")
+    .replace(/\*\*|__|`/g, "")
+    .trim();
+}
+
+// entradasMd convierte las notas en títulos, viñetas y párrafos.
+function entradasMd(md) {
+  const entradas = [];
+  for (const crudo of (md || "").split("\n")) {
+    const linea = crudo.trim();
+    if (!linea || /^(-{3,}|<!--.*)$/.test(linea) || /^\**full changelog/i.test(linea)) continue;
+    let m;
+    if ((m = linea.match(/^#{1,6}\s+(.*)$/))) entradas.push({ tipo: "h", texto: limpiarMd(m[1]) });
+    else if ((m = linea.match(/^[-*+]\s+(.*)$/))) entradas.push({ tipo: "li", texto: limpiarMd(m[1]) });
+    else entradas.push({ tipo: "p", texto: limpiarMd(linea) });
+  }
+  // Codex no nombra al sitio de videos ni a su motor de descarga, tampoco en notas de terceros.
+  return entradas.filter((e) => e.texto && !/youtube|yt-dlp/i.test(e.texto));
+}
+
+// bloquesMd arma los nodos: las viñetas seguidas van en una misma lista.
+function bloquesMd(entradas) {
+  const nodos = [];
+  let lista = null;
+  for (const e of entradas) {
+    if (e.tipo === "li") {
+      if (!lista) nodos.push(lista = el("ul"));
+      lista.append(el("li", { text: e.texto }));
+      continue;
+    }
+    lista = null;
+    nodos.push(el(e.tipo === "h" ? "h4" : "p", { text: e.texto }));
+  }
+  return nodos;
+}
+
+const VINETAS_VISIBLES = 6;
+
+function notasDeVersion(md, abiertas) {
+  const entradas = entradasMd(md);
+  if (!entradas.length) return el("p", { class: "det-vacio", text: t("det.sinNotas") });
+  // Se ven las primeras viñetas; el resto queda tras «Mostrar N cambios más».
+  let vistas = 0, corte = entradas.length;
+  for (let i = 0; i < entradas.length; i++) {
+    if (entradas[i].tipo === "li" && ++vistas > VINETAS_VISIBLES) { corte = i; break; }
+  }
+  const resto = entradas.slice(corte);
+  const restantes = resto.filter((e) => e.tipo === "li").length;
+  return el("div", { class: "det-notas" }, bloquesMd(entradas.slice(0, corte)),
+    resto.length ? el("details", { open: abiertas || null },
+      el("summary", { text: t("det.masCambios", { n: restantes || resto.length }) }), bloquesMd(resto)) : null);
+}
+
+// idiomaDetalles: el texto del panel sale en español si Codex está en español (por defecto, el
+// idioma del PC) y en inglés en los demás; el botón ES / EN lo cambia mientras Codex esté abierto.
+const idiomaDetalles = () => ui.idiomaDetalles || (idiomaActual === "es" ? "es" : "en");
+
+// detalleEnIdioma devuelve la página en ese idioma: la original o su traducción. Las plataformas
+// son las mismas en los dos.
+function detalleEnIdioma(d) {
+  if (!d) return null;
+  const idioma = idiomaDetalles();
+  const x = d.idioma === idioma ? d : d.traducciones?.[idioma];
+  return x ? { ...d, ...x, plataformas: x.plataformas || d.plataformas } : d;
+}
+
+function selectorIdioma() {
+  const actual = idiomaDetalles();
+  return el("div", { class: "det-idioma", role: "group", "aria-label": t("det.idioma") },
+    ["es", "en"].map((idioma) => el("button", {
+      type: "button", lang: idioma, text: idioma.toUpperCase(), class: idioma === actual ? "activo" : null,
+      "aria-pressed": String(idioma === actual),
+      onclick: () => { ui.idiomaDetalles = idioma; pintarDetalles(); },
+    })));
+}
+
+function pintarDetalles() {
+  if (!ui.detalle || !ui.estado) return;
+  const a = ui.estado.apps.find((x) => x.id === ui.detalle.id);
+  if (!a) return cerrarDetalles();
+  const clave = claveDetalles(a);
+  if (!cacheDetalles.has(clave)) cargarDetalles(a);
+  const datos = cacheDetalles.get(clave);
+  // Solo se vuelve a dibujar si algo cambió: así no se pierde el desplazamiento ni el foco.
+  const firma = JSON.stringify([a, datos ? Object.keys(datos).length : 0, datos?.cambios?.length, idiomaActual, idiomaDetalles()]);
+  if (firma === ui.detalle.firma) return;
+  ui.detalle.firma = firma;
+
+  const viejo = $("#detalles");
+  const desplazado = viejo?.querySelector(".det-cuerpo")?.scrollTop || 0;
+  const notasAbiertas = !!viejo?.querySelector(".det-notas details")?.open;
+  const enfocado = viejo?.contains(document.activeElement) ? document.activeElement.className : "";
+
+  const d = detalleEnIdioma(datos?.detalle);
+  const ultima = a.ultima;
+  const fecha = ultima?.fecha && !(a.seActualizaSola && a.instalada) ? formatoFecha(ultima.fecha) : "";
+  const lineaVer = ultima ? [t("version", { version: ultima.version }), fecha].filter(Boolean).join(" · ") : t("version.sin");
+  // Sin página propia, la descripción ya va como titular: abajo queda solo el lema.
+  const parrafos = d ? d.acerca.split(/\n\s*\n/) : [similar(a)].filter(Boolean);
+  const tamano = ultima?.instalador?.tamano ? `${Math.max(1, Math.round(ultima.instalador.tamano / 1048576))} MB` : "—";
+  const enlaces = [
+    a.web && [t("sitioWeb"), a.web],
+    a.urlRepo && [t("github"), a.urlRepo],
+    a.urlRepo && [t("det.versiones"), `${a.urlRepo}/releases`],
+  ].filter(Boolean);
+
+  const notas = !datos ? el("p", { class: "det-vacio", text: t("det.cargando") })
+    : datos.error ? el("p", { class: "det-vacio", text: datos.error })
+    : notasDeVersion(datos.cambios, notasAbiertas);
+
+  const panel = el("div", { id: "detalles" },
+    el("div", { class: "velo-detalles", onclick: cerrarDetalles }),
+    el("section", { class: "detalles", role: "dialog", "aria-modal": "true", "aria-labelledby": "det-nombre", style: { "--color-app": a.color } },
+      el("header", { class: "det-cabecera" },
+        el("div", { class: "det-barra" },
+          el("span", { class: "det-etiqueta", text: t("det.etiqueta") }),
+          el("div", { class: "det-navegacion" },
+            d ? selectorIdioma() : null,
+            botonNav("M15 6l-6 6 6 6", "det-anterior", t("det.anterior"), () => navegarDetalles(-1)),
+            botonNav("M9 6l6 6-6 6", "det-siguiente", t("det.siguiente"), () => navegarDetalles(1)),
+            botonNav("M7 7l10 10M17 7L7 17", "det-cerrar", t("det.cerrar"), cerrarDetalles))),
+        el("div", { class: "det-identidad" },
+          iconoApp(a),
+          el("div", { class: "det-titulos" },
+            Object.assign(nombreApp(a, "h2"), { id: "det-nombre" }),
+            el("p", { class: "det-titular", text: d?.titular || descripcion(a) }),
+            el("p", { class: "det-version", text: lineaVer }),
+            a.autor ? el("p", { class: "det-autor", text: t("de", { autor: a.autor }) }) : null),
+          el("div", { class: "det-acciones acciones" }, botonPrincipal(a), botonMenu(a))),
+        enlaces.length ? el("div", { class: "det-enlaces" },
+          enlaces.map(([texto, url]) => el("button", { type: "button", text: texto, onclick: () => abrirEnlace(url) }))) : null),
+      el("div", { class: "det-cuerpo" },
+        el("div", { class: "det-izq" },
+          el("div", { class: "det-acerca" }, parrafos.map((p) => el("p", { text: p }))),
+          d?.funciones?.length ? el("h3", { class: "det-h", text: t("det.funciones") }) : null,
+          d?.funciones?.length ? el("ol", { class: "det-funciones" }, d.funciones.map((f, i) =>
+            el("li", {}, el("span", { class: "num", text: String(i + 1).padStart(2, "0") }), el("b", { text: f.titulo }), el("p", { text: f.texto })))) : null),
+        el("div", { class: "det-der" },
+          el("h3", { class: "det-h", text: t("det.ultima") }),
+          el("dl", { class: "det-datos" }, [
+            [t("det.version"), ultima?.version || "—"],
+            [t("det.publicada"), ultima?.fecha ? formatoFecha(ultima.fecha) : "—"],
+            [t("det.descarga"), tamano],
+            [t("det.plataformas"), d?.plataformas || "Windows"],
+          ].map(([k, v]) => el("div", {}, el("dt", { text: k }), el("dd", { text: v })))),
+          el("h3", { class: "det-h", text: t("det.novedades") }),
+          notas,
+          ultima?.notas ? el("button", { type: "button", class: "det-registro", text: t("det.registro"), onclick: () => abrirEnlace(ultima.notas) }) : null))));
+
+  if (viejo) viejo.replaceWith(panel);
+  else document.body.append(panel);
+  panel.querySelector(".det-cuerpo").scrollTop = desplazado;
+  if (enfocado) panel.querySelector(`.${enfocado.split(" ").filter(Boolean).join(".")}`)?.focus();
+}
 
 /* ---------------- Acciones generales ---------------- */
 

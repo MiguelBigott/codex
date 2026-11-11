@@ -122,6 +122,35 @@ type cacheGitHub struct {
 type entradaCache struct {
 	ETag    string   `json:"etag"`
 	Release *Release `json:"release"`
+	// Cambios: las notas de la versión (Markdown de GitHub), para el panel de detalles. Viajan
+	// en la misma respuesta de la API que la versión: no cuestan consultas aparte.
+	Cambios string `json:"cambios,omitempty"`
+	// ConCambios: la entrada ya se leyó con sus notas. Las guardadas por versiones anteriores de
+	// Codex no las tienen; se vuelven a pedir una sola vez, sin ETag, para leerlas.
+	ConCambios bool `json:"conCambios,omitempty"`
+}
+
+// maxCambios limita las notas que se guardan por app (algunas releases traen cientos de líneas).
+const maxCambios = 48 << 10
+
+// recortarCambios deja las notas en maxCambios bytes, cortando en un salto de línea.
+func recortarCambios(s string) string {
+	s = strings.ReplaceAll(s, "\r\n", "\n")
+	if len(s) <= maxCambios {
+		return s
+	}
+	s = s[:maxCambios]
+	if i := strings.LastIndex(s, "\n"); i > 0 {
+		s = s[:i]
+	}
+	return s
+}
+
+// cambiosDe devuelve las notas guardadas de la última versión conocida del repositorio.
+func cambiosDe(repo string) string {
+	cacheRel.mu.Lock()
+	defer cacheRel.mu.Unlock()
+	return cacheRel.datos[repo].Cambios
 }
 
 var cacheRel = &cacheGitHub{datos: map[string]entradaCache{}}
@@ -208,6 +237,7 @@ type releaseGitHub struct {
 	Publicada time.Time `json:"published_at"`
 	URL       string    `json:"html_url"`
 	Borrador  bool      `json:"draft"`
+	Cuerpo    string    `json:"body"` // notas de la versión, en Markdown
 	Assets    []struct {
 		Nombre string `json:"name"`
 		URL    string `json:"browser_download_url"`
@@ -230,11 +260,14 @@ func ultimaRelease(repo string, msi, betas bool) (*Release, error) {
 
 	// Primero la página pública (gratis): si la etiqueta es la misma, no hace falta la API.
 	if etiqueta, err := etiquetaPublica(repo); err == nil {
-		if previa.Release != nil && previa.Release.Tag == etiqueta {
+		if previa.Release != nil && previa.Release.Tag == etiqueta && previa.ConCambios {
 			return previa.Release, nil
 		}
 	} else if errors.Is(err, errSinVersiones) {
 		return nil, err
+	}
+	if !previa.ConCambios {
+		previa.ETag = "" // sin ETag GitHub responde entera, con las notas que faltan
 	}
 
 	// Durante la pausa no se consulta: se usa lo último conocido.
@@ -256,7 +289,7 @@ func ultimaRelease(repo string, msi, betas bool) (*Release, error) {
 	}
 	rel = releaseDe(gh, msi)
 	cacheRel.mu.Lock()
-	cacheRel.datos[repo] = entradaCache{ETag: resp.Header.Get("ETag"), Release: rel}
+	cacheRel.datos[repo] = entradaCache{ETag: resp.Header.Get("ETag"), Release: rel, Cambios: recortarCambios(gh.Cuerpo), ConCambios: true}
 	cacheRel.mu.Unlock()
 	return rel, nil
 }
@@ -270,6 +303,9 @@ func releaseConBetas(repo string, msi bool, previa entradaCache, pausa time.Time
 			return previa.Release, nil
 		}
 		return nil, errorLimite(pausa)
+	}
+	if !previa.ConCambios {
+		previa.ETag = "" // sin ETag GitHub responde entera, con las notas que faltan
 	}
 	resp, rel, err := consultarAPI(apiGitHub+"/repos/"+repo+"/releases?per_page=20", previa)
 	if resp == nil {
@@ -286,7 +322,7 @@ func releaseConBetas(repo string, msi bool, previa entradaCache, pausa time.Time
 		}
 		if rel := releaseDe(gh, msi); rel.Instalador != nil {
 			cacheRel.mu.Lock()
-			cacheRel.datos[repo] = entradaCache{ETag: resp.Header.Get("ETag"), Release: rel}
+			cacheRel.datos[repo] = entradaCache{ETag: resp.Header.Get("ETag"), Release: rel, Cambios: recortarCambios(gh.Cuerpo), ConCambios: true}
 			cacheRel.mu.Unlock()
 			return rel, nil
 		}
@@ -362,7 +398,8 @@ func esSumas(n string) bool {
 
 // esInstaladorWin64 elige el instalador .exe para Windows x64 (el setup NSIS de cada app).
 func esInstaladorWin64(n string) bool {
-	if !strings.HasSuffix(n, ".exe") || !strings.Contains(n, "setup") {
+	// «setup» (la mayoría) o «installer» (OBS Studio: OBS-Studio-X-Windows-Installer.exe).
+	if !strings.HasSuffix(n, ".exe") || !(strings.Contains(n, "setup") || strings.Contains(n, "installer")) {
 		return false
 	}
 	return !strings.Contains(n, "arm64") && !strings.Contains(n, "x86") && !strings.Contains(n, "win32")

@@ -1,0 +1,1394 @@
+{
+  "clipvault": {
+    "idioma": "es",
+    "titular": "Descarga video y audio con su portada y sus datos.",
+    "acerca": "Pega un enlace y ClipVault lo guarda como MP4 o como MP3 a la máxima calidad, con la portada y los metadatos dentro del archivo. Puedes descargar solo un tramo del video, elegir la calidad y ver el título, la miniatura y la duración antes de bajar nada.\n\nTrae su propio motor de descarga y lo mantiene al día con un botón.",
+    "plataformas": "Windows",
+    "funciones": [
+      {
+        "titulo": "Video o audio",
+        "texto": "MP4 o solo MP3 a máxima calidad, con la portada y los metadatos incrustados."
+      },
+      {
+        "titulo": "Clip",
+        "texto": "Una línea de tiempo para descargar solo el tramo que quieres, cortado exacto."
+      },
+      {
+        "titulo": "Calidad a elección",
+        "texto": "La máxima disponible, hasta 1080p, 720p o 480p, o compatible con todo (H.264)."
+      },
+      {
+        "titulo": "Vista previa",
+        "texto": "Título, miniatura, autor y duración antes de descargar; en las listas, cuántos videos trae."
+      },
+      {
+        "titulo": "La bóveda",
+        "texto": "Cola de descargas con progreso, velocidad y tiempo restante; cancela, reintenta o quita las terminadas."
+      },
+      {
+        "titulo": "Todo incluido",
+        "texto": "El instalador trae el motor de descarga, FFmpeg y Deno; un botón actualiza el motor y otro repara lo que falte."
+      }
+    ],
+    "traducciones": {
+      "en": {
+        "titular": "Download video and audio with its cover and details.",
+        "acerca": "Paste a link and ClipVault saves it as MP4 or MP3 at the highest quality, with the cover and metadata inside the file. You can download just part of a video, pick the quality, and see the title, thumbnail and length before downloading anything.\n\nIt brings its own download engine and keeps it up to date with one button.",
+        "funciones": [
+          {
+            "titulo": "Video or audio",
+            "texto": "MP4, or MP3 only, at the highest quality, with the cover and metadata embedded."
+          },
+          {
+            "titulo": "Clip",
+            "texto": "A timeline to download just the part you want, cut exactly."
+          },
+          {
+            "titulo": "Your choice of quality",
+            "texto": "The best available, up to 1080p, 720p or 480p, or compatible with everything (H.264)."
+          },
+          {
+            "titulo": "Preview",
+            "texto": "Title, thumbnail, author and length before downloading; for playlists, how many videos it has."
+          },
+          {
+            "titulo": "The vault",
+            "texto": "A download queue with progress, speed and time left; cancel, retry or clear the finished ones."
+          },
+          {
+            "titulo": "Everything included",
+            "texto": "The installer brings the download engine, FFmpeg and Deno; one button updates the engine and another repairs anything missing."
+          }
+        ]
+      }
+    }
+  },
+  "pngwebp": {
+    "idioma": "es",
+    "titular": "Convierte PNG y JPG a WebP con la máxima calidad y el menor peso.",
+    "acerca": "Arrastra imágenes o carpetas enteras y cada una se convierte al instante. No hay controles de calidad: PngWebp elige sola la mejor forma de comprimir cada imagen y te muestra cuánto ahorraste.",
+    "plataformas": "Windows",
+    "funciones": [
+      {
+        "titulo": "Suelta y listo",
+        "texto": "Arrastra imágenes o carpetas con sus subcarpetas, o elígelas desde el PC."
+      },
+      {
+        "titulo": "Máxima calidad, menor peso",
+        "texto": "La app decide sola cómo comprimir cada imagen, sin perder calidad visible."
+      },
+      {
+        "titulo": "Cuatro tamaños",
+        "texto": "Original, 1:1, 16:9 y 9:16, con la imagen centrada y sin deformarla."
+      },
+      {
+        "titulo": "Fotos derechas",
+        "texto": "Respeta la orientación que guarda la cámara del celular."
+      },
+      {
+        "titulo": "Nada se pisa",
+        "texto": "Si el archivo ya existe, guarda otra copia con un número en el nombre."
+      },
+      {
+        "titulo": "Cuentas claras",
+        "texto": "Cada imagen muestra cuánto pesaba, cuánto pesa y el ahorro, y abajo el total."
+      }
+    ],
+    "traducciones": {
+      "en": {
+        "titular": "Convert PNG and JPG to WebP at the highest quality and the smallest size.",
+        "acerca": "Drag in images or whole folders and each one is converted right away. There are no quality controls: PngWebp picks the best way to compress each image on its own and shows you how much you saved.",
+        "funciones": [
+          {
+            "titulo": "Drop and done",
+            "texto": "Drag in images or folders with their subfolders, or pick them from your PC."
+          },
+          {
+            "titulo": "Best quality, smallest size",
+            "texto": "The app decides how to compress each image, with no visible loss."
+          },
+          {
+            "titulo": "Four sizes",
+            "texto": "Original, 1:1, 16:9 and 9:16, with the image centered and never stretched."
+          },
+          {
+            "titulo": "Photos the right way up",
+            "texto": "Follows the orientation your phone camera saves."
+          },
+          {
+            "titulo": "Nothing overwritten",
+            "texto": "If the file already exists, it saves another copy with a number in the name."
+          },
+          {
+            "titulo": "Clear numbers",
+            "texto": "Each image shows its size before and after and the savings, with the total below."
+          }
+        ]
+      }
+    }
+  },
+  "pdfepub": {
+    "idioma": "es",
+    "titular": "Convierte PDF en libros EPUB con portada, datos y capítulos.",
+    "acerca": "Elige entre texto fluido, que se adapta a la pantalla del lector, o páginas fijas, idénticas al PDF. Antes de guardar revisas los capítulos en un libro abierto, con la página original al lado de cómo se leerá.\n\nLos PDF escaneados se convierten como páginas fijas: PdfEpub no hace OCR.",
+    "plataformas": "Windows",
+    "funciones": [
+      {
+        "titulo": "Dos formas de convertir",
+        "texto": "Texto fluido para novelas, ensayos y apuntes; páginas fijas para cómics, revistas y escaneados."
+      },
+      {
+        "titulo": "Capítulos en un pliego",
+        "texto": "Renombra, une, excluye o divide capítulos viendo la página original al lado."
+      },
+      {
+        "titulo": "Portada",
+        "texto": "Una página del PDF, una imagen o un color, con el título y el autor en una de cuatro plantillas."
+      },
+      {
+        "titulo": "Datos del libro",
+        "texto": "Título, autores, idioma, editorial, ISBN, serie y más; los que trae el PDF se completan solos."
+      },
+      {
+        "titulo": "PDF con contraseña",
+        "texto": "Los abre si escribes la clave."
+      },
+      {
+        "titulo": "EPUB 3",
+        "texto": "Con su índice, la serie que entienden la mayoría de los lectores y la portada como la ponen las editoriales."
+      }
+    ],
+    "traducciones": {
+      "en": {
+        "titular": "Turn PDFs into EPUB books with a cover, details and chapters.",
+        "acerca": "Choose reflowable text, which adapts to the reader's screen, or fixed pages that look exactly like the PDF. Before saving you review the chapters in an open book, with the original page next to how it will read.\n\nScanned PDFs are converted as fixed pages: PdfEpub does no OCR.",
+        "funciones": [
+          {
+            "titulo": "Two ways to convert",
+            "texto": "Reflowable text for novels, essays and notes; fixed pages for comics, magazines and scans."
+          },
+          {
+            "titulo": "Chapters side by side",
+            "texto": "Rename, join, exclude or split chapters while seeing the original page beside them."
+          },
+          {
+            "titulo": "Cover",
+            "texto": "A PDF page, your own image or a color, with the title and author in one of four templates."
+          },
+          {
+            "titulo": "Book details",
+            "texto": "Title, authors, language, publisher, ISBN, series and more; whatever the PDF has fills in by itself."
+          },
+          {
+            "titulo": "Password-protected PDFs",
+            "texto": "Opens them once you type the password."
+          },
+          {
+            "titulo": "EPUB 3",
+            "texto": "With its table of contents, the series most readers understand and the cover placed the way publishers do."
+          }
+        ]
+      }
+    }
+  },
+  "photocraft": {
+    "idioma": "en",
+    "titular": "The image editor you already know how to use.",
+    "acerca": "Layers, masks, adjustment layers, layer styles, type, vectors and brushes in a native app. Open source, offline, and yours.\n\nPhotoCraft keeps the menus, shortcuts and panels your hands already know, so there is nothing to relearn.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Native GPU canvas",
+        "texto": "No Electron and no web view: a fast native compositor."
+      },
+      {
+        "titulo": "Real layered files",
+        "texto": "Opens and saves layered PSD and PSB documents."
+      },
+      {
+        "titulo": "Non-destructive editing",
+        "texto": "Adjustment layers, live-preview filters, smart objects and layer styles."
+      },
+      {
+        "titulo": "On-device selection",
+        "texto": "Subject and object selection and mask refinement run locally."
+      },
+      {
+        "titulo": "Serious color",
+        "texto": "8-, 16- and 32-bit RGB, CMYK, Lab and Grayscale, with ICC color management and soft proofing."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "El editor de imágenes que ya sabes usar.",
+        "acerca": "Capas, máscaras, capas de ajuste, estilos de capa, texto, vectores y pinceles en una app nativa. Código abierto, sin conexión y tuya.\n\nPhotoCraft mantiene los menús, los atajos y los paneles que tus manos ya conocen, así que no hay nada que volver a aprender.",
+        "funciones": [
+          {
+            "titulo": "Lienzo nativo en la GPU",
+            "texto": "Sin Electron ni vista web: un compositor nativo y rápido."
+          },
+          {
+            "titulo": "Archivos con capas de verdad",
+            "texto": "Abre y guarda documentos PSD y PSB con capas."
+          },
+          {
+            "titulo": "Edición no destructiva",
+            "texto": "Capas de ajuste, filtros con vista previa en vivo, objetos inteligentes y estilos de capa."
+          },
+          {
+            "titulo": "Selección en tu equipo",
+            "texto": "La selección de sujeto y de objetos y el refinado de máscaras se ejecutan en local."
+          },
+          {
+            "titulo": "Color en serio",
+            "texto": "RGB, CMYK, Lab y escala de grises de 8, 16 y 32 bits, con gestión de color ICC y prueba en pantalla."
+          }
+        ]
+      }
+    }
+  },
+  "vectorcraft": {
+    "idioma": "en",
+    "titular": "Vector illustration, with familiar tools and editable effects.",
+    "acerca": "A native vector illustration app with the pen, panels and shortcuts illustrators expect. Open source, and it also runs in a browser.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "The workflow you know",
+        "texto": "Pen, direct selection, shape booleans, snapping guides and an appearance panel, laid out the way you expect."
+      },
+      {
+        "titulo": "Genuinely fast",
+        "texto": "Drawings with thousands of shapes stay responsive on a retina display."
+      },
+      {
+        "titulo": "Booleans that don't fail",
+        "texto": "Shape booleans work on the exact curves, so there is no \"cannot perform operation\", and undo is unlimited."
+      },
+      {
+        "titulo": "Live, editable effects",
+        "texto": "Blends, envelope distort, gradient mesh, repeats, glows and drop shadows all stay editable."
+      },
+      {
+        "titulo": "Image tracing",
+        "texto": "Turn raster images into clean vector paths, with presets for the common cases."
+      },
+      {
+        "titulo": "Open formats",
+        "texto": "Native JSON documents, SVG and PDF import and export, and PNG, JPEG and WebP output."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Ilustración vectorial, con herramientas conocidas y efectos editables.",
+        "acerca": "Una app nativa de ilustración vectorial con la pluma, los paneles y los atajos que esperan los ilustradores. Código abierto, y también funciona en el navegador.",
+        "funciones": [
+          {
+            "titulo": "El flujo que ya conoces",
+            "texto": "Pluma, selección directa, operaciones booleanas, guías de ajuste y un panel de apariencia, ordenados como esperas."
+          },
+          {
+            "titulo": "Rápida de verdad",
+            "texto": "Los dibujos con miles de formas siguen respondiendo al instante en una pantalla retina."
+          },
+          {
+            "titulo": "Booleanas que no fallan",
+            "texto": "Las operaciones booleanas trabajan sobre las curvas exactas, así que no hay «no se puede realizar la operación», y deshacer no tiene límite."
+          },
+          {
+            "titulo": "Efectos vivos y editables",
+            "texto": "Fusiones, distorsión de envolvente, mallas de degradado, repeticiones, resplandores y sombras siguen siendo editables."
+          },
+          {
+            "titulo": "Calco de imágenes",
+            "texto": "Convierte imágenes de píxeles en trazados vectoriales limpios, con ajustes predefinidos para los casos comunes."
+          },
+          {
+            "titulo": "Formatos abiertos",
+            "texto": "Documentos nativos en JSON, importación y exportación de SVG y PDF, y salida en PNG, JPEG y WebP."
+          }
+        ]
+      }
+    }
+  },
+  "filmcraft": {
+    "idioma": "en",
+    "titular": "Professional video editing, rebuilt from scratch.",
+    "acerca": "A native video editor with source and program monitors, a real timeline and every trim mode.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "A timeline you already know",
+        "texto": "Source and program monitors, three-point editing, every trim mode and J/K/L trimming."
+      },
+      {
+        "titulo": "Frame-exact time",
+        "texto": "An integer timebase keeps 23.976 and 29.97 drop-frame footage exact, with no drift."
+      },
+      {
+        "titulo": "Its own codecs",
+        "texto": "No FFmpeg inside: native support for H.264, HEVC, ProRes, VP9, AAC and Opus."
+      },
+      {
+        "titulo": "Color grading",
+        "texto": "Curves, color wheels, HSL secondaries, LUTs and HDR and log workflows, with scopes to check the result."
+      },
+      {
+        "titulo": "Effects and keyframes",
+        "texto": "Video effects and transitions, keyframes with value and velocity graphs, and a linear-light GPU compositor."
+      },
+      {
+        "titulo": "Broadcast-ready audio",
+        "texto": "EBU R128 loudness meters, a mixer with automation and native audio effects."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Edición de video profesional, rehecha desde cero.",
+        "acerca": "Un editor de video nativo con monitores de origen y de programa, una línea de tiempo de verdad y todos los modos de recorte.",
+        "funciones": [
+          {
+            "titulo": "Una línea de tiempo que ya conoces",
+            "texto": "Monitores de origen y de programa, edición de tres puntos, todos los modos de recorte y recorte con J/K/L."
+          },
+          {
+            "titulo": "Tiempo exacto al fotograma",
+            "texto": "Una base de tiempo entera mantiene exacto el material a 23,976 y 29,97 con drop-frame, sin desfases."
+          },
+          {
+            "titulo": "Códecs propios",
+            "texto": "Sin FFmpeg dentro: soporte nativo para H.264, HEVC, ProRes, VP9, AAC y Opus."
+          },
+          {
+            "titulo": "Corrección de color",
+            "texto": "Curvas, ruedas de color, secundarias HSL, LUT y flujos HDR y log, con monitores para revisar el resultado."
+          },
+          {
+            "titulo": "Efectos y fotogramas clave",
+            "texto": "Efectos y transiciones de video, fotogramas clave con gráficos de valor y velocidad, y un compositor en la GPU en luz lineal."
+          },
+          {
+            "titulo": "Audio listo para emisión",
+            "texto": "Medidores de sonoridad EBU R128, un mezclador con automatización y efectos de audio nativos."
+          }
+        ]
+      }
+    }
+  },
+  "lightcraft": {
+    "idioma": "en",
+    "titular": "Your photos. Your pixels. Your machine.",
+    "acerca": "A fast photo library and non-destructive raw developer. No account, no cloud, no telemetry and no subscription.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Non-destructive by design",
+        "texto": "A wide-gamut, 32-bit float pipeline that never touches your originals."
+      },
+      {
+        "titulo": "Every control you reach for",
+        "texto": "Light, color, effects, tone curve, a color mixer, color grading wheels and built-in presets."
+      },
+      {
+        "titulo": "Precise masking",
+        "texto": "Brush, gradient and range masks, plus sky, subject and background masks."
+      },
+      {
+        "titulo": "Native raw decoding",
+        "texto": "Support for the main camera raw formats: DNG, CR2, ARW, NEF, RAF, RW2, PEF and ORF."
+      },
+      {
+        "titulo": "A library that keeps up",
+        "texto": "Albums, ratings, flags and search, with grids that stay smooth on large catalogs."
+      },
+      {
+        "titulo": "Instant feedback",
+        "texto": "The GPU pipeline updates the preview as you move a slider, even on large raw files."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Tus fotos. Tus píxeles. Tu equipo.",
+        "acerca": "Una fototeca rápida y un revelador raw no destructivo. Sin cuenta, sin nube, sin telemetría y sin suscripción.",
+        "funciones": [
+          {
+            "titulo": "No destructiva por diseño",
+            "texto": "Un flujo de gama amplia en coma flotante de 32 bits que nunca toca tus originales."
+          },
+          {
+            "titulo": "Cada control que buscas",
+            "texto": "Luz, color, efectos, curva de tonos, mezclador de color, ruedas de gradación y ajustes predefinidos incluidos."
+          },
+          {
+            "titulo": "Máscaras precisas",
+            "texto": "Máscaras de pincel, degradado y rango, además de cielo, sujeto y fondo."
+          },
+          {
+            "titulo": "Decodificación raw nativa",
+            "texto": "Soporte para los principales formatos raw de cámara: DNG, CR2, ARW, NEF, RAF, RW2, PEF y ORF."
+          },
+          {
+            "titulo": "Una biblioteca a la altura",
+            "texto": "Álbumes, valoraciones, marcas y búsqueda, con cuadrículas que siguen fluidas en catálogos grandes."
+          },
+          {
+            "titulo": "Respuesta al instante",
+            "texto": "El flujo en la GPU actualiza la vista previa mientras mueves un control, incluso en archivos raw grandes."
+          }
+        ]
+      }
+    }
+  },
+  "pdfcraft": {
+    "idioma": "en",
+    "titular": "The open-source PDF workbench.",
+    "acerca": "Read, organize, combine, split and secure PDFs in a fast, native app. No account, no telemetry and no cloud.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Faithful rendering",
+        "texto": "World scripts, vertical Japanese, color emoji and transparency."
+      },
+      {
+        "titulo": "Search as you type",
+        "texto": "Instant find, and text selection that follows the document's real reading order."
+      },
+      {
+        "titulo": "Organize like cards",
+        "texto": "Rotate, delete, insert and reorder pages, with deep undo behind every change."
+      },
+      {
+        "titulo": "Combine, extract, split",
+        "texto": "Assemble and break apart documents while keeping links, form fields, layers and bookmarks intact."
+      },
+      {
+        "titulo": "Fearless saves",
+        "texto": "Incremental, atomic saves with autosave and crash recovery."
+      },
+      {
+        "titulo": "Built-in security",
+        "texto": "Opens files from RC4 to AES-256 encryption and honors the author's permissions."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "El banco de trabajo de PDF de código abierto.",
+        "acerca": "Lee, organiza, combina, divide y protege PDF en una app nativa y rápida. Sin cuenta, sin telemetría y sin nube.",
+        "funciones": [
+          {
+            "titulo": "Renderizado fiel",
+            "texto": "Escrituras de todo el mundo, japonés vertical, emojis a color y transparencias."
+          },
+          {
+            "titulo": "Busca mientras escribes",
+            "texto": "Búsqueda instantánea y una selección de texto que sigue el orden real de lectura del documento."
+          },
+          {
+            "titulo": "Organiza como tarjetas",
+            "texto": "Gira, borra, inserta y reordena páginas, con un deshacer profundo detrás de cada cambio."
+          },
+          {
+            "titulo": "Combina, extrae, divide",
+            "texto": "Arma y separa documentos sin perder enlaces, campos de formulario, capas ni marcadores."
+          },
+          {
+            "titulo": "Guardados sin miedo",
+            "texto": "Guardado incremental y atómico, con autoguardado y recuperación tras un cierre inesperado."
+          },
+          {
+            "titulo": "Seguridad incluida",
+            "texto": "Abre archivos cifrados desde RC4 hasta AES-256 y respeta los permisos del autor."
+          }
+        ]
+      }
+    }
+  },
+  "effectcraft": {
+    "idioma": "en",
+    "titular": "Motion graphics and visual effects.",
+    "acerca": "A native compositor with compositions, layers, keyframes, effects, expressions, 3D cameras and lights, and a render queue. Young, moving fast, and already usable.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Animate the way you know",
+        "texto": "Familiar panels and keyframes (linear, bezier, hold and eased), with a graph editor for value and speed curves."
+      },
+      {
+        "titulo": "Layers of every kind",
+        "texto": "Solids, shapes, text, footage, nested compositions, nulls and adjustment layers, with parenting, track mattes and blend modes."
+      },
+      {
+        "titulo": "A large effects library",
+        "texto": "Blur, color correction, distortion, generators, keying, particles and simulation, stylize and time effects."
+      },
+      {
+        "titulo": "Real 3D",
+        "texto": "3D layers with cameras, depth of field, and lights that cast soft ray-traced shadows."
+      },
+      {
+        "titulo": "Expressions",
+        "texto": "JavaScript expressions with wiggle, loops and layer references, edited inline."
+      },
+      {
+        "titulo": "Export anywhere",
+        "texto": "H.264 and ProRes with alpha, PNG, TIFF and EXR sequences, GIF, and Lottie import and export."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Gráficos en movimiento y efectos visuales.",
+        "acerca": "Un compositor nativo con composiciones, capas, fotogramas clave, efectos, expresiones, cámaras y luces 3D, y una cola de render. Joven, avanza rápido y ya se puede usar.",
+        "funciones": [
+          {
+            "titulo": "Anima como sabes",
+            "texto": "Paneles y fotogramas clave conocidos (lineales, bézier, mantenidos y suavizados), con un editor de gráficos para curvas de valor y velocidad."
+          },
+          {
+            "titulo": "Capas de todo tipo",
+            "texto": "Sólidos, formas, texto, metraje, composiciones anidadas, nulos y capas de ajuste, con emparentado, mates de seguimiento y modos de fusión."
+          },
+          {
+            "titulo": "Una gran biblioteca de efectos",
+            "texto": "Desenfoque, corrección de color, distorsión, generadores, incrustación, partículas y simulación, estilizar y efectos de tiempo."
+          },
+          {
+            "titulo": "3D de verdad",
+            "texto": "Capas 3D con cámaras, profundidad de campo y luces que proyectan sombras suaves con trazado de rayos."
+          },
+          {
+            "titulo": "Expresiones",
+            "texto": "Expresiones en JavaScript con wiggle, bucles y referencias a capas, editadas en línea."
+          },
+          {
+            "titulo": "Exporta a cualquier lado",
+            "texto": "H.264 y ProRes con alfa, secuencias PNG, TIFF y EXR, GIF, e importación y exportación de Lottie."
+          }
+        ]
+      }
+    }
+  },
+  "designcraft": {
+    "idioma": "en",
+    "titular": "Page layout and publishing.",
+    "acerca": "A native layout app with spreads, parent pages, threaded stories, styles, swatches, text wrap and a paragraph composer. No subscription, no license server and no telemetry.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "The layout tools you know",
+        "texto": "Spreads and parent pages, frames and threaded stories, with paragraph and character styles."
+      },
+      {
+        "titulo": "Beautiful type",
+        "texto": "A Knuth–Plass paragraph composer, dictionary hyphenation, optical margin alignment and baseline grids, with line breaks that match on screen and in PDF."
+      },
+      {
+        "titulo": "Print-ready PDF",
+        "texto": "Real selectable text with embedded fonts, CMYK and spot colors, bleed, crop marks and PDF/A output."
+      },
+      {
+        "titulo": "Fast",
+        "texto": "Multithreaded rendering, instant undo and cached text composition."
+      },
+      {
+        "titulo": "Open formats",
+        "texto": "A documented native format, PNG export and layout interchange import and export."
+      },
+      {
+        "titulo": "Built for automation",
+        "texto": "Every menu item, tool, panel and dialog can be driven over a JSON control channel and an MCP server."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Maquetación y publicación.",
+        "acerca": "Una app nativa de maquetación con pliegos, páginas madre, textos enlazados, estilos, muestras, ceñido de texto y un compositor de párrafos. Sin suscripción, sin servidor de licencias y sin telemetría.",
+        "funciones": [
+          {
+            "titulo": "Las herramientas de maquetación que conoces",
+            "texto": "Pliegos y páginas madre, marcos y textos enlazados, con estilos de párrafo y de carácter."
+          },
+          {
+            "titulo": "Tipografía hermosa",
+            "texto": "Un compositor de párrafos Knuth-Plass, división silábica con diccionario, alineación óptica de márgenes y cuadrículas base, con saltos de línea iguales en pantalla y en el PDF."
+          },
+          {
+            "titulo": "PDF listo para imprenta",
+            "texto": "Texto real y seleccionable con fuentes incrustadas, colores CMYK y directos, sangrado, marcas de corte y salida PDF/A."
+          },
+          {
+            "titulo": "Rápida",
+            "texto": "Renderizado en varios hilos, deshacer instantáneo y composición de texto en caché."
+          },
+          {
+            "titulo": "Formatos abiertos",
+            "texto": "Un formato nativo documentado, exportación a PNG e importación y exportación de intercambio de maquetación."
+          },
+          {
+            "titulo": "Hecha para automatizar",
+            "texto": "Cada menú, herramienta, panel y diálogo se puede manejar por un canal de control JSON y un servidor MCP."
+          }
+        ]
+      }
+    }
+  },
+  "figcraft": {
+    "idioma": "en",
+    "titular": "Interface design and prototyping.",
+    "acerca": "Design screens, components and prototypes in a native app that opens instantly and works offline, with no account and no telemetry. Early alpha.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Auto layout",
+        "texto": "Rows, columns, wrap and grids with padding, gaps and Hug, Fill or Fixed sizing, plus constraints and layout grids."
+      },
+      {
+        "titulo": "Components",
+        "texto": "Instances with overrides, variants and properties, styles, and variables with modes bound to fills, strokes and effects."
+      },
+      {
+        "titulo": "Vectors",
+        "texto": "Real vector networks, the pen and pencil, the shape builder, editable booleans and variable width strokes."
+      },
+      {
+        "titulo": "Prototypes",
+        "texto": "Connections, triggers and animated transitions, variables with conditionals, flows and a presentation view with device frames."
+      },
+      {
+        "titulo": "Hand off",
+        "texto": "Inspect mode with measurements, annotations, ready-for-dev status, and code for CSS, HTML, React, SwiftUI and Compose."
+      },
+      {
+        "titulo": "Your files",
+        "texto": "Plain .figcraft files on your own disk. SVG, PNG, JPEG, WebP and PDF in and out, and .fig files open, best effort."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Diseño de interfaces y prototipos.",
+        "acerca": "Diseña pantallas, componentes y prototipos en una app nativa que abre al instante y funciona sin conexión, sin cuenta y sin telemetría. Alfa temprana.",
+        "funciones": [
+          {
+            "titulo": "Auto layout",
+            "texto": "Filas, columnas, ajuste y cuadrículas con relleno, espacios y tamaño Hug, Fill o Fixed, además de restricciones y cuadrículas de diseño."
+          },
+          {
+            "titulo": "Componentes",
+            "texto": "Instancias con modificaciones, variantes y propiedades, estilos y variables con modos ligadas a rellenos, trazos y efectos."
+          },
+          {
+            "titulo": "Vectores",
+            "texto": "Redes vectoriales reales, la pluma y el lápiz, el constructor de formas, booleanas editables y trazos de grosor variable."
+          },
+          {
+            "titulo": "Prototipos",
+            "texto": "Conexiones, disparadores y transiciones animadas, variables con condiciones, flujos y una vista de presentación con marcos de dispositivo."
+          },
+          {
+            "titulo": "Entrega",
+            "texto": "Modo de inspección con medidas, anotaciones, estado listo para desarrollo y código para CSS, HTML, React, SwiftUI y Compose."
+          },
+          {
+            "titulo": "Tus archivos",
+            "texto": "Archivos .figcraft simples en tu propio disco. Entrada y salida en SVG, PNG, JPEG, WebP y PDF, y abre archivos .fig lo mejor posible."
+          }
+        ]
+      }
+    }
+  },
+  "texturecraft": {
+    "idioma": "en",
+    "titular": "Paint textures on 3D models.",
+    "acerca": "Paint materials on 3D models and export textures.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Materials",
+        "texto": "Paint materials on 3D models and export textures."
+      },
+      {
+        "titulo": "Mesh maps",
+        "texto": "Bake mesh maps and use smart materials."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Pinta texturas sobre modelos 3D.",
+        "acerca": "Pinta materiales sobre modelos 3D y exporta texturas.",
+        "funciones": [
+          {
+            "titulo": "Materiales",
+            "texto": "Pinta materiales sobre modelos 3D y exporta texturas."
+          },
+          {
+            "titulo": "Mapas de malla",
+            "texto": "Hornea mapas de malla y usa materiales inteligentes."
+          }
+        ]
+      }
+    }
+  },
+  "materialcraft": {
+    "idioma": "en",
+    "titular": "Build materials with node graphs.",
+    "acerca": "Create tileable PBR materials and export texture maps.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Node graphs",
+        "texto": "Combine noises, patterns and filters."
+      },
+      {
+        "titulo": "Live previews",
+        "texto": "Preview materials in 2D and on 3D models."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Crea materiales con grafos de nodos.",
+        "acerca": "Crea materiales PBR repetibles en mosaico y exporta mapas de textura.",
+        "funciones": [
+          {
+            "titulo": "Grafos de nodos",
+            "texto": "Combina ruidos, patrones y filtros."
+          },
+          {
+            "titulo": "Vista previa en vivo",
+            "texto": "Revisa los materiales en 2D y sobre modelos 3D."
+          }
+        ]
+      }
+    }
+  },
+  "wordcraft": {
+    "idioma": "en",
+    "titular": "The familiar word processor, native and offline.",
+    "acerca": "A word processor with the ribbon, shortcuts and behavior you already know. Open source, and built from public specifications.",
+    "plataformas": "macOS, Windows, Linux, BSD, web",
+    "funciones": [
+      {
+        "titulo": "Familiar",
+        "texto": "Ribbon tabs and groups, a live Styles gallery and the editing behavior you expect, from list continuation to Format Painter."
+      },
+      {
+        "titulo": "Your files",
+        "texto": "Opens and saves .docx, and also .odt, .rtf, .html, .md, .tex and .txt. Opens older .doc files and exports PDF with real, selectable text."
+      },
+      {
+        "titulo": "Fast",
+        "texto": "Paragraph layout is cached, so typing stays responsive even in long documents."
+      },
+      {
+        "titulo": "Private",
+        "texto": "Spelling, grammar and everything else work offline."
+      },
+      {
+        "titulo": "Everywhere",
+        "texto": "Work on macOS, Windows, Linux, BSD and the web."
+      },
+      {
+        "titulo": "Built for agents",
+        "texto": "Every action is a command, driven from the ribbon, shortcuts, a command-line tool, a JSON control channel or an MCP server."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "El procesador de textos de siempre, nativo y sin conexión.",
+        "acerca": "Un procesador de textos con la cinta de opciones, los atajos y el comportamiento que ya conoces. Código abierto, hecho a partir de especificaciones públicas.",
+        "funciones": [
+          {
+            "titulo": "Conocido",
+            "texto": "Pestañas y grupos de la cinta, una galería de estilos en vivo y el comportamiento de edición que esperas, desde continuar listas hasta copiar formato."
+          },
+          {
+            "titulo": "Tus archivos",
+            "texto": "Abre y guarda .docx, y también .odt, .rtf, .html, .md, .tex y .txt. Abre archivos .doc antiguos y exporta PDF con texto real y seleccionable."
+          },
+          {
+            "titulo": "Rápido",
+            "texto": "La maquetación de párrafos queda en caché, así que escribir sigue siendo fluido incluso en documentos largos."
+          },
+          {
+            "titulo": "Privado",
+            "texto": "La ortografía, la gramática y todo lo demás funcionan sin conexión."
+          },
+          {
+            "titulo": "En todas partes",
+            "texto": "Funciona en macOS, Windows, Linux, BSD y en la web."
+          },
+          {
+            "titulo": "Hecho para agentes",
+            "texto": "Cada acción es un comando, que se maneja desde la cinta, los atajos, una herramienta de línea de comandos, un canal de control JSON o un servidor MCP."
+          }
+        ]
+      }
+    }
+  },
+  "soundcraft": {
+    "idioma": "en",
+    "titular": "Record, edit and mix your audio.",
+    "acerca": "A digital audio workstation that follows the workflow audio engineers already know: an Edit window for arranging and editing, and a Mix window for balancing. Pre-alpha.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Editing",
+        "texto": "Shuffle, Slip, Spot and Grid modes, Smart, Grabber, Trim and other tools, fades and crossfades, playlists with comping lanes and clip gain."
+      },
+      {
+        "titulo": "Mixing",
+        "texto": "Faders and pans with automation, sends, busses, aux inputs, VCA masters, routing folders and automatic plugin delay compensation."
+      },
+      {
+        "titulo": "Automation",
+        "texto": "Volume, pan, mute, send and every plugin parameter, with Write, Touch, Latch and Trim passes recorded live from the faders."
+      },
+      {
+        "titulo": "Plugins",
+        "texto": "EQ, dynamics, reverbs, modulation effects, a subtractive synth and a drum synth, all original, and CLAP plugins load too."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Graba, edita y mezcla tu audio.",
+        "acerca": "Una estación de trabajo de audio digital que sigue el flujo que los ingenieros de sonido ya conocen: una ventana de edición para ordenar y editar, y una ventana de mezcla para equilibrar. Prealfa.",
+        "funciones": [
+          {
+            "titulo": "Edición",
+            "texto": "Modos Shuffle, Slip, Spot y Grid, herramientas Smart, Grabber, Trim y otras, fundidos y fundidos cruzados, listas con carriles de comping y ganancia por clip."
+          },
+          {
+            "titulo": "Mezcla",
+            "texto": "Faders y paneos con automatización, envíos, buses, entradas auxiliares, VCA, carpetas de ruteo y compensación automática del retardo de plugins."
+          },
+          {
+            "titulo": "Automatización",
+            "texto": "Volumen, paneo, silencio, envíos y cada parámetro de los plugins, con pasadas Write, Touch, Latch y Trim grabadas en vivo desde los faders."
+          },
+          {
+            "titulo": "Plugins",
+            "texto": "EQ, dinámica, reverbs, efectos de modulación, un sintetizador sustractivo y uno de batería, todos originales, y también carga plugins CLAP."
+          }
+        ]
+      }
+    }
+  },
+  "deckcraft": {
+    "idioma": "en",
+    "titular": "Create slides, tell stories and present.",
+    "acerca": "A presentation app with slide masters, shapes, animations and a presenter view. In alpha, heading for beta.",
+    "plataformas": "macOS, Windows, Linux, BSD, web",
+    "funciones": [
+      {
+        "titulo": "Make decks",
+        "texto": "Slide masters and layouts with placeholders that inherit formatting, themes, sections, notes and comments."
+      },
+      {
+        "titulo": "Draw",
+        "texto": "Preset shapes with adjust handles, connectors that stay glued to shapes, freeform tools, merged shapes, gradients, shadows and glow."
+      },
+      {
+        "titulo": "Write",
+        "texto": "In-place text editing with full font and paragraph formatting, bullets and numbering, columns and autofit."
+      },
+      {
+        "titulo": "Add content",
+        "texto": "Pictures with crop and corrections, styled tables, charts, audio and video."
+      },
+      {
+        "titulo": "Present",
+        "texto": "Transitions including Morph, animations and motion paths, a full-screen slide show, presenter view and rehearsed timings."
+      },
+      {
+        "titulo": "Exchange files",
+        "texto": "Opens and saves .pptx presentation files and exports PDF (slides, notes pages and handouts), PNG and JPEG."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Crea diapositivas, cuenta historias y presenta.",
+        "acerca": "Una app de presentaciones con patrones de diapositivas, formas, animaciones y vista del presentador. En alfa, rumbo a beta.",
+        "funciones": [
+          {
+            "titulo": "Arma presentaciones",
+            "texto": "Patrones y diseños de diapositiva con marcadores que heredan el formato, temas, secciones, notas y comentarios."
+          },
+          {
+            "titulo": "Dibuja",
+            "texto": "Formas predefinidas con controles de ajuste, conectores que siguen pegados a las formas, herramientas a mano alzada, formas combinadas, degradados, sombras y resplandor."
+          },
+          {
+            "titulo": "Escribe",
+            "texto": "Edición de texto en el lugar con formato completo de fuente y párrafo, viñetas y numeración, columnas y autoajuste."
+          },
+          {
+            "titulo": "Agrega contenido",
+            "texto": "Imágenes con recorte y correcciones, tablas con estilo, gráficos, audio y video."
+          },
+          {
+            "titulo": "Presenta",
+            "texto": "Transiciones, entre ellas Morph, animaciones y trayectorias, presentación a pantalla completa, vista del presentador y tiempos ensayados."
+          },
+          {
+            "titulo": "Intercambia archivos",
+            "texto": "Abre y guarda presentaciones .pptx y exporta PDF (diapositivas, páginas de notas y documentos), PNG y JPEG."
+          }
+        ]
+      }
+    }
+  },
+  "cadcraft": {
+    "idioma": "en",
+    "titular": "Computer-aided drafting, with a familiar workflow.",
+    "acerca": "A drafting app with the command line, object snaps and workflow that drafters already know. Free, with no account and no subscription. In early, fast development.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "The workflow you know",
+        "texto": "Type L, click two points, type @5<45 and press Enter. Prompts with clickable keywords, polar tracking, direct distance entry and grips work the way drafting habit expects."
+      },
+      {
+        "titulo": "Open files",
+        "texto": "Reads and writes DXF natively (R12 through 2018) and opens and saves DWG (R13 through 2018). Exports SVG and PNG."
+      },
+      {
+        "titulo": "Fast and native",
+        "texto": "A responsive, native drafting workspace."
+      },
+      {
+        "titulo": "A full drafting toolset",
+        "texto": "Draw, modify, dimension, hatch and block commands, layers with a properties manager, paper-space layouts and PDF plotting."
+      },
+      {
+        "titulo": "Built for agents",
+        "texto": "Every menu item, tool and prompt is a command, available over MCP, a JSON control channel or the CLI."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Dibujo asistido por computador, con un flujo conocido.",
+        "acerca": "Una app de dibujo técnico con la línea de comandos, las referencias a objetos y el flujo que los dibujantes ya conocen. Gratis, sin cuenta y sin suscripción. En desarrollo temprano y rápido.",
+        "funciones": [
+          {
+            "titulo": "El flujo que ya conoces",
+            "texto": "Escribe L, haz clic en dos puntos, escribe @5<45 y pulsa Enter. Las indicaciones con palabras clave clicables, el rastreo polar, la entrada directa de distancia y los pinzamientos funcionan como espera la costumbre del dibujo."
+          },
+          {
+            "titulo": "Archivos abiertos",
+            "texto": "Lee y escribe DXF de forma nativa (de R12 a 2018) y abre y guarda DWG (de R13 a 2018). Exporta SVG y PNG."
+          },
+          {
+            "titulo": "Rápida y nativa",
+            "texto": "Un espacio de dibujo nativo que responde al instante."
+          },
+          {
+            "titulo": "Herramientas de dibujo completas",
+            "texto": "Comandos para dibujar, modificar, acotar, sombrear y crear bloques, capas con administrador de propiedades, presentaciones en espacio papel y trazado a PDF."
+          },
+          {
+            "titulo": "Hecha para agentes",
+            "texto": "Cada menú, herramienta e indicación es un comando, disponible por MCP, un canal de control JSON o la línea de comandos."
+          }
+        ]
+      }
+    }
+  },
+  "gridcraft": {
+    "idioma": "en",
+    "titular": "Spreadsheets you already know how to use.",
+    "acerca": "A spreadsheet with the ribbon, formula bar, sheet tabs and shortcuts you know. No subscription, no license server and no telemetry.",
+    "plataformas": "macOS, Windows, Linux, BSD, web",
+    "funciones": [
+      {
+        "titulo": "Familiar",
+        "texto": "The ribbon, formula bar, Name Box, fill handle, point-mode formulas, Format Cells, Paste Special, conditional formatting, tables and charts."
+      },
+      {
+        "titulo": "Compatible",
+        "texto": "XLSX is the native format, with formulas, tables, conditional formats, charts, pivot tables and print settings round-tripping. CSV and TSV too."
+      },
+      {
+        "titulo": "Capable",
+        "texto": "A dependency-graph calculation engine with dynamic arrays, LET and LAMBDA, structured table references, sort, AutoFilter and Flash Fill."
+      },
+      {
+        "titulo": "Fast",
+        "texto": "Copy-on-write workbooks, incremental recalculation and a grid that only lays out what is on screen."
+      },
+      {
+        "titulo": "Agent-native",
+        "texto": "Every ribbon button, menu item, dialog and keystroke is a command, available over a JSON control channel, an MCP server or the CLI."
+      },
+      {
+        "titulo": "Everywhere",
+        "texto": "Work on the desktop and the web."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Hojas de cálculo que ya sabes usar.",
+        "acerca": "Una hoja de cálculo con la cinta de opciones, la barra de fórmulas, las pestañas de hojas y los atajos que conoces. Sin suscripción, sin servidor de licencias y sin telemetría.",
+        "funciones": [
+          {
+            "titulo": "Conocida",
+            "texto": "La cinta, la barra de fórmulas, el cuadro de nombres, el controlador de relleno, fórmulas apuntando celdas, formato de celdas, pegado especial, formato condicional, tablas y gráficos."
+          },
+          {
+            "titulo": "Compatible",
+            "texto": "XLSX es el formato nativo, y conserva fórmulas, tablas, formatos condicionales, gráficos, tablas dinámicas y configuración de impresión. También CSV y TSV."
+          },
+          {
+            "titulo": "Capaz",
+            "texto": "Un motor de cálculo con grafo de dependencias, matrices dinámicas, LET y LAMBDA, referencias estructuradas a tablas, ordenar, autofiltro y relleno rápido."
+          },
+          {
+            "titulo": "Rápida",
+            "texto": "Libros con copia en escritura, recálculo incremental y una cuadrícula que solo dibuja lo que está en pantalla."
+          },
+          {
+            "titulo": "Nativa para agentes",
+            "texto": "Cada botón de la cinta, menú, diálogo y tecla es un comando, disponible por un canal de control JSON, un servidor MCP o la línea de comandos."
+          },
+          {
+            "titulo": "En todas partes",
+            "texto": "Funciona en el escritorio y en la web."
+          }
+        ]
+      }
+    }
+  },
+  "craft-anything": {
+    "idioma": "en",
+    "titular": "See how any website, app or game works, then build your own.",
+    "acerca": "Point it at a target and say what you want. It studies the original with real inspection tools, has a coding agent build a new project in the stack you ask for, checks the result against the original and refines it. Open source and clean-room.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Study anything",
+        "texto": "Websites, desktop apps, phone apps, games and files: find out how they're built, with the evidence behind every answer."
+      },
+      {
+        "titulo": "Build your own",
+        "texto": "Say what you want and a coding agent builds a new project in the language or engine you name."
+      },
+      {
+        "titulo": "Checked, not guessed",
+        "texto": "Every build is compared with the original, at three screen widths for a page, and refined until it's close."
+      },
+      {
+        "titulo": "Agent-ready",
+        "texto": "Every tool is a CLI command and an MCP tool, and no AI is needed just to inspect."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Descubre cómo funciona cualquier web, app o juego, y crea el tuyo.",
+        "acerca": "Apúntalo a un objetivo y di lo que quieres. Estudia el original con herramientas de inspección reales, hace que un agente de programación construya un proyecto nuevo con la tecnología que pidas, compara el resultado con el original y lo pule. Código abierto y hecho en sala limpia.",
+        "funciones": [
+          {
+            "titulo": "Estudia lo que sea",
+            "texto": "Webs, apps de escritorio, apps de teléfono, juegos y archivos: descubre cómo están hechos, con la evidencia detrás de cada respuesta."
+          },
+          {
+            "titulo": "Crea el tuyo",
+            "texto": "Di lo que quieres y un agente de programación construye un proyecto nuevo en el lenguaje o motor que nombres."
+          },
+          {
+            "titulo": "Comprobado, no adivinado",
+            "texto": "Cada versión se compara con el original, a tres anchos de pantalla en el caso de una página, y se pule hasta que se parezca."
+          },
+          {
+            "titulo": "Listo para agentes",
+            "texto": "Cada herramienta es un comando de línea y una herramienta MCP, y no hace falta IA solo para inspeccionar."
+          }
+        ]
+      }
+    }
+  },
+  "anicraft": {
+    "idioma": "en",
+    "titular": "Vector animation on a timeline you know.",
+    "acerca": "Open-source 2D vector animation, built in pure Rust.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Familiar by design",
+        "texto": "Stage, tools, timeline, layers, keyframes, Properties and Library sit where animators expect them, with onion skinning for in-betweening."
+      },
+      {
+        "titulo": "Tweens that ease",
+        "texto": "Classic tweens with eight easing presets and custom ease curves, plus shape tweens that morph one vector contour into another."
+      },
+      {
+        "titulo": "Symbols and scenes",
+        "texto": "Graphic symbols and movie clips with nested timelines and loop modes, mask and guide layers, filters, blend modes and scenes."
+      },
+      {
+        "titulo": "Real vector tools",
+        "texto": "Pen, Pencil with curve fitting, shapes, text, Paint Bucket and Ink Bottle, with Bézier anchors and handles you edit point by point."
+      },
+      {
+        "titulo": "Open formats",
+        "texto": "Opens .fla and .xfl documents and imports SVG. Exports PNG sequences, GIF, SVG frames, sprite sheets, Lottie, and WebM or MP4 through your own FFmpeg."
+      },
+      {
+        "titulo": "Agent-ready",
+        "texto": "Every action is an engine command, so the CLI, a JSON-lines channel and an MCP server can draw, animate and export the way a person does."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Animación vectorial en una línea de tiempo que conoces.",
+        "acerca": "Animación vectorial 2D de código abierto, hecha en Rust puro.",
+        "funciones": [
+          {
+            "titulo": "Conocida por diseño",
+            "texto": "Escenario, herramientas, línea de tiempo, capas, fotogramas clave, Propiedades y Biblioteca están donde los animadores los esperan, con papel cebolla para los intermedios."
+          },
+          {
+            "titulo": "Interpolaciones suaves",
+            "texto": "Interpolaciones clásicas con ocho curvas de aceleración predefinidas y curvas propias, además de interpolaciones de forma que transforman un contorno vectorial en otro."
+          },
+          {
+            "titulo": "Símbolos y escenas",
+            "texto": "Símbolos gráficos y clips de película con líneas de tiempo anidadas y modos de bucle, capas de máscara y guía, filtros, modos de fusión y escenas."
+          },
+          {
+            "titulo": "Herramientas vectoriales reales",
+            "texto": "Pluma, lápiz con ajuste de curvas, formas, texto, cubo de pintura y bote de tinta, con anclas y manejadores Bézier que editas punto por punto."
+          },
+          {
+            "titulo": "Formatos abiertos",
+            "texto": "Abre documentos .fla y .xfl e importa SVG. Exporta secuencias PNG, GIF, fotogramas SVG, hojas de sprites, Lottie, y WebM o MP4 con tu propio FFmpeg."
+          },
+          {
+            "titulo": "Lista para agentes",
+            "texto": "Cada acción es un comando del motor, así que la línea de comandos, un canal JSON por líneas y un servidor MCP pueden dibujar, animar y exportar como lo hace una persona."
+          }
+        ]
+      }
+    }
+  },
+  "orchard": {
+    "idioma": "en",
+    "titular": "Your streaming music library, with more control over how you listen.",
+    "acerca": "Orchard is an open-source music player for Windows, Linux and Android. Browse your recommendations, library and playlists, shape the sound, and move playback between your computer and phone. The desktop app uses a native Qt interface and a Rust audio core.\n\nOrchard is an independent project, not affiliated with the music services it connects to.",
+    "plataformas": "Windows, Linux, Android",
+    "funciones": [
+      {
+        "titulo": "Adaptive mix",
+        "texto": "Blends songs with beat and phrase alignment, bass swaps and vocal-aware transitions, analyzed on your device."
+      },
+      {
+        "titulo": "Best Mix",
+        "texto": "Sorts upcoming songs by tempo, key, energy and production style so the queue flows."
+      },
+      {
+        "titulo": "Tune your sound",
+        "texto": "A 10-band equalizer, automatic EQ and dynamic leveling, per-song gain and output device selection."
+      },
+      {
+        "titulo": "Lossless and Hi-Res",
+        "texto": "Connect your own Qobuz subscription to play matched songs in lossless or Hi-Res quality."
+      },
+      {
+        "titulo": "Keep your music close",
+        "texto": "Offline downloads, local files, synced lyrics, music videos and animated artwork."
+      },
+      {
+        "titulo": "Orchard Connect",
+        "texto": "Control playback on your computer from your phone, or the other way around, on the same network or over the internet."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Tu biblioteca de música en streaming, con más control sobre cómo la escuchas.",
+        "acerca": "Orchard es un reproductor de música de código abierto para Windows, Linux y Android. Explora tus recomendaciones, tu biblioteca y tus listas, ajusta el sonido y pasa la reproducción entre el PC y el celular. La app de escritorio usa una interfaz nativa en Qt y un motor de audio en Rust.\n\nOrchard es un proyecto independiente, sin relación con los servicios de música a los que se conecta.",
+        "funciones": [
+          {
+            "titulo": "Mezcla adaptativa",
+            "texto": "Une canciones alineando pulsos y frases, con cambios de bajo y transiciones que respetan la voz, analizadas en tu equipo."
+          },
+          {
+            "titulo": "Best Mix",
+            "texto": "Ordena las próximas canciones por tempo, tonalidad, energía y estilo para que la cola fluya."
+          },
+          {
+            "titulo": "Ajusta el sonido",
+            "texto": "Ecualizador de 10 bandas, ecualización automática y nivelado dinámico, ganancia por canción y elección de salida."
+          },
+          {
+            "titulo": "Sin pérdida y Hi-Res",
+            "texto": "Conecta tu propia suscripción a Qobuz para escuchar las canciones disponibles sin pérdida o en Hi-Res."
+          },
+          {
+            "titulo": "Tu música cerca",
+            "texto": "Descargas sin conexión, archivos locales, letras sincronizadas, videoclips y portadas animadas."
+          },
+          {
+            "titulo": "Orchard Connect",
+            "texto": "Controla la reproducción del PC desde el celular, o al revés, en la misma red o por internet."
+          }
+        ]
+      }
+    }
+  },
+  "solidcraft": {
+    "idioma": "en",
+    "titular": "Parametric 3D CAD, with editable sketches and solids.",
+    "acerca": "A parametric solid modeller by Tangency Labs. Sketch, constrain and build solids on an editable feature timeline: change a dimension and the model rebuilds. Early, but usable for simple parts. Open source, and it can be driven by AI agents through its MCP server.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Sketches and constraints",
+        "texto": "Lines, arcs, splines and text, solved by SolidCraft's own constraint solver, with parameter-driven dimensions."
+      },
+      {
+        "titulo": "Features",
+        "texto": "Extrude, revolve, sweep, loft, fillet, chamfer, shell, holes, threads and patterns on a parametric timeline."
+      },
+      {
+        "titulo": "Files",
+        "texto": "STEP, IGES, 3MF, STL, OBJ and glTF in and out where supported, and .sc designs."
+      },
+      {
+        "titulo": "Desktop, web and agents",
+        "texto": "A desktop app, a browser app, a headless CLI and an MCP server, all running the same commands."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "CAD 3D paramétrico, con bocetos y sólidos editables.",
+        "acerca": "Un modelador de sólidos paramétrico de Tangency Labs. Dibuja, restringe y construye sólidos en una línea de operaciones editable: cambia una cota y el modelo se reconstruye. Temprano, pero útil para piezas simples. Código abierto, y los agentes de IA pueden manejarlo con su servidor MCP.",
+        "funciones": [
+          {
+            "titulo": "Bocetos y restricciones",
+            "texto": "Líneas, arcos, splines y texto, resueltos con el propio solucionador de restricciones de SolidCraft, con cotas controladas por parámetros."
+          },
+          {
+            "titulo": "Operaciones",
+            "texto": "Extruir, revolucionar, barrer, solevar, redondear, chaflanar, vaciar, agujeros, roscas y patrones en una línea de tiempo paramétrica."
+          },
+          {
+            "titulo": "Archivos",
+            "texto": "Entrada y salida en STEP, IGES, 3MF, STL, OBJ y glTF donde se admite, y diseños .sc."
+          },
+          {
+            "titulo": "Escritorio, web y agentes",
+            "texto": "Una app de escritorio, una app en el navegador, una línea de comandos sin interfaz y un servidor MCP, todos con los mismos comandos."
+          }
+        ]
+      }
+    }
+  },
+  "mailcraft": {
+    "idioma": "en",
+    "titular": "Mail, calendar, contacts and tasks, in one native app.",
+    "acerca": "An open-source mail program by UCS Care Group, written from scratch in Rust: the folder pane, message list and reading pane people already know, with a calendar, people and to-dos. Works with Microsoft 365, Outlook.com and IMAP. In public beta, and it can be driven by AI agents through its MCP server.",
+    "plataformas": "macOS, Windows, Linux, FreeBSD, web",
+    "funciones": [
+      {
+        "titulo": "Mail",
+        "texto": "Conversations, flags, categories, rules, search with a query language, and HTML mail shown without running anything in it."
+      },
+      {
+        "titulo": "Calendar",
+        "texto": "Day, week and month views, recurring meetings, invitations and reminders, kept in step with Microsoft 365."
+      },
+      {
+        "titulo": "Files",
+        "texto": ".eml, .mbox, .ics and .vcf in and out, and the mail and contacts of an Outlook .pst file in."
+      },
+      {
+        "titulo": "Desktop, web and agents",
+        "texto": "A desktop app, a browser app, a CLI and an MCP server, all running the same commands."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Correo, calendario, contactos y tareas, en una sola app nativa.",
+        "acerca": "Un programa de correo de código abierto de UCS Care Group, escrito desde cero en Rust: el panel de carpetas, la lista de mensajes y el panel de lectura que la gente ya conoce, con calendario, personas y tareas. Funciona con Microsoft 365, Outlook.com e IMAP. En beta pública, y los agentes de IA pueden manejarlo con su servidor MCP.",
+        "funciones": [
+          {
+            "titulo": "Correo",
+            "texto": "Conversaciones, marcas, categorías, reglas, búsqueda con un lenguaje de consultas y correos HTML que se muestran sin ejecutar nada dentro."
+          },
+          {
+            "titulo": "Calendario",
+            "texto": "Vistas de día, semana y mes, reuniones periódicas, invitaciones y recordatorios, sincronizados con Microsoft 365."
+          },
+          {
+            "titulo": "Archivos",
+            "texto": "Entrada y salida en .eml, .mbox, .ics y .vcf, e importa el correo y los contactos de un archivo .pst de Outlook."
+          },
+          {
+            "titulo": "Escritorio, web y agentes",
+            "texto": "Una app de escritorio, una app en el navegador, una línea de comandos y un servidor MCP, todos con los mismos comandos."
+          }
+        ]
+      }
+    }
+  },
+  "obs": {
+    "idioma": "en",
+    "titular": "Free and open-source software for video recording and live streaming.",
+    "acerca": "OBS Studio is software designed for capturing, compositing, encoding, recording, and streaming video content, efficiently.\n\nIt is distributed under the GNU General Public License v2 (or any later version).",
+    "plataformas": "Windows, macOS, Linux",
+    "funciones": [
+      {
+        "titulo": "Real-time capture and mixing",
+        "texto": "High-performance video and audio capture and mixing, with scenes built from windows, images, text, browser sources, webcams, capture cards and more."
+      },
+      {
+        "titulo": "Scenes and transitions",
+        "texto": "Set up as many scenes as you need and switch between them seamlessly with custom transitions."
+      },
+      {
+        "titulo": "Audio mixer",
+        "texto": "An intuitive mixer with per-source filters such as noise gate, noise suppression and gain."
+      },
+      {
+        "titulo": "Studio Mode",
+        "texto": "Preview your scenes and sources before pushing them live."
+      },
+      {
+        "titulo": "Recording and streaming",
+        "texto": "Record to your disk or stream to the services you use, with configurable encoders and outputs."
+      },
+      {
+        "titulo": "Plugins and scripting",
+        "texto": "Extend it with plugins and with Lua or Python scripts."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Software libre y de código abierto para grabar video y transmitir en directo.",
+        "acerca": "OBS Studio es un programa para capturar, componer, codificar, grabar y transmitir video de forma eficiente.\n\nSe distribuye con la Licencia Pública General de GNU v2 (o una versión posterior).",
+        "funciones": [
+          {
+            "titulo": "Captura y mezcla en tiempo real",
+            "texto": "Captura y mezcla de video y audio de alto rendimiento, con escenas hechas de ventanas, imágenes, texto, navegador, cámaras, capturadoras y más."
+          },
+          {
+            "titulo": "Escenas y transiciones",
+            "texto": "Crea todas las escenas que necesites y pasa de una a otra con transiciones a tu gusto."
+          },
+          {
+            "titulo": "Mezclador de audio",
+            "texto": "Un mezclador sencillo con filtros por fuente, como puerta de ruido, supresión de ruido y ganancia."
+          },
+          {
+            "titulo": "Modo estudio",
+            "texto": "Revisa tus escenas y fuentes antes de mandarlas al aire."
+          },
+          {
+            "titulo": "Grabar y transmitir",
+            "texto": "Graba en tu disco o transmite a los servicios que uses, con codificadores y salidas configurables."
+          },
+          {
+            "titulo": "Plugins y scripts",
+            "texto": "Amplíalo con plugins y con scripts en Lua o Python."
+          }
+        ]
+      }
+    }
+  }
+}

@@ -3,7 +3,20 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
-## En desarrollo
+## [0.4.0] - 2026-11-11
+
+### Añadido
+- Panel de detalles: un clic en una app abre su página, como en el launcher de ArtCraft. Muestra el titular, la descripción, las funciones y las plataformas, y de la última versión el número, la fecha, el tamaño de la descarga y las novedades. Las flechas pasan a la app anterior o siguiente y Esc lo cierra.
+- Los textos del panel están en español y en inglés para las 24 apps: se abre en español si Codex está en español y en inglés en los demás idiomas, y un botón ES / EN lo cambia. Los de ArtCraft, SolidCraft y MailCraft vienen de su launcher (traducidos al español); los de ClipVault, PngWebp, PdfEpub, Orchard y OBS Studio, de sus README.
+- OBS Studio en el catálogo, con su icono, su crédito y su instalador oficial de GitHub.
+- La colección Gallery reúne las apps de terceros: Orchard, SolidCraft, MailCraft y OBS Studio.
+
+### Cambiado
+- Tarjetas nuevas: cada app en su propia tarjeta, con la versión arriba a la izquierda, el nombre junto al icono, el estado y la fecha en una línea y una barra de botones al pie. La cuadrícula es más compacta.
+- Fondo negro con grises neutros, textos en Inter con mayúsculas normales, esquinas rectas en los filtros, el selector de vista y las tarjetas, y una rejilla de fondo más visible.
+- Las apps de ArtCraft ya no llevan número en la cuadrícula; la tabla numera todas las filas seguidas, desde ClipVault.
+- Las notas de cada versión llegan en la misma respuesta de GitHub que la versión, sin consultas aparte. La primera vez después de actualizar, Codex vuelve a leer una vez la versión de cada app para traer sus notas.
+- Se reconocen los instaladores que se llaman «installer» en vez de «setup», como el de OBS Studio.
 
 ### Corregido
 - Codex crea el acceso directo de las apps propias y de ArtCraft después de instalarlas o actualizarlas, y repara al iniciar los enlaces que falten o apunten a una ruta anterior.

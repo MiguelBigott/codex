@@ -6,11 +6,11 @@
 
 > Un solo lugar para **instalar, actualizar y abrir** mis apps de Windows: eliges una app, Codex baja su instalador oficial, verifica su firma SHA-256 y la deja lista.
 
-[![Versión](https://img.shields.io/badge/versión-v0.3.6-ffb454)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versión-v0.4.0-ffb454)](CHANGELOG.md)
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)
-[![Apps](https://img.shields.io/badge/apps-23-c9a45c)](#-catálogo)
+[![Apps](https://img.shields.io/badge/apps-24-c9a45c)](#-catálogo)
 [![Licencia](https://img.shields.io/badge/licencia-MIT-3f9d6e)](LICENSE)
 
 [Historial de versiones](CHANGELOG.md) · [Releases](../../releases) · [Descargar el instalador](../../releases/latest)
@@ -38,19 +38,20 @@
 ## ✨ Funciones
 
 - **La biblioteca**: las apps del catálogo en cuadrícula o en tabla, con filtros (todas, instaladas, con actualización, sin instalar), orden y búsqueda.
+- **Panel de detalles**: un clic en una app abre su página, como en el launcher de ArtCraft: titular, descripción, funciones y plataformas, y de la última versión el número, la fecha, el tamaño y las novedades. Está en español y en inglés (se abre en el idioma de Codex y un botón ES / EN lo cambia); las flechas pasan de app y Esc lo cierra.
 - **Sabe qué tienes**: detecta qué apps están instaladas y en qué versión leyendo el registro de Windows, aunque no las hayas instalado desde Codex.
 - **Siempre al día**: consulta la última versión de cada app en sus releases de GitHub y marca las que tienen actualización. Mira primero la página pública de releases, que no cuenta para el límite de consultas de GitHub, y usa la API solo cuando hay una versión nueva; si GitHub pausa las consultas, sigue mostrando las últimas versiones conocidas.
 - **Instala con un clic**: baja el instalador, **verifica su SHA-256** y lo ejecuta como administrador (Windows muestra el aviso de UAC). Acepta setups `.exe` (NSIS) y paquetes `.msi`, y también desinstala.
 - **Accesos directos**: crea uno para cada app instalada del catálogo, tanto las propias como las de ArtCraft; al iniciar, repara los que falten y actualiza los que apunten a una ruta anterior.
 - **Se actualiza solo**: avisa cuando hay una versión nueva del propio launcher y se pone al día con un clic.
-- **Skin «Terminal», versión «Nítido»**: fondo gris neutro con líneas continuas y bien visibles, nombres de las apps en Inter, etiquetas en minúsculas monoespaciadas, estados con borde y un solo acento ámbar, con el cursor de `~/codex_`.
+- **Skin «Terminal»**: fondo negro con una rejilla suave, cada app en su propia tarjeta de esquinas rectas (versión arriba, nombre junto al icono y barra de botones al pie), textos en Inter, versiones en monoespaciada y un solo acento ámbar, con el cursor de `~/codex_`.
 - **Ventana propia**: ventana nativa de Windows (WebView2) con su icono nítido en la barra de tareas, sin barra de título del sistema.
 - **En segundo plano**: al cerrar la ventana, Codex sigue en la bandeja del sistema (clic en el icono para volver, clic derecho para salir), y puede abrirse solo al iniciar sesión. Las dos opciones están en Ajustes.
 - **8 idiomas**: español, inglés, francés, alemán, ruso, portugués, chino y japonés. Por defecto usa el idioma del PC (si no es ninguno de esos, inglés), y se puede elegir otro en Ajustes.
 
 ## 📚 Catálogo
 
-Las apps de ArtCraft llevan el mismo número y los mismos colores que en su propio launcher (PhotoCraft 01 … Craft Anything 16). AniCraft aún no tiene número en su web; SolidCraft y MailCraft son apps de la comunidad que el launcher de ArtCraft también instala.
+La tabla numera las apps en el orden del catálogo, desde ClipVault (01) hasta OBS Studio (24). Los colores de ArtCraft son los mismos que en su propio launcher. La colección Gallery reúne apps de terceros: Orchard, SolidCraft, MailCraft (de la comunidad, que el launcher de ArtCraft también instala) y OBS Studio.
 
 | # | App | Qué hace | Autor | Repositorio |
 |---|---|---|---|---|
@@ -74,9 +75,10 @@ Las apps de ArtCraft llevan el mismo número y los mismos colores que en su prop
 | 18 | <img src="https://raw.githubusercontent.com/storytold/gridcraft/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.gridcraft.png" width="20" alt=""> **GridCraft** | Hojas de cálculo y datos | [ArtCraft](https://getartcraft.com) | [storytold/gridcraft](https://github.com/storytold/gridcraft) |
 | 19 | <img src="https://raw.githubusercontent.com/storytold/craft-anything/HEAD/assets/app-icon/hicolor/256x256/apps/ai.storyteller.craft-anything.png" width="20" alt=""> **Craft Anything** | Descubre cómo funciona cualquier programa y crea el tuyo | [ArtCraft](https://getartcraft.com) | [storytold/craft-anything](https://github.com/storytold/craft-anything) |
 | 20 | <img src="https://raw.githubusercontent.com/storytold/anicraft/HEAD/assets/app-icon/hicolor/128x128/apps/ai.storyteller.anicraft.png" width="20" alt=""> **AniCraft** | Animación vectorial 2D | [ArtCraft](https://getartcraft.com) | [storytold/anicraft](https://github.com/storytold/anicraft) |
-| 21 | <img src="https://raw.githubusercontent.com/tangency-labs/solidcraft/HEAD/assets/icons/app/linux/exports/hicolor/256x256/apps/io.tangencylabs.solidcraft.png" width="20" alt=""> **SolidCraft** | CAD 3D paramétrico | [Tangency Labs](https://solidcraft.io) | [tangency-labs/solidcraft](https://github.com/tangency-labs/solidcraft) |
-| 22 | <img src="https://raw.githubusercontent.com/UCS-Care-Group/mailcraft/HEAD/assets/app-icon/hicolor/256x256/apps/io.github.billsecond.mailcraft.png" width="20" alt=""> **MailCraft** | Correo, calendario y contactos | [UCS Care Group](https://mailcraft.work) | [UCS-Care-Group/mailcraft](https://github.com/UCS-Care-Group/mailcraft) |
-| 23 | <img src="https://raw.githubusercontent.com/sfg5453/orchard/HEAD/mobile/assets/icon.png" width="20" alt=""> **Orchard** | Reproductor de música para escritorio | [SFG545](https://sfg545.dev/orchard) | [sfg5453/orchard](https://github.com/sfg5453/orchard) |
+| 21 | <img src="https://raw.githubusercontent.com/sfg5453/orchard/HEAD/mobile/assets/icon.png" width="20" alt=""> **Orchard** | Reproductor de música para escritorio | [SFG545](https://sfg545.dev/orchard) | [sfg5453/orchard](https://github.com/sfg5453/orchard) |
+| 22 | <img src="https://raw.githubusercontent.com/tangency-labs/solidcraft/HEAD/assets/icons/app/linux/exports/hicolor/256x256/apps/io.tangencylabs.solidcraft.png" width="20" alt=""> **SolidCraft** | CAD 3D paramétrico | [Tangency Labs](https://solidcraft.io) | [tangency-labs/solidcraft](https://github.com/tangency-labs/solidcraft) |
+| 23 | <img src="https://raw.githubusercontent.com/UCS-Care-Group/mailcraft/HEAD/assets/app-icon/hicolor/256x256/apps/io.github.billsecond.mailcraft.png" width="20" alt=""> **MailCraft** | Correo, calendario y contactos | [UCS Care Group](https://mailcraft.work) | [UCS-Care-Group/mailcraft](https://github.com/UCS-Care-Group/mailcraft) |
+| 24 | **OBS Studio** | Grabación y transmisión de video en directo | [OBS Project](https://obsproject.com) | [obsproject/obs-studio](https://github.com/obsproject/obs-studio) |
 
 Cada app nueva entra al catálogo cuando tiene su primera versión publicada.
 
@@ -131,6 +133,7 @@ Para revisar la interfaz en un navegador, sin ventana, ejecuta el launcher con `
 | `instalados.go` | Apps instaladas según el registro de Windows |
 | `elevar.go` | Ejecución como administrador (UAC) |
 | `catalogo.go`, `catalogo.json` | El catálogo de apps |
+| `detalles.go`, `detalles.json` | Las páginas del panel de detalles (titular, descripción, funciones y plataformas), en español y en inglés |
 | `web/` | Interfaz (HTML, CSS y JS) |
 | `build/` | Logo, instalador NSIS y script de compilación |
 
@@ -179,9 +182,10 @@ Las apps del catálogo tienen sus propias licencias y Codex las descarga de sus 
 
 ## 🖋️ Créditos
 
-- [PhotoCraft](https://github.com/storytold/photocraft), [VectorCraft](https://github.com/storytold/vectorcraft), [FilmCraft](https://github.com/storytold/filmcraft), [LightCraft](https://github.com/storytold/lightcraft), [PdfCraft](https://github.com/storytold/pdfcraft), [EffectCraft](https://github.com/storytold/effectcraft), [DesignCraft](https://github.com/storytold/designcraft), [FigCraft](https://github.com/storytold/figcraft), [TextureCraft](https://github.com/storytold/texturecraft), [MaterialCraft](https://github.com/storytold/materialcraft), [WordCraft](https://github.com/storytold/wordcraft), [SoundCraft](https://github.com/storytold/soundcraft), [DeckCraft](https://github.com/storytold/deckcraft), [CADCraft](https://github.com/storytold/cadcraft), [GridCraft](https://github.com/storytold/gridcraft), [Craft Anything](https://github.com/storytold/craft-anything) y [AniCraft](https://github.com/storytold/anicraft) son de [ArtCraft](https://getartcraft.com), con licencia Apache 2.0. Codex las muestra con su nombre, su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas.
+- [PhotoCraft](https://github.com/storytold/photocraft), [VectorCraft](https://github.com/storytold/vectorcraft), [FilmCraft](https://github.com/storytold/filmcraft), [LightCraft](https://github.com/storytold/lightcraft), [PdfCraft](https://github.com/storytold/pdfcraft), [EffectCraft](https://github.com/storytold/effectcraft), [DesignCraft](https://github.com/storytold/designcraft), [FigCraft](https://github.com/storytold/figcraft), [TextureCraft](https://github.com/storytold/texturecraft), [MaterialCraft](https://github.com/storytold/materialcraft), [WordCraft](https://github.com/storytold/wordcraft), [SoundCraft](https://github.com/storytold/soundcraft), [DeckCraft](https://github.com/storytold/deckcraft), [CADCraft](https://github.com/storytold/cadcraft), [GridCraft](https://github.com/storytold/gridcraft), [Craft Anything](https://github.com/storytold/craft-anything) y [AniCraft](https://github.com/storytold/anicraft) son de [ArtCraft](https://getartcraft.com), con licencia Apache 2.0. Codex las muestra con su nombre, su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas. Los textos de su panel de detalles (y los de SolidCraft y MailCraft) vienen del catálogo de [su launcher](https://github.com/storytold/craft-launcher), tal cual en inglés y traducidos al español.
 - [SolidCraft](https://github.com/tangency-labs/solidcraft) es de [Tangency Labs](https://solidcraft.io) y [MailCraft](https://github.com/UCS-Care-Group/mailcraft) de [UCS Care Group](https://mailcraft.work), ambas con licencia Apache 2.0: apps de la comunidad que el launcher de ArtCraft también instala. Codex las muestra con su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas.
 - [Orchard](https://github.com/sfg5453/orchard) es de [SFG545](https://sfg545.dev/orchard), con licencia AGPL 3.0 (su motor de mezcla, PolyForm Shield). Codex la muestra con su icono oficial y su crédito, y baja su instalador oficial sin modificarlo; la app se mantiene al día con su propio actualizador.
+- [OBS Studio](https://github.com/obsproject/obs-studio) es de [OBS Project](https://obsproject.com), con licencia GPL 2.0. Codex la muestra con su crédito y baja su instalador oficial de GitHub sin modificarlo.
 - Tipografías [Inter](https://rsms.me/inter/) y [Space Mono](https://fonts.google.com/specimen/Space+Mono), con licencia SIL Open Font License.
 - Ventana con [go-webview2](https://github.com/jchv/go-webview2) (MIT).
 

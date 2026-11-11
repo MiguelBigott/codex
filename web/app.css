@@ -512,9 +512,123 @@ body.modo-tabla .solo-cuadricula { display: none; }
 .pie { font-size: 12px; }
 .marca-texto { color: #fff; }
 
+/* Cuadrícula compacta: tarjetas más chicas, con la misma estructura pero menos altura. */
+.rejilla { grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); }
+.tarjeta-cabecera { height: 34px; padding: 0 16px; }
+.tarjeta-cuerpo { padding: 16px 18px 18px; }
+.identidad { gap: 14px; min-height: 96px; }
+.icono-app { width: 52px; height: 52px; border-radius: 10px; font-size: 22px; }
+.nombre { font-size: 19px; }
+.descripcion {
+  font-size: 13.5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.autor { font-size: 12px; }
+.estado { margin-top: 12px; font-size: 12px; }
+.version { margin-top: 12px; font-size: 12.5px; }
+.acciones { padding-top: 18px; gap: 8px; }
+.boton { height: 34px; font-size: 12.5px; }
+.boton-cuadro { width: 34px; height: 34px; }
+
+/* ================= Paleta y tipografía «Apple» =================
+   Negro puro con superficies grises, azul del sistema para la acción principal y Inter en
+   sentence case: sin mayúsculas ni espaciado ancho. El mono queda solo para las versiones. */
+:root {
+  --fondo: #000000;
+  --fondo-alto: #2c2c2e;
+  --panel: #1c1c1e;
+  --banner: #1c1c1e;
+  --linea: rgba(255, 255, 255, .10);
+  --linea-fuerte: rgba(255, 255, 255, .20);
+  --texto: #f5f5f7;
+  --texto-2: rgba(245, 245, 247, .72);
+  --texto-3: rgba(245, 245, 247, .50);
+  --azul: #0a84ff;
+  --azul-claro: #64d2ff;
+  --verde: #30d158;
+  --ambar: #ffb454;
+  --rojo: #ff453a;
+}
+body { letter-spacing: -.011em; }
+.segmento-vista button, .segmentos button, .etiqueta-mono, .enlace-mono, .banner-etiqueta,
+.estado, .seccion, .pie, .tarjeta-enlaces button, .tabla th, .menu button, .ajustes h2, .datos dt {
+  font-family: var(--sans);
+  text-transform: none;
+  letter-spacing: -.005em;
+}
+.segmento-vista button, .segmentos button { font-size: 13.5px; font-weight: 500; }
+.segmento-vista button.activo, .segmentos button.activo { color: var(--texto); }
+.segmento-vista button.activo { background: var(--fondo-alto); color: var(--texto); }
+.segmentos, .segmento-vista, .segmento-vista button { border-radius: 0; }
+.segmentos button.activo { background: var(--fondo-alto); color: var(--texto); }
+.banner-etiqueta { font-weight: 600; font-size: 14px; }
+.banner-etiqueta::before { content: ""; }
+.banner-texto { font-family: var(--sans); font-size: 14px; font-weight: 400; color: var(--texto-2); }
+.seccion { font-size: 15px; font-weight: 600; color: var(--texto); }
+.seccion span:first-child::after { content: ""; }
+.seccion span:last-child { color: var(--texto-3); font-weight: 400; }
+.nombre { font-weight: 600; letter-spacing: -.02em; }
+.descripcion { font-size: 14px; color: var(--texto-2); }
+.autor { font-size: 12.5px; color: var(--texto-3); }
+.tarjeta-enlaces button { font-size: 12.5px; font-weight: 400; color: var(--texto-3); }
+.tarjeta-enlaces button:hover { color: var(--azul-claro); }
+/* Estados como cápsulas; la versión, arriba a la izquierda, es lo único en mono. */
+.estado { border-radius: 4px; font-size: 12px; font-weight: 500; padding: 3px 9px; border-width: 1px; }
+.estado-instalada { color: var(--verde); border-color: rgba(48, 209, 88, .40); background: rgba(48, 209, 88, .12); }
+.estado-actualizacion { color: var(--ambar); border-color: rgba(255, 159, 10, .45); background: rgba(255, 159, 10, .12); }
+.estado-disponible, .estado-tarea { color: var(--texto-2); border-color: var(--linea-fuerte); }
+.estado-proximamente, .estado-sin-version { color: var(--texto-3); border-color: var(--linea); }
+.tarjeta-cabecera { gap: 10px; }
+.version-chip { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--mono); font-size: 12px; color: var(--texto-2); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.tarjeta-enlaces { flex: none; }
+.tarjeta-enlaces button { white-space: nowrap; }
+.version { font-size: 12.5px; color: var(--texto-3); }
+.version .error { color: var(--rojo); }
+/* Botones de acción: los de antes (ámbar, mono). El «…» tiene la misma esquina que «abrir». */
+.boton-cuadro { border-radius: 6px; }
+.boton-cuadro .puntos { display: flex; gap: 3px; align-items: center; justify-content: center; }
+.boton-cuadro .puntos i { width: 3px; height: 3px; border-radius: 50%; background: currentColor; display: block; }
+/* Tarjeta «Placa»: cada app en su propia tarjeta, separadas por un espacio. Arriba la versión y
+   los enlaces, luego el icono y el texto; el estado y la fecha comparten línea, y los botones son
+   una barra pegada al pie, de borde a borde. Lo que sobra de alto queda sobre el estado, así el
+   estado, la fecha y la barra caen a la misma altura en toda la fila. */
+.rejilla { gap: 12px; background: none; border: 0; border-radius: 0; overflow: visible; }
+.tarjeta { border: 1px solid var(--linea); }
+.tarjeta-cabecera { height: 38px; padding: 0 14px; border-bottom: 0; }
+.tarjeta-cuerpo { padding: 2px 14px 14px; }
+.tarjeta-titulo { display: flex; align-items: center; gap: 12px; }
+.tarjeta-titulo .icono-app { width: 56px; height: 56px; border-radius: 12px; font-size: 24px; }
+.tarjeta-titulo .nombre { margin: 0; font-size: 20px; min-width: 0; }
+.tarjeta-texto { margin-top: 12px; }
+.tarjeta-texto .descripcion { margin-top: 0; }
+/* Estado y fecha siempre en una sola línea; solo un mensaje de error puede pasar a la siguiente. */
+.tarjeta-estado { margin-top: auto; padding-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.tarjeta-estado .estado { margin: 0; font-size: 11.5px; padding: 3px 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tarjeta-estado .version { margin: 0; flex: none; font-family: var(--sans); font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tarjeta-estado:has(.error) { flex-wrap: wrap; }
+.tarjeta-estado .version:has(.error) { flex: 1 1 100%; white-space: normal; }
+.tarjeta > .acciones { display: grid; grid-template-columns: 1fr 46px; gap: 0; margin: 0; padding: 0; border-top: 1px solid var(--linea); }
+.tarjeta > .acciones .boton { height: 42px; border: 0; border-radius: 0; }
+.tarjeta > .acciones .boton-cuadro { width: auto; height: 42px; border: 0; border-left: 1px solid var(--linea); border-radius: 0; }
+.tarjeta > .acciones .boton-contorno:not(:disabled):hover, .tarjeta > .acciones .boton-cuadro:hover { background: var(--fondo-alto); }
+
+/* Tarjetas y tabla casi opacas: la rejilla del fondo apenas se nota a través. */
+.tabla-caja, .tarjeta { background: rgba(28, 28, 30, .92); }
+.tabla th { font-size: 12.5px; font-weight: 500; color: var(--texto-3); }
+.tabla .nombre { font-size: 16px; }
+.tabla .estado { font-size: 12px; }
+.tabla .ver { font-family: var(--mono); font-size: 14px; color: var(--texto-2); letter-spacing: 0; }
+.tabla-caja, .rejilla { border-radius: 0; }
+/* Número de ArtCraft en la tabla: dorado, como la «Vault» de ClipVault. */
+.tabla .hueco-numero { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ambar); letter-spacing: 0; }
+.interruptor input:checked + .interruptor-pista { border-color: var(--verde); background: var(--verde); }
+
 /* Cuadrícula de fondo detrás de las tarjetas; se desplaza junto con ellas. */
 .principal {
-  --linea-cuadricula: rgba(242, 240, 234, .03);
+  --linea-cuadricula: rgba(242, 240, 234, .11);
   background-image:
     linear-gradient(to right, var(--linea-cuadricula) 1px, transparent 1px),
     linear-gradient(to bottom, var(--linea-cuadricula) 1px, transparent 1px);
@@ -545,6 +659,101 @@ body.cargando .barra, body.cargando .principal, body.cargando .pie { visibility:
 /* Chino y japonés: las tipografías de Windows para cada uno, con sus formas propias. */
 :root:lang(zh) { --sans: "Inter", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif; --mono: "Space Mono", "Cascadia Mono", "Microsoft YaHei UI", monospace; }
 :root:lang(ja) { --sans: "Inter", "Yu Gothic UI", "Meiryo UI", sans-serif; --mono: "Space Mono", "Cascadia Mono", "Yu Gothic UI", monospace; }
+
+/* ================= Panel de detalles =================
+   Se abre al hacer clic en una app. Queda bajo los bordes para redimensionar (50) y los ajustes
+   (60); el menú «…» sube por encima para poder abrirse desde el panel. */
+.tarjeta { cursor: pointer; }
+.tarjeta:hover { border-color: var(--linea-fuerte); }
+.tarjeta:focus-visible { outline: 2px solid var(--azul-claro); outline-offset: 2px; }
+.tabla .fila-app { cursor: pointer; }
+.menu { z-index: 47; }
+
+.velo-detalles { position: fixed; inset: 0; z-index: 44; background: rgba(0, 0, 0, .62); }
+.detalles {
+  position: fixed;
+  z-index: 45;
+  top: calc(var(--alto-barra) - 16px);
+  bottom: 20px;
+  left: max(24px, calc((100vw - 1180px) / 2));
+  right: max(24px, calc((100vw - 1180px) / 2));
+  display: flex;
+  flex-direction: column;
+  background: #121214;
+  border: 1px solid var(--linea-fuerte);
+  border-top: 2px solid var(--color-app);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .6);
+  overflow: hidden;
+}
+.det-cabecera { padding: 18px 24px 20px; background: var(--panel); border-bottom: 1px solid var(--linea); }
+.det-barra { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.det-etiqueta { font-family: var(--mono); font-size: 12px; color: var(--texto-3); }
+.det-navegacion { display: flex; gap: 6px; align-items: center; }
+/* ES / EN: idioma del texto del panel. */
+.det-idioma { display: flex; margin-right: 10px; border: 1px solid var(--linea-fuerte); }
+.det-idioma button { height: 32px; padding: 0 11px; font-family: var(--mono); font-size: 12px; color: var(--texto-3); }
+.det-idioma button + button { border-left: 1px solid var(--linea-fuerte); }
+.det-idioma button:hover { color: var(--texto); }
+.det-idioma button.activo { background: var(--fondo-alto); color: var(--texto); }
+.det-nav { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--linea-fuerte); color: var(--texto-2); }
+.det-nav:hover { color: var(--texto); background: var(--fondo-alto); }
+.det-identidad { display: flex; align-items: center; gap: 20px; }
+.det-identidad > .icono-app { width: 92px; height: 92px; border-radius: 20px; font-size: 40px; }
+.det-titulos { min-width: 0; }
+.det-titulos .nombre { margin: 0; font-size: 32px; }
+.det-titular { margin: 6px 0 0; font-size: 16px; color: var(--texto); }
+.det-version { margin: 4px 0 0; font-family: var(--mono); font-size: 12.5px; color: var(--texto-3); }
+.det-autor { margin: 2px 0 0; font-size: 13px; color: var(--texto-3); }
+.det-acciones { margin: 0 0 0 auto; padding: 0; display: flex; gap: 8px; align-self: center; }
+.det-acciones .boton { flex: none; width: 220px; height: 40px; }
+.det-acciones .boton-cuadro { width: 40px; height: 40px; }
+.det-enlaces { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.det-enlaces button { border: 1px solid var(--linea-fuerte); padding: 7px 12px; font-family: var(--mono); font-size: 12px; color: var(--texto); }
+.det-enlaces button:hover { background: var(--fondo-alto); }
+
+.det-cuerpo {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  padding: 22px 24px 32px;
+  user-select: text;
+}
+.det-cuerpo::-webkit-scrollbar { width: 6px; }
+.det-cuerpo::-webkit-scrollbar-thumb { background: var(--linea-fuerte); }
+.det-acerca p { margin: 0 0 10px; font-size: 15px; line-height: 1.55; color: var(--texto); max-width: 72ch; }
+.det-h { margin: 26px 0 12px; font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--texto-3); }
+.det-der > .det-h:first-child { margin-top: 0; }
+.det-funciones { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.det-funciones li { display: grid; grid-template-columns: 30px 1fr; column-gap: 10px; padding: 14px 16px; border: 1px solid var(--linea); background: var(--panel); }
+.det-funciones .num { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ambar); padding-top: 2px; }
+.det-funciones b { font-size: 15px; font-weight: 600; }
+.det-funciones p { grid-column: 2; margin: 4px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--texto-2); }
+.det-datos { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.det-datos div { padding: 10px 14px; border: 1px solid var(--linea); background: var(--panel); }
+.det-datos dt { font-family: var(--mono); font-size: 11px; color: var(--texto-3); }
+.det-datos dd { margin: 4px 0 0; font-size: 14px; color: var(--texto); }
+.det-notas { font-size: 13.5px; line-height: 1.55; color: var(--texto-2); }
+.det-notas h4 { margin: 16px 0 6px; font-size: 15px; font-weight: 600; color: var(--texto); }
+.det-notas h4:first-child { margin-top: 0; }
+.det-notas p { margin: 0 0 8px; }
+.det-notas ul { margin: 0 0 8px; padding-left: 16px; }
+.det-notas li { margin: 5px 0; }
+.det-notas li::marker { color: var(--texto-3); }
+.det-notas summary { margin-top: 6px; cursor: pointer; color: var(--texto); }
+.det-vacio { margin: 0; font-size: 13.5px; color: var(--texto-3); }
+.det-registro { margin-top: 14px; font-size: 13.5px; color: var(--azul-claro); }
+.det-registro:hover { text-decoration: underline; }
+
+@media (max-width: 860px) {
+  .detalles { top: 0; bottom: 0; left: 0; right: 0; }
+  .det-cuerpo { grid-template-columns: 1fr; }
+  .det-identidad { flex-wrap: wrap; }
+  .det-acciones { margin-left: 0; width: 100%; }
+  .det-acciones .boton { flex: 1; width: auto; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
