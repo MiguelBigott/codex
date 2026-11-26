@@ -158,7 +158,13 @@ func (l *Launcher) Revisar() {
 		if app.Ejemplo || app.Repo == "" {
 			continue
 		}
-		rel, err := ultimaRelease(app.Repo, app.EsMSI(), app.Betas)
+		var rel *Release
+		var err error
+		if app.ManifiestoVersion != "" {
+			rel, err = releaseDeManifiesto(app) // versiones fuera de GitHub (solo para mostrar)
+		} else {
+			rel, err = ultimaRelease(app.Repo, app.EsMSI(), app.Betas)
+		}
 		l.mu.Lock()
 		if err != nil {
 			l.errores[app.ID] = comoMensaje(err)
@@ -245,6 +251,8 @@ func (l *Launcher) Estado() EstadoLauncher {
 			ea.Estado = "actualizacion"
 		case ea.Instalada:
 			ea.Estado = "instalada"
+		case app.InstalarDesdeWeb:
+			ea.Estado = "disponible" // «Instalar» abre su página oficial de descarga
 		case ea.Ultima != nil && ea.Ultima.Instalador != nil:
 			ea.Estado = "disponible"
 		default:
@@ -320,7 +328,8 @@ func carpetaSuite() string {
 // para actualizar: el instalador NSIS reemplaza la versión anterior.
 func (l *Launcher) Instalar(id string) error {
 	app, ok := l.app(id)
-	if !ok || app.Ejemplo {
+	// Las que se instalan desde su web nunca se descargan, aunque quede una versión vieja guardada.
+	if !ok || app.Ejemplo || app.InstalarDesdeWeb {
 		return msj("appNoDisponible")
 	}
 	l.mu.Lock()

@@ -192,7 +192,10 @@ function botonPrincipal(a) {
   switch (a.estado) {
     case "instalada": return el("button", { class: "boton boton-contorno", type: "button", onclick: accion("/api/abrir") }, el("span", { text: t("abrir") }));
     case "actualizacion": return el("button", { class: "boton boton-claro", type: "button", onclick: accion("/api/instalar") }, el("span", { text: t("actualizar") }));
-    case "disponible": return el("button", { class: "boton boton-claro", type: "button", onclick: accion("/api/instalar") }, el("span", { text: t("instalar") }));
+    case "disponible":
+      // Apps que no publican un instalador verificable: «Instalar» abre su página oficial.
+      if (a.instalarDesdeWeb) return el("button", { class: "boton boton-claro", type: "button", title: a.web, onclick: () => abrirEnlace(a.web) }, el("span", { text: `${t("instalar")} ↗` }));
+      return el("button", { class: "boton boton-claro", type: "button", onclick: accion("/api/instalar") }, el("span", { text: t("instalar") }));
     default: return el("button", { class: "boton boton-contorno", type: "button", disabled: true }, el("span", { text: t(a.estado === "proximamente" ? "proximamente" : "noDisponible") }));
   }
 }
@@ -369,7 +372,7 @@ function abrirMenu(a, boton) {
   if (a.urlRepo) opciones.push([t("menu.github"), () => abrirEnlace(a.urlRepo)]);
   if (a.web) opciones.push([t("menu.sitio"), () => abrirEnlace(a.web)]);
   if (a.instalada && !a.tarea) {
-    if (a.ultima?.instalador) opciones.push([t("menu.reinstalar"), () => api("/api/instalar", { id: a.id }).then(refrescar, (e) => avisar(e.message, true))]);
+    if (a.ultima?.instalador && !a.instalarDesdeWeb) opciones.push([t("menu.reinstalar"), () => api("/api/instalar", { id: a.id }).then(refrescar, (e) => avisar(e.message, true))]);
     opciones.push([t("menu.desinstalar"), () => api("/api/desinstalar", { id: a.id }).then(refrescar, (e) => avisar(e.message, true)), true]);
   }
   if (!opciones.length) opciones.push([t("menu.sinOpciones"), null]);

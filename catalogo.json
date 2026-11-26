@@ -858,7 +858,9 @@
       },
       "porUsuario": true,
       "seActualizaSola": true,
-      "betas": true
+      "instalarDesdeWeb": true,
+      "manifiestoVersion": "https://depot.sfg545.dev/releases/canary.json",
+      "notasVersion": "https://depot.sfg545.dev/releases/canary-notes.json"
     },
     {
       "id": "solidcraft",

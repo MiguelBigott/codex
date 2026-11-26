@@ -57,6 +57,17 @@ type AppCatalogo struct {
 	// Betas: si la última versión estable no trae instalador para Windows, se usa la versión
 	// más reciente que sí lo traiga, aunque sea beta.
 	Betas bool `json:"betas,omitempty"`
+	// InstalarDesdeWeb: la app no publica su instalador con una suma SHA-256 que Codex pueda
+	// verificar, así que Codex no lo descarga: «Instalar» abre su página oficial (`web`). La
+	// detecta, la abre y la desinstala igual que a las demás.
+	InstalarDesdeWeb bool `json:"instalarDesdeWeb,omitempty"`
+	// ManifiestoVersion: manifiesto de versiones de la app fuera de GitHub (formato
+	// orchard-signed-v1: un «payload» en base64 con su «version»). Solo sirve para mostrar la
+	// última versión; nunca para descargar nada.
+	ManifiestoVersion string `json:"manifiestoVersion,omitempty"`
+	// NotasVersion: las notas de esas versiones (lista de {version, date, title, sections}),
+	// para el panel de detalles.
+	NotasVersion string `json:"notasVersion,omitempty"`
 }
 
 type Traduccion struct {
@@ -112,6 +123,14 @@ func cargarCatalogo() (Catalogo, error) {
 		}
 		if a.Icono != "" && !strings.HasPrefix(a.Icono, "https://") {
 			return c, fmt.Errorf("catálogo: el icono de %s debe ser una URL https", a.ID)
+		}
+		for _, u := range []string{a.ManifiestoVersion, a.NotasVersion} {
+			if u != "" && !strings.HasPrefix(u, "https://") {
+				return c, fmt.Errorf("catálogo: las direcciones de versiones de %s deben ser https", a.ID)
+			}
+		}
+		if a.InstalarDesdeWeb && !strings.HasPrefix(a.Web, "https://") {
+			return c, fmt.Errorf("catálogo: %s se instala desde su web, pero no tiene una web https", a.ID)
 		}
 		ids[a.ID] = true
 	}

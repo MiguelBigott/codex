@@ -6,7 +6,7 @@
 
 > Un solo lugar para **instalar, actualizar y abrir** mis apps de Windows: eliges una app, Codex baja su instalador oficial, verifica su firma SHA-256 y la deja lista.
 
-[![Versión](https://img.shields.io/badge/versión-v0.4.1-ffb454)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versión-v0.4.2-ffb454)](CHANGELOG.md)
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)
@@ -163,13 +163,15 @@ Cada app vive en su propio repositorio público y se define en [`catalogo.json`]
 | `porUsuario` | `true` si su instalador se instala solo para el usuario, sin permiso de administrador y en su propia carpeta |
 | `seActualizaSola` | `true` si la app trae su propio actualizador: Codex no ofrece actualizaciones |
 | `betas` | `true` para usar la versión beta más reciente con instalador si la estable no lo trae |
+| `instalarDesdeWeb` | `true` si la app no publica un instalador con suma SHA-256 verificable: «Instalar» abre su página oficial (`web`) en vez de descargarlo |
+| `manifiestoVersion`, `notasVersion` | Para apps que publican sus versiones fuera de GitHub: el manifiesto de versiones y sus notas, solo para mostrarlos |
 
 Cada release debe incluir el instalador para Windows x64 (un `.exe` con `setup` en el nombre, o un `.msi` con `x64`) y su suma SHA-256: GitHub ya la publica para cada archivo, o puede ir en un `SHA256SUMS.txt`.
 
 ## 🔐 Seguridad
 
 - **Sin suma, no instala**: cada instalador se compara con su SHA-256 antes de ejecutarse; si no coincide, se borra.
-- **Solo desde GitHub**: los instaladores se bajan de los releases oficiales de cada repositorio del catálogo, por HTTPS.
+- **Solo desde GitHub**: los instaladores se bajan de los releases oficiales de cada repositorio del catálogo, por HTTPS. Si una app publica su instalador en otro sitio y sin suma SHA-256 (como Orchard), Codex no lo baja: abre su página oficial de descarga.
 - **Servidor cerrado**: la interfaz habla con un servidor en `127.0.0.1` que exige una clave nueva en cada sesión.
 - **Administrador solo para instalar**: el launcher corre como usuario normal y pide permiso (UAC) únicamente al instalar o desinstalar.
 - **CI con acciones fijadas por SHA** y permisos mínimos en cada workflow.
@@ -184,7 +186,7 @@ Las apps del catálogo tienen sus propias licencias y Codex las descarga de sus 
 
 - [PhotoCraft](https://github.com/storytold/photocraft), [VectorCraft](https://github.com/storytold/vectorcraft), [FilmCraft](https://github.com/storytold/filmcraft), [LightCraft](https://github.com/storytold/lightcraft), [PdfCraft](https://github.com/storytold/pdfcraft), [EffectCraft](https://github.com/storytold/effectcraft), [DesignCraft](https://github.com/storytold/designcraft), [FigCraft](https://github.com/storytold/figcraft), [TextureCraft](https://github.com/storytold/texturecraft), [MaterialCraft](https://github.com/storytold/materialcraft), [WordCraft](https://github.com/storytold/wordcraft), [SoundCraft](https://github.com/storytold/soundcraft), [DeckCraft](https://github.com/storytold/deckcraft), [CADCraft](https://github.com/storytold/cadcraft), [GridCraft](https://github.com/storytold/gridcraft), [Craft Anything](https://github.com/storytold/craft-anything) y [AniCraft](https://github.com/storytold/anicraft) son de [ArtCraft](https://getartcraft.com), con licencia Apache 2.0. Codex las muestra con su nombre, su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas. Los textos de su panel de detalles (y los de SolidCraft y MailCraft) vienen del catálogo de [su launcher](https://github.com/storytold/craft-launcher), tal cual en inglés y traducidos al español.
 - [SolidCraft](https://github.com/tangency-labs/solidcraft) es de [Tangency Labs](https://solidcraft.io) y [MailCraft](https://github.com/UCS-Care-Group/mailcraft) de [UCS Care Group](https://mailcraft.work), ambas con licencia Apache 2.0: apps de la comunidad que el launcher de ArtCraft también instala. Codex las muestra con su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas.
-- [Orchard](https://github.com/sfg5453/orchard) es de [SFG545](https://sfg545.dev/orchard), con licencia AGPL 3.0 (su motor de mezcla, PolyForm Shield). Codex la muestra con su icono oficial y su crédito, y baja su instalador oficial sin modificarlo; la app se mantiene al día con su propio actualizador.
+- [Orchard](https://github.com/sfg5453/orchard) es de [SFG545](https://sfg545.dev/orchard), con licencia AGPL 3.0 (su motor de mezcla, PolyForm Shield). Codex la muestra con su icono oficial y su crédito; su botón «Instalar» abre la [página oficial de descarga](https://sfg545.dev/orchard), porque su instalador de Windows ya no se publica en GitHub ni trae suma SHA-256, y la app se mantiene al día con su propio actualizador.
 - [OBS Studio](https://github.com/obsproject/obs-studio) es de [OBS Project](https://obsproject.com), con licencia GPL 2.0. Codex la muestra con su crédito y baja su instalador oficial de GitHub sin modificarlo.
 - Tipografías [Inter](https://rsms.me/inter/) y [Space Mono](https://fonts.google.com/specimen/Space+Mono), con licencia SIL Open Font License.
 - Ventana con [go-webview2](https://github.com/jchv/go-webview2) (MIT).

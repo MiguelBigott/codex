@@ -3,6 +3,11 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.4.2] - 2026-11-25
+
+### Corregido
+- Orchard ya no publica su instalador de Windows en GitHub (solo la app de Android), así que Codex ofrecía instalar la 5.0.0-beta.9 de septiembre, una línea abandonada. Ahora la última versión y sus novedades se leen del manifiesto oficial de Orchard, sin gastar la API de GitHub, y «Instalar» abre su página oficial de descarga: ese instalador no trae suma SHA-256 y Codex no instala nada sin verificar.
+
 ## [0.4.1] - 2026-11-11
 
 ### Corregido
