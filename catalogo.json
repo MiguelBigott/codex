@@ -975,6 +975,44 @@
           "descripcion": "動画の録画とライブ配信"
         }
       }
+    },
+    {
+      "id": "recordly",
+      "nombre": "Recordly",
+      "sufijo": "",
+      "descripcion": "Grabación de pantalla para videos de demostración",
+      "color": "#1f8bff",
+      "categoria": "sfg545",
+      "repo": "webadderallorg/recordly",
+      "web": "https://recordly.dev",
+      "autor": "webadderall",
+      "icono": "https://raw.githubusercontent.com/webadderallorg/recordly/HEAD/icons/icons/png/256x256.png",
+      "traducciones": {
+        "en": {
+          "descripcion": "Screen recording for demo videos"
+        },
+        "fr": {
+          "descripcion": "Enregistrement d'écran pour vidéos de démonstration"
+        },
+        "de": {
+          "descripcion": "Bildschirmaufnahme für Demovideos"
+        },
+        "ru": {
+          "descripcion": "Запись экрана для демонстрационных видео"
+        },
+        "pt": {
+          "descripcion": "Gravação de tela para vídeos de demonstração"
+        },
+        "zh": {
+          "descripcion": "录制屏幕，制作演示视频"
+        },
+        "ja": {
+          "descripcion": "デモ動画のための画面録画"
+        }
+      },
+      "porUsuario": true,
+      "seActualizaSola": true,
+      "archivoInstalador": "Recordly-windows-x64.exe"
     }
   ]
 }

@@ -57,6 +57,9 @@ type AppCatalogo struct {
 	// Betas: si la última versión estable no trae instalador para Windows, se usa la versión
 	// más reciente que sí lo traiga, aunque sea beta.
 	Betas bool `json:"betas,omitempty"`
+	// ArchivoInstalador: nombre exacto del instalador en la release, para apps cuyo setup no se
+	// llama «setup» ni «installer» (Recordly-windows-x64.exe).
+	ArchivoInstalador string `json:"archivoInstalador,omitempty"`
 	// InstalarDesdeWeb: la app no publica su instalador con una suma SHA-256 que Codex pueda
 	// verificar, así que Codex no lo descarga: «Instalar» abre su página oficial (`web`). La
 	// detecta, la abre y la desinstala igual que a las demás.

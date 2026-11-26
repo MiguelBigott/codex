@@ -40,7 +40,7 @@ func TestReleaseConBetas(t *testing.T) {
 		cacheRel.mu.Unlock()
 	}()
 
-	rel, err := ultimaRelease("yo/betas", false, true)
+	rel, err := ultimaRelease("yo/betas", false, true, "")
 	if err != nil {
 		t.Fatal(err)
 	}

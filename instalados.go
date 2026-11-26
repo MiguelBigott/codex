@@ -52,6 +52,21 @@ func esCacheInstaladorWindows(ruta string) bool {
 	return ruta == raiz || strings.HasPrefix(ruta, raiz+`\`)
 }
 
+// coincideNombre dice si el DisplayName del registro es el de la app: igual, o el nombre seguido
+// de su versión («Recordly 1.4.0», como registran los instaladores de electron-builder). Tras el
+// espacio tiene que venir un número, así «Recordly Helper» no cuenta.
+func coincideNombre(registrado, nombre string) bool {
+	r := strings.TrimSpace(registrado)
+	if strings.EqualFold(r, nombre) {
+		return true
+	}
+	if nombre == "" || len(r) <= len(nombre)+1 || !strings.EqualFold(r[:len(nombre)], nombre) || r[len(nombre)] != ' ' {
+		return false
+	}
+	resto := strings.TrimPrefix(strings.ToLower(r[len(nombre)+1:]), "v")
+	return resto != "" && resto[0] >= '0' && resto[0] <= '9'
+}
+
 // buscarInstalada busca por DisplayName en HKLM (64 y 32 bits) y HKCU.
 func buscarInstalada(nombre string) *Instalada {
 	lugares := []struct {
@@ -75,7 +90,7 @@ func buscarInstalada(nombre string) *Instalada {
 				continue
 			}
 			dn, _, _ := sk.GetStringValue("DisplayName")
-			if !strings.EqualFold(strings.TrimSpace(dn), nombre) {
+			if !coincideNombre(dn, nombre) {
 				sk.Close()
 				continue
 			}

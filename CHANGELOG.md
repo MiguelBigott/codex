@@ -3,6 +3,15 @@
 Todas las versiones siguen [Versionado Semántico](https://semver.org/lang/es/). Cada una tiene su
 etiqueta `vX.Y.Z` y su página en [Releases](../../releases).
 
+## [0.4.3] - 2026-11-26
+
+### Añadido
+- Recordly, el grabador y editor de pantalla para videos de demostración, en la colección Gallery, con su icono, su crédito y su página de detalles en español y en inglés. Se instala para el usuario, sin permiso de administrador, y se mantiene al día con su propio actualizador.
+- Opción del catálogo `archivoInstalador`, para apps cuyo instalador no se llama «setup» ni «installer».
+
+### Corregido
+- Se detectan como instaladas las apps que registran su nombre junto a la versión («Recordly 1.4.0»), como hacen los instaladores de electron-builder.
+
 ## [0.4.2] - 2026-11-25
 
 ### Corregido

@@ -163,7 +163,7 @@ func (l *Launcher) Revisar() {
 		if app.ManifiestoVersion != "" {
 			rel, err = releaseDeManifiesto(app) // versiones fuera de GitHub (solo para mostrar)
 		} else {
-			rel, err = ultimaRelease(app.Repo, app.EsMSI(), app.Betas)
+			rel, err = ultimaRelease(app.Repo, app.EsMSI(), app.Betas, app.ArchivoInstalador)
 		}
 		l.mu.Lock()
 		if err != nil {

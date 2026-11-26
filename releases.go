@@ -248,14 +248,14 @@ type releaseGitHub struct {
 
 // ultimaRelease consulta /releases/latest del repositorio y elige el instalador según el
 // formato: setup .exe (NSIS) o .msi. Con betas, mira también las versiones beta.
-func ultimaRelease(repo string, msi, betas bool) (*Release, error) {
+func ultimaRelease(repo string, msi, betas bool, archivo string) (*Release, error) {
 	cacheRel.mu.Lock()
 	previa := cacheRel.datos[repo]
 	pausa := cacheRel.limiteHasta
 	cacheRel.mu.Unlock()
 
 	if betas {
-		return releaseConBetas(repo, msi, previa, pausa)
+		return releaseConBetas(repo, msi, archivo, previa, pausa)
 	}
 
 	// Primero la página pública (gratis): si la etiqueta es la misma, no hace falta la API.
@@ -287,7 +287,7 @@ func ultimaRelease(repo string, msi, betas bool) (*Release, error) {
 	if err := json.NewDecoder(io.LimitReader(resp.Body, 4<<20)).Decode(&gh); err != nil {
 		return nil, msj("respuestaIlegible")
 	}
-	rel = releaseDe(gh, msi)
+	rel = releaseDe(gh, msi, archivo)
 	cacheRel.mu.Lock()
 	cacheRel.datos[repo] = entradaCache{ETag: resp.Header.Get("ETag"), Release: rel, Cambios: recortarCambios(gh.Cuerpo), ConCambios: true}
 	cacheRel.mu.Unlock()
@@ -315,7 +315,7 @@ func releasePropia(repo string) (*Release, error) {
 	nombre := "Codex-Setup-" + version + ".exe"
 	suma, err := sumaDesdeArchivo(descargas+"SHA256SUMS.txt", nombre)
 	if err != nil {
-		return ultimaRelease(repo, false, false)
+		return ultimaRelease(repo, false, false, "")
 	}
 	rel := &Release{
 		Version:    version,
@@ -332,7 +332,7 @@ func releasePropia(repo string) (*Release, error) {
 // releaseConBetas busca, entre las versiones recientes (también las beta), la más nueva que
 // trae instalador para Windows. La página pública solo dice la última estable, así que usa
 // la API una vez por revisión (con ETag).
-func releaseConBetas(repo string, msi bool, previa entradaCache, pausa time.Time) (*Release, error) {
+func releaseConBetas(repo string, msi bool, archivo string, previa entradaCache, pausa time.Time) (*Release, error) {
 	if time.Now().Before(pausa) {
 		if previa.Release != nil {
 			return previa.Release, nil
@@ -355,7 +355,7 @@ func releaseConBetas(repo string, msi bool, previa entradaCache, pausa time.Time
 		if gh.Borrador {
 			continue
 		}
-		if rel := releaseDe(gh, msi); rel.Instalador != nil {
+		if rel := releaseDe(gh, msi, archivo); rel.Instalador != nil {
 			cacheRel.mu.Lock()
 			cacheRel.datos[repo] = entradaCache{ETag: resp.Header.Get("ETag"), Release: rel, Cambios: recortarCambios(gh.Cuerpo), ConCambios: true}
 			cacheRel.mu.Unlock()
@@ -397,7 +397,7 @@ func consultarAPI(url string, previa entradaCache) (*http.Response, *Release, er
 }
 
 // releaseDe arma la versión con su instalador (y su SHA-256) a partir de la respuesta de GitHub.
-func releaseDe(gh releaseGitHub, msi bool) *Release {
+func releaseDe(gh releaseGitHub, msi bool, archivo string) *Release {
 	rel := &Release{Version: versionDeEtiqueta(gh.Tag), Tag: gh.Tag, Fecha: gh.Publicada, Notas: gh.URL}
 
 	var sumas string
@@ -408,7 +408,10 @@ func releaseDe(gh releaseGitHub, msi bool) *Release {
 			continue
 		}
 		elegible := esInstaladorWin64(n)
-		if msi {
+		switch {
+		case archivo != "": // el catálogo dice exactamente cuál es (p. ej. Recordly-windows-x64.exe)
+			elegible = strings.EqualFold(a.Nombre, archivo)
+		case msi:
 			elegible = esMSIWin64(n)
 		}
 		if rel.Instalador == nil && elegible {

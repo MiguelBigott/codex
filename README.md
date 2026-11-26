@@ -6,11 +6,11 @@
 
 > Un solo lugar para **instalar, actualizar y abrir** mis apps de Windows: eliges una app, Codex baja su instalador oficial, verifica su firma SHA-256 y la deja lista.
 
-[![Versión](https://img.shields.io/badge/versión-v0.4.2-ffb454)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versión-v0.4.3-ffb454)](CHANGELOG.md)
 [![CI](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelBigott/codex/actions/workflows/ci.yml)
 [![Go](https://img.shields.io/badge/Go-1.27+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Windows](https://img.shields.io/badge/Windows-10%20·%2011-0078D4)](#-instalación)
-[![Apps](https://img.shields.io/badge/apps-24-c9a45c)](#-catálogo)
+[![Apps](https://img.shields.io/badge/apps-25-c9a45c)](#-catálogo)
 [![Licencia](https://img.shields.io/badge/licencia-MIT-3f9d6e)](LICENSE)
 
 [Historial de versiones](CHANGELOG.md) · [Releases](../../releases) · [Descargar el instalador](../../releases/latest)
@@ -51,7 +51,7 @@
 
 ## 📚 Catálogo
 
-La tabla numera las apps en el orden del catálogo, desde ClipVault (01) hasta OBS Studio (24). Los colores de ArtCraft son los mismos que en su propio launcher. La colección Gallery reúne apps de terceros: Orchard, SolidCraft, MailCraft (de la comunidad, que el launcher de ArtCraft también instala) y OBS Studio.
+La tabla numera las apps en el orden del catálogo, desde ClipVault (01) hasta Recordly (25). Los colores de ArtCraft son los mismos que en su propio launcher. La colección Gallery reúne apps de terceros: Orchard, SolidCraft, MailCraft (de la comunidad, que el launcher de ArtCraft también instala), OBS Studio y Recordly.
 
 | # | App | Qué hace | Autor | Repositorio |
 |---|---|---|---|---|
@@ -79,6 +79,7 @@ La tabla numera las apps en el orden del catálogo, desde ClipVault (01) hasta O
 | 22 | <img src="https://raw.githubusercontent.com/tangency-labs/solidcraft/HEAD/assets/icons/app/linux/exports/hicolor/256x256/apps/io.tangencylabs.solidcraft.png" width="20" alt=""> **SolidCraft** | CAD 3D paramétrico | [Tangency Labs](https://solidcraft.io) | [tangency-labs/solidcraft](https://github.com/tangency-labs/solidcraft) |
 | 23 | <img src="https://raw.githubusercontent.com/UCS-Care-Group/mailcraft/HEAD/assets/app-icon/hicolor/256x256/apps/io.github.billsecond.mailcraft.png" width="20" alt=""> **MailCraft** | Correo, calendario y contactos | [UCS Care Group](https://mailcraft.work) | [UCS-Care-Group/mailcraft](https://github.com/UCS-Care-Group/mailcraft) |
 | 24 | **OBS Studio** | Grabación y transmisión de video en directo | [OBS Project](https://obsproject.com) | [obsproject/obs-studio](https://github.com/obsproject/obs-studio) |
+| 25 | <img src="https://raw.githubusercontent.com/webadderallorg/recordly/HEAD/icons/icons/png/256x256.png" width="20" alt=""> **Recordly** | Grabación de pantalla para videos de demostración | [webadderall](https://recordly.dev) | [webadderallorg/recordly](https://github.com/webadderallorg/recordly) |
 
 Cada app nueva entra al catálogo cuando tiene su primera versión publicada.
 
@@ -163,6 +164,7 @@ Cada app vive en su propio repositorio público y se define en [`catalogo.json`]
 | `porUsuario` | `true` si su instalador se instala solo para el usuario, sin permiso de administrador y en su propia carpeta |
 | `seActualizaSola` | `true` si la app trae su propio actualizador: Codex no ofrece actualizaciones |
 | `betas` | `true` para usar la versión beta más reciente con instalador si la estable no lo trae |
+| `archivoInstalador` | Nombre exacto del instalador en la release, cuando no se llama «setup» ni «installer» (por ejemplo `Recordly-windows-x64.exe`) |
 | `instalarDesdeWeb` | `true` si la app no publica un instalador con suma SHA-256 verificable: «Instalar» abre su página oficial (`web`) en vez de descargarlo |
 | `manifiestoVersion`, `notasVersion` | Para apps que publican sus versiones fuera de GitHub: el manifiesto de versiones y sus notas, solo para mostrarlos |
 
@@ -188,6 +190,7 @@ Las apps del catálogo tienen sus propias licencias y Codex las descarga de sus 
 - [SolidCraft](https://github.com/tangency-labs/solidcraft) es de [Tangency Labs](https://solidcraft.io) y [MailCraft](https://github.com/UCS-Care-Group/mailcraft) de [UCS Care Group](https://mailcraft.work), ambas con licencia Apache 2.0: apps de la comunidad que el launcher de ArtCraft también instala. Codex las muestra con su icono oficial y su crédito, y las descarga de sus releases oficiales sin modificarlas.
 - [Orchard](https://github.com/sfg5453/orchard) es de [SFG545](https://sfg545.dev/orchard), con licencia AGPL 3.0 (su motor de mezcla, PolyForm Shield). Codex la muestra con su icono oficial y su crédito; su botón «Instalar» abre la [página oficial de descarga](https://sfg545.dev/orchard), porque su instalador de Windows ya no se publica en GitHub ni trae suma SHA-256, y la app se mantiene al día con su propio actualizador.
 - [OBS Studio](https://github.com/obsproject/obs-studio) es de [OBS Project](https://obsproject.com), con licencia GPL 2.0. Codex la muestra con su crédito y baja su instalador oficial de GitHub sin modificarlo.
+- [Recordly](https://github.com/webadderallorg/recordly) es de [webadderall](https://recordly.dev), con licencia AGPL 3.0. Codex la muestra con su icono oficial y su crédito, y baja su instalador oficial de GitHub sin modificarlo; la app se mantiene al día con su propio actualizador.
 - Tipografías [Inter](https://rsms.me/inter/) y [Space Mono](https://fonts.google.com/specimen/Space+Mono), con licencia SIL Open Font License.
 - Ventana con [go-webview2](https://github.com/jchv/go-webview2) (MIT).
 

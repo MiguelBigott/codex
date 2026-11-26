@@ -1390,5 +1390,69 @@
         ]
       }
     }
+  },
+  "recordly": {
+    "idioma": "en",
+    "titular": "Create polished demo videos in minutes.",
+    "acerca": "Recordly is an open-source screen recorder and editor for walkthroughs, demos, product videos and more.\n\nInstead of sending raw footage to a motion designer just to add zooms, cursor polish or a styled background, Recordly handles that workflow in one place, for free.",
+    "plataformas": "macOS, Windows, Linux",
+    "funciones": [
+      {
+        "titulo": "Auto-zooms and cursor polish",
+        "texto": "Zoom suggestions that follow your activity, smooth cursor movement, motion effects, and a styled frame with wallpapers, gradients, blur, padding and shadows."
+      },
+      {
+        "titulo": "Webcam bubble",
+        "texto": "Add your webcam as an overlay bubble: position, mirror, size, roundness and shadow, and optionally let it react to zoom."
+      },
+      {
+        "titulo": "A timeline built for demos",
+        "texto": "Drag-and-drop zooms, trims, speed regions, annotations and extra audio, saved as .recordly project files."
+      },
+      {
+        "titulo": "Recording",
+        "texto": "Record a whole display or a single window, with microphone and system audio, and jump straight into the editor."
+      },
+      {
+        "titulo": "Cursor controls",
+        "texto": "Cursor size, smoothing, motion blur, click bounce, sway and a loop mode for cleaner exports."
+      },
+      {
+        "titulo": "Export",
+        "texto": "MP4 and GIF, with quality, frame rate, loop, size and aspect ratio controls."
+      }
+    ],
+    "traducciones": {
+      "es": {
+        "titular": "Crea videos de demostración pulidos en minutos.",
+        "acerca": "Recordly es un grabador y editor de pantalla de código abierto para recorridos, demostraciones, videos de producto y más.\n\nEn vez de mandar la grabación en bruto a un diseñador de movimiento solo para agregar zooms, pulir el cursor o poner un fondo con estilo, Recordly hace todo eso en un mismo lugar, gratis.",
+        "funciones": [
+          {
+            "titulo": "Zoom automático y cursor pulido",
+            "texto": "Sugerencias de zoom que siguen tu actividad, movimiento suave del cursor, efectos de movimiento y un marco con fondos, degradados, desenfoque, márgenes y sombras."
+          },
+          {
+            "titulo": "Burbuja de cámara",
+            "texto": "Agrega tu cámara como una burbuja sobre el video: posición, espejo, tamaño, esquinas y sombra, y si quieres que reaccione al zoom."
+          },
+          {
+            "titulo": "Línea de tiempo para demos",
+            "texto": "Zooms, recortes, cambios de velocidad, anotaciones y audio extra con arrastrar y soltar, guardados como proyectos .recordly."
+          },
+          {
+            "titulo": "Grabación",
+            "texto": "Graba la pantalla completa o una sola ventana, con micrófono y audio del sistema, y pasa directo al editor."
+          },
+          {
+            "titulo": "Control del cursor",
+            "texto": "Tamaño, suavizado, desenfoque de movimiento, rebote al hacer clic, balanceo y modo bucle para exportaciones más limpias."
+          },
+          {
+            "titulo": "Exportación",
+            "texto": "MP4 y GIF, con control de calidad, cuadros por segundo, bucle, tamaño y proporción."
+          }
+        ]
+      }
+    }
   }
 }
